@@ -1,0 +1,209 @@
+---
+// Sticky section bar: compact brand (shown once the masthead scrolls away),
+// horizontally scrolling section tabs, search shortcut, and a mobile menu.
+import { CATS, B } from '../lib.js';
+const norm = (p) => p.replace(/\/+$/, '') || '/';
+const here = norm(Astro.url.pathname);
+const tabs = [
+  { label: 'Top', href: `${B}/` },
+  ...Object.entries(CATS).map(([k, v]) => ({ label: v, href: `${B}/category/${k}/`, cat: k })),
+  { label: 'Archive', href: `${B}/archive/`, prefix: true },
+];
+const searchHref = `${B}/search/`;
+const current = (t) => here === norm(t.href) || (t.prefix && here.startsWith(norm(t.href) + '/'));
+---
+<div class="sitebar" data-sitebar>
+ <div class="sitebar-inner">
+  <a class="sitebar-brand" href={`${B}/`} tabindex="-1" aria-hidden="true">Monterey <em>Daily</em></a>
+  <nav class="tabs" aria-label="Sections">
+   <ul class="tabs-list" data-tabs>
+    {tabs.map((t) => <li><a class:list={['tab', t.cat && `tab-${t.cat}`]} href={t.href} aria-current={current(t) ? 'page' : undefined}>{t.label}</a></li>)}
+   </ul>
+  </nav>
+  <a class="sitebar-search" href={searchHref} aria-current={here === norm(searchHref) ? 'page' : undefined} aria-keyshortcuts="/">
+   <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+   <span class="sitebar-search-label">Search</span><kbd class="kbd" aria-hidden="true">/</kbd>
+  </a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-btn>
+   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path class="menu-icon-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path class="menu-icon-close" d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+   <span class="sr-only">Menu</span>
+  </button>
+ </div>
+ <div class="site-menu" id="site-menu" hidden data-menu>
+  <nav aria-label="Site menu">
+   <ul>
+    {tabs.map((t) => <li><a href={t.href} aria-current={current(t) ? 'page' : undefined}>{t.label}</a></li>)}
+    <li><a href={searchHref} aria-current={here === norm(searchHref) ? 'page' : undefined}>Search</a></li>
+   </ul>
+  </nav>
+ </div>
+</div>
+
+<script>
+ import { navigate } from 'astro:transitions/client';
+ const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const $ = (sel, root = document) => root.querySelector(sel);
+
+ // ----- Mobile menu (delegated, so it survives client-side page swaps) -----
+ function setMenu(open, { focus = true } = {}) {
+   const btn = $('[data-menu-btn]'), menu = $('[data-menu]');
+   if (!btn || !menu) return;
+   btn.setAttribute('aria-expanded', String(open));
+   menu.hidden = !open;
+   document.documentElement.classList.toggle('menu-open', open);
+   if (open && focus) $('a', menu)?.focus();
+   if (!open && focus) btn.focus();
+ }
+ const isOpen = () => $('[data-menu-btn]')?.getAttribute('aria-expanded') === 'true';
+ document.addEventListener('click', (e) => {
+   const t = e.target instanceof Element ? e.target : null;
+   if (!t) return;
+   if (t.closest('[data-menu-btn]')) { setMenu(!isOpen()); return; }
+   if (isOpen() && (t.closest('[data-menu] a') || !t.closest('[data-sitebar]'))) setMenu(false, { focus: false });
+ });
+ document.addEventListener('focusin', (e) => {
+   if (isOpen() && e.target instanceof Element && !e.target.closest('[data-sitebar]')) setMenu(false, { focus: false });
+ });
+ matchMedia('(min-width: 768px)').addEventListener('change', (m) => { if (m.matches && isOpen()) setMenu(false, { focus: false }); });
+
+ // ----- Keyboard: Esc closes menu; "/" jumps to search -----
+ const typing = (el) => el instanceof HTMLElement && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
+ document.addEventListener('keydown', (e) => {
+   if (e.key === 'Escape' && isOpen()) { e.preventDefault(); setMenu(false); return; }
+   if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !typing(document.activeElement)) {
+     const input = $('.pagefind-ui__search-input');
+     e.preventDefault();
+     if (input instanceof HTMLInputElement) { input.focus(); input.select(); return; }
+     const link = $('.sitebar-search');
+     if (link instanceof HTMLAnchorElement) { sessionStorage.setItem('md:focus-search', '1'); navigate(link.href); }
+   }
+ });
+
+ // ----- Section tabs: keep the active tab in view, edge fades only when scrollable -----
+ function initTabs() {
+   const list = $('[data-tabs]');
+   if (!list) return;
+   const edges = () => {
+     const max = list.scrollWidth - list.clientWidth;
+     list.toggleAttribute('data-more-start', list.scrollLeft > 4);
+     list.toggleAttribute('data-more-end', list.scrollLeft < max - 4);
+   };
+   // Do layout reads inside ResizeObserver callbacks (which run after layout) instead of
+   // forcing a synchronous reflow during page load.
+   let centered = false;
+   new ResizeObserver(() => {
+     if (!centered) {
+       centered = true;
+       const active = $('[aria-current="page"]', list);
+       if (active instanceof HTMLElement && list.scrollWidth > list.clientWidth) {
+         const left = active.offsetLeft - (list.clientWidth - active.offsetWidth) / 2;
+         list.scrollTo({ left: Math.max(0, left), behavior: 'instant' });
+       }
+     }
+     edges();
+   }).observe(list);
+   list.addEventListener('scroll', edges, { passive: true });
+   // Keyboard users tabbing through: bring the focused tab fully into view.
+   list.addEventListener('focusin', (e) => {
+     if (e.target instanceof HTMLElement) e.target.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: reduce() ? 'auto' : 'smooth' });
+   });
+ }
+
+ // ----- Compact brand once the masthead has scrolled out of view -----
+ let mastIO;
+ function initStuck() {
+   const bar = $('[data-sitebar]'), mast = $('.mast');
+   if (!bar || !mast || !('IntersectionObserver' in window)) return;
+   mastIO?.disconnect();
+   mastIO = new IntersectionObserver(([en]) => bar.classList.toggle('is-stuck', !en.isIntersecting), { threshold: 0 });
+   mastIO.observe(mast);
+ }
+
+ document.addEventListener('astro:page-load', () => { initTabs(); initStuck(); });
+ document.addEventListener('astro:before-swap', () => document.documentElement.classList.remove('menu-open'));
+</script>
+
+<style is:global>
+ /* ---- Frontend polish: shared UI tokens (aliases of existing palette tokens;
+    fallbacks cover both the current and upcoming theme variable names). ---- */
+ :root{
+   --ui-bar-bg:var(--sand-50,var(--sand));
+   --ui-bar-line:color-mix(in srgb,var(--ink) 12%,transparent);
+   --ui-text:var(--ink);
+   --ui-muted:var(--muted);
+   --ui-focus:var(--pacific-700,var(--sea));
+   --ui-bar-h:3rem;
+   --ui-dur:.2s;
+ }
+ html{scroll-padding-top:calc(var(--ui-bar-h) + .75rem)}
+ .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+ /* Skip link: hidden until focused. */
+ .skip-link{position:absolute;left:.75rem;top:.75rem;z-index:100;padding:.55rem .9rem;border-radius:8px;
+   background:var(--foam);color:var(--ink);font-weight:600;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.25);
+   transform:translateY(-200%)}
+ .skip-link:focus,.skip-link:focus-visible{transform:none}
+ main:focus{outline:none}
+
+ /* Visible keyboard focus everywhere (low specificity so theme rules can override). */
+ :where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px;border-radius:4px}
+ .mast :where(a):focus-visible{outline-color:#fff}
+
+ /* ---- Sticky section bar ---- */
+ .sitebar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ui-bar-bg) 92%,transparent);
+   -webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--ui-bar-line)}
+ .sitebar-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:.5rem;min-height:var(--ui-bar-h);padding:0 .5rem 0 1rem}
+ .sitebar-brand{display:none;flex:none;font:800 1.05rem/1 var(--font-serif,Fraunces,Georgia,serif);letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+ .sitebar-brand em{color:var(--ui-focus)}
+ .sitebar.is-stuck{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+ @media (min-width:768px){.sitebar.is-stuck .sitebar-brand{display:block}}
+
+ .sitebar .tabs{all:unset;display:block;flex:1;min-width:0}
+ .tabs-list{display:flex;gap:.15rem;margin:0;padding:.35rem 0;list-style:none;overflow-x:auto;overscroll-behavior-x:contain;
+   scroll-snap-type:x proximity;scroll-padding-inline:1.5rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .tabs-list::-webkit-scrollbar{display:none}
+ .tabs-list[data-more-end]{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 2rem),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 2rem),transparent)}
+ .tabs-list[data-more-start]{-webkit-mask-image:linear-gradient(90deg,transparent,#000 2rem);mask-image:linear-gradient(90deg,transparent,#000 2rem)}
+ .tabs-list[data-more-start][data-more-end]{-webkit-mask-image:linear-gradient(90deg,transparent,#000 2rem,#000 calc(100% - 2rem),transparent);mask-image:linear-gradient(90deg,transparent,#000 2rem,#000 calc(100% - 2rem),transparent)}
+ @media (prefers-reduced-motion: no-preference){.tabs-list{scroll-behavior:smooth}}
+ .tabs-list li{flex:none;scroll-snap-align:start}
+ .sitebar a.tab{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;min-height:2.25rem;padding:0 .7rem;border-radius:99px;
+   cursor:pointer;color:var(--ui-muted);font:600 .88rem/1 var(--font-sans,Inter,system-ui,sans-serif);white-space:nowrap;position:relative;
+   transition:color var(--ui-dur),background-color var(--ui-dur)}
+ .sitebar a.tab::before{content:none}
+ .sitebar a.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+ .sitebar a.tab[aria-current="page"]{color:var(--ink);background:color-mix(in srgb,var(--ui-focus) 12%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ui-focus) 45%,transparent)}
+ .sitebar a.tab:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
+
+ .sitebar-search{flex:none;display:inline-flex;align-items:center;gap:.4rem;min-height:2.25rem;padding:0 .7rem;border-radius:99px;
+   color:var(--ink);text-decoration:none;font:600 .88rem/1 var(--font-sans,Inter,system-ui,sans-serif);border:1px solid var(--ui-bar-line);background:var(--foam)}
+ .sitebar-search:hover{border-color:var(--ui-focus)}
+ .sitebar-search[aria-current="page"]{border-color:var(--ui-focus)}
+ .kbd{display:inline-grid;place-items:center;min-width:1.3rem;height:1.3rem;padding:0 .3rem;border-radius:5px;border:1px solid var(--ui-bar-line);
+   font:600 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ui-muted);background:var(--ui-bar-bg)}
+ .sitebar-search .kbd{display:none}
+ @media (max-width:767.98px){.sitebar-search{padding:0;width:2.6rem;justify-content:center}.sitebar-search-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+ @media (min-width:1000px) and (hover:hover){.sitebar-search .kbd{display:inline-grid}}
+
+ .menu-btn{flex:none;display:inline-grid;place-items:center;width:2.6rem;height:2.6rem;margin:0;padding:0;border:0;border-radius:10px;
+   background:transparent;color:var(--ink);cursor:pointer}
+ .menu-btn:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+ .menu-btn .menu-icon-close,.menu-btn[aria-expanded="true"] .menu-icon-open{display:none}
+ .menu-btn[aria-expanded="true"] .menu-icon-close{display:inline}
+ @media (min-width:768px){.menu-btn,.site-menu{display:none!important}}
+
+ .site-menu{position:absolute;left:0;right:0;top:100%;max-height:calc(100dvh - var(--ui-bar-h));overflow-y:auto;
+   background:var(--foam);border-bottom:1px solid var(--ui-bar-line);box-shadow:0 14px 28px rgba(0,0,0,.14)}
+ .site-menu nav{all:unset;display:block}
+ .site-menu ul{list-style:none;margin:0;padding:.4rem 0 .8rem}
+ .site-menu a{all:unset;box-sizing:border-box;display:flex;align-items:center;min-height:2.9rem;padding:0 1.25rem;cursor:pointer;
+   color:var(--ink);font:600 1rem/1.2 var(--font-sans,Inter,system-ui,sans-serif);border-left:3px solid transparent}
+ .site-menu a::before{content:none}
+ .site-menu a:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+ .site-menu a[aria-current="page"]{border-left-color:var(--ui-focus);background:color-mix(in srgb,var(--ui-focus) 10%,transparent)}
+ .site-menu a:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
+ @media (prefers-reduced-motion: no-preference){
+   .site-menu:not([hidden]){animation:md-menu-in var(--ui-dur) ease-out}
+   @keyframes md-menu-in{from{opacity:0;transform:translateY(-6px)}}
+ }
+</style>
