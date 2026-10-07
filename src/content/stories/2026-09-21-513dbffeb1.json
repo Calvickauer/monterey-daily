@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12426/",
   "date": "2026-09-21T21:56:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/2.webp",
-  "imageAlt": "Illustration of a fire station with an engine in an open bay at evening",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-21-513dbffeb1.webp",
+  "imageAlt": "A Flock Safety automated license plate reader camera with a solar panel",
+  "imageCredit": "Photo: Tony Webster / Wikimedia Commons, CC BY 2.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Flock_Safety_ALPR_Camera_(53833285849).jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Tony Webster",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flock_Safety_ALPR_Camera_(53833285849).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

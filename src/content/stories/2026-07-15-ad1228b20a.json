@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/07/15/work-at-south-county-ice-facility-temporarily-paused/",
   "date": "2026-07-15T21:53:50.000Z",
   "category": "government",
-  "image": "/illustrations/government/2.webp",
-  "imageAlt": "Illustration of a mission-style adobe building with a bell tower and bougainvillea on a sunny day",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-07-15-ad1228b20a.webp",
+  "imageAlt": "Construction site closed off with a temporary fence and barriers (generic construction site)",
+  "imageCredit": "Photo: JIP / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Construction_site_fence_blocking_off_Hakam%C3%A4entie_in_March_2025.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "JIP",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Construction_site_fence_blocking_off_Hakam%C3%A4entie_in_March_2025.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

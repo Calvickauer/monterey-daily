@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/1225/",
   "date": "2026-10-03T15:00:00.000Z",
   "category": "weather",
-  "image": "/illustrations/weather/1.webp",
-  "imageAlt": "Illustration of fog rolling over the bay past cypress-topped headlands",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-10-03-f4b6d2b62a.webp",
+  "imageAlt": "A beagle drinking water from a bowl outdoors",
+  "imageCredit": "Photo: Slyronit / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:A_Beagle_drinking_water_from_a_bowl.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Slyronit",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_Beagle_drinking_water_from_a_bowl.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

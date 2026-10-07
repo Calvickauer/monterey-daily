@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/09/07/finally-a-statue-for-ritchie-valens-in-iowa/",
   "date": "2026-09-07T23:08:19.000Z",
   "category": "community",
-  "image": "/illustrations/community/1.webp",
-  "imageAlt": "Illustration of striped farmers market tents with fresh produce under string lights",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-07-34aec27686.webp",
+  "imageAlt": "The Surf Ballroom in Clear Lake, Iowa",
+  "imageCredit": "Photo: Joe Passe / Wikimedia Commons, CC BY-SA 2.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:2015-10-11_Surf_Ballroom_1.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Joe Passe",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2015-10-11_Surf_Ballroom_1.jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

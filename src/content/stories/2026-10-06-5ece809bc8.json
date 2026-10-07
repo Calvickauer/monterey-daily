@@ -6,18 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12470/",
   "date": "2026-10-06T22:47:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/1.webp",
-  "imageAlt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
-  "alsoCoveredBy": [
-    {
-      "name": "County of Monterey News",
-      "url": "https://www.countyofmonterey.gov/Home/Components/News/News/12472/",
-      "title": "OFELIA GARCIA ORTEGA, Mother of 14-Year-Old in Baby Angelita Investigation Has Been Arrested"
-    }
-  ]
+  "image": "/photos/2026-10-06-5ece809bc8.webp",
+  "imageAlt": "The Monterey County Courthouse in Salinas",
+  "imageCredit": "Photo: McGhiever / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Monterey_County_Courthouse_2.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "McGhiever",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Monterey_County_Courthouse_2.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
+  "alsoCoveredBy": []
 }

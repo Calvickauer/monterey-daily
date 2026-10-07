@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12414/",
   "date": "2026-09-18T14:30:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/2.webp",
-  "imageAlt": "Illustration of a fire station with an engine in an open bay at evening",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-18-a81041ae0a.webp",
+  "imageAlt": "The Moss Landing Power Plant smokestacks seen across the water",
+  "imageCredit": "Photo: David Monniaux / Wikimedia Commons, CC BY-SA 3.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Moss_Landing_Power_Plant_p1270026.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "David Monniaux",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moss_Landing_Power_Plant_p1270026.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

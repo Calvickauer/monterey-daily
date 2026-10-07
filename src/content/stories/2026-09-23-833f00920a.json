@@ -6,12 +6,20 @@
   "link": "https://www.ci.seaside.ca.us/CivicAlerts.aspx?aid=926",
   "date": "2026-09-23T23:05:54.000Z",
   "category": "government",
-  "image": "/illustrations/government/2.webp",
-  "imageAlt": "Illustration of a mission-style adobe building with a bell tower and bougainvillea on a sunny day",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-23-833f00920a.webp",
+  "imageAlt": "A pedestrian bridge with arched supports in California (generic pedestrian bridge)",
+  "imageCredit": "Photo: Grendelkhan / Wikimedia Commons, CC BY-SA 3.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Pedestrian_overpass_at_Hamilton_VTA_station.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Grendelkhan",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pedestrian_overpass_at_Hamilton_VTA_station.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

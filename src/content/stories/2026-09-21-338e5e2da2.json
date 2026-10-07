@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12464/",
   "date": "2026-09-21T07:00:00.000Z",
   "category": "environment",
-  "image": "/illustrations/environment/1.webp",
-  "imageAlt": "Illustration of sea otters floating among golden kelp in blue water",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-21-338e5e2da2.webp",
+  "imageAlt": "California mussels clinging to a rock along the coast",
+  "imageCredit": "Photo: Sharon Mollerus / Wikimedia Commons, CC BY 2.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:California_Mussels_002.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Sharon Mollerus",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:California_Mussels_002.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

@@ -6,13 +6,21 @@
   "link": "https://voicesofmontereybay.org/2026/08/25/alebrijes-and-nahuales-bring-color-and-stories-to-salinas/",
   "date": "2026-08-26T06:06:37.000Z",
   "category": "community",
-  "image": "/illustrations/community/2.webp",
-  "imageAlt": "Illustration of a white lighthouse above magenta ice plant at golden hour",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-08-26-a0ee1c5ab2.webp",
+  "imageAlt": "Brightly painted alebrije folk-art figures from Oaxaca, Mexico",
+  "imageCredit": "Photo: Roberto Galland / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Alebrijes_en_Oaxaca.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Roberto Galland",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alebrijes_en_Oaxaca.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": [
     {
       "name": "Voices of Monterey Bay (Español)",

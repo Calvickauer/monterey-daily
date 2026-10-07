@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12432/",
   "date": "2026-09-23T21:22:00.000Z",
   "category": "environment",
-  "image": "/illustrations/environment/2.webp",
-  "imageAlt": "Illustration of a concrete arch bridge spanning a coastal canyon above the ocean",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-23-bf6c59b3a1.webp",
+  "imageAlt": "The Moss Landing smokestacks seen in the distance across Elkhorn Slough",
+  "imageCredit": "Photo: Sgerbic / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Elkhorn_Slough_001_Moss_Landing_stacks.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Sgerbic",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Elkhorn_Slough_001_Moss_Landing_stacks.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

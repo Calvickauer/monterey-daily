@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/07/28/del-rey-oaks-police-knew-in-advance-of-ice-presence-at-monterey-airport/",
   "date": "2026-07-29T02:16:18.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/3.webp",
-  "imageAlt": "Illustration of a smoky ridge at sunset with an air tanker flying overhead",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-07-29-11d99521c2.webp",
+  "imageAlt": "Aerial view of Monterey Regional Airport and its runway after takeoff",
+  "imageCredit": "Photo: Spartan7W / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:KMRY_Departure.JPG",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Spartan7W",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:KMRY_Departure.JPG",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

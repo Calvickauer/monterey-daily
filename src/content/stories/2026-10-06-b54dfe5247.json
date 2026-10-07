@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12466/",
   "date": "2026-10-06T17:24:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/2.webp",
-  "imageAlt": "Illustration of a fire station with an engine in an open bay at evening",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-10-06-b54dfe5247.webp",
+  "imageAlt": "A hand holding a thick roll of U.S. dollar bills",
+  "imageCredit": "Photo: Psychonaught / Wikimedia Commons, Public domain",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:American_Cash.JPG",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Psychonaught",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:American_Cash.JPG",
+    "license": "Public domain",
+    "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

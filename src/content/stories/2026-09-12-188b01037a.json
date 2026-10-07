@@ -6,13 +6,21 @@
   "link": "https://voicesofmontereybay.org/2026/09/12/coming-home-to-the-land/",
   "date": "2026-09-12T23:52:25.000Z",
   "category": "community",
-  "image": "/illustrations/community/3.webp",
-  "imageAlt": "Illustration of a downtown street at twilight with string lights and colorful storefronts",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-12-188b01037a.webp",
+  "imageAlt": "The Santa Lucia Mountains in Big Sur under a clear sky",
+  "imageCredit": "Photo: Thomson200 / Wikimedia Commons, CC0",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Santa_Lucia_Mountains,_Big_Sur,_July_2015.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Thomson200",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Santa_Lucia_Mountains,_Big_Sur,_July_2015.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": [
     {
       "name": "Voices of Monterey Bay (Español)",

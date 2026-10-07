@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12434/",
   "date": "2026-09-24T01:32:00.000Z",
   "category": "community",
-  "image": "/illustrations/community/2.webp",
-  "imageAlt": "Illustration of a white lighthouse above magenta ice plant at golden hour",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-24-9138afb086.webp",
+  "imageAlt": "The Marina Library, a Monterey County Free Libraries branch in Marina, California",
+  "imageCredit": "Photo: Rowe.James / Wikimedia Commons, CC0",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Marina_Library.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Rowe.James",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Marina_Library.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

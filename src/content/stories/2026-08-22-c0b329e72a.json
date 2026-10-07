@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/08/21/monterey-county-officials-confident-about-voting-integrity-while-state-and-national-representatives-continue-to-cast-aspersions/",
   "date": "2026-08-22T05:38:56.000Z",
   "category": "government",
-  "image": "/illustrations/government/3.webp",
-  "imageAlt": "Illustration of a modern civic building with a clock tower and oak trees in morning light",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-08-22-c0b329e72a.webp",
+  "imageAlt": "An official ballot drop box at a California library",
+  "imageCredit": "Photo: Yngvadottir / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Ballot_drop_box_2020.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Yngvadottir",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ballot_drop_box_2020.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

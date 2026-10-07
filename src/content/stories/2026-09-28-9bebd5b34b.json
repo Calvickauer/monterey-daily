@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12452/",
   "date": "2026-09-28T20:00:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/2.webp",
-  "imageAlt": "Illustration of a fire station with an engine in an open bay at evening",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-28-9bebd5b34b.webp",
+  "imageAlt": "Redwoods and a creek in Limekiln State Park, Big Sur",
+  "imageCredit": "Photo: Kevin Stanchfield / Wikimedia Commons, CC BY 2.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Limekiln_State_Park.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Kevin Stanchfield",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Limekiln_State_Park.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }
