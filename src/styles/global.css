@@ -85,16 +85,16 @@ main{max-width:1180px;margin:0 auto;padding:1.1rem 1rem 1rem}
   .card:hover::after{opacity:1}
 }
 
-/* ---------- AI illustration badge ----------
-   Put data-ai-generated on any positioned image wrapper and add
-   <span class="ai-badge">AI illustration</span> inside it. */
-[data-ai-generated]{position:relative}
-.ai-badge{position:absolute;top:.6rem;left:.6rem;z-index:1;display:inline-flex;align-items:center;gap:.3rem;
+/* ---------- Image badges (AI-generated image / Illustration) ----------
+   Put data-image-kind="ai"|"illustration" on any positioned image wrapper and add
+   <span class="img-badge">…</span> inside it (see ImageBadge.astro). */
+[data-image-kind]{position:relative}
+.img-badge{position:absolute;top:.6rem;left:.6rem;z-index:1;display:inline-flex;align-items:center;gap:.3rem;
   padding:.2rem .6rem .2rem .45rem;border-radius:99px;font:600 .7rem/1.3 var(--font-sans,Inter,system-ui,sans-serif);letter-spacing:.03em;color:#fff;
   background:rgba(6,26,43,.66);border:1px solid rgba(255,255,255,.28);box-shadow:0 2px 10px rgba(6,26,43,.25);
   -webkit-backdrop-filter:blur(8px) saturate(1.4);backdrop-filter:blur(8px) saturate(1.4)}
-.ai-badge svg{width:.85rem;height:.85rem;fill:var(--gold-200);flex:none}
-figure:not(:has(img)) .ai-badge{display:none}
+.img-badge svg{width:.85rem;height:.85rem;fill:var(--gold-200);flex:none}
+figure:not(:has(img)) .img-badge{display:none}
 
 /* ---------- Archive / search / footer ---------- */
 .month{margin:0 0 1.3rem}

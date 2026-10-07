@@ -1,22 +1,26 @@
 ---
 import { CATS, B, fmt } from '../lib.js';
-import { imgSrc, alsoCovered } from '../media.js';
-import AiBadge from './AiBadge.astro';
+import { imgSrc, alsoCovered, imageKind } from '../media.js';
+import ImageBadge from './ImageBadge.astro';
 const { s, lead = false, eager = lead } = Astro.props;
 const src = imgSrc(s.image);
-// AI illustration badge: driven by the backend's `imageGenerated` flag (or force with <Card ai/>).
-// The figure gets [data-ai-generated], the single hook for badge styling.
-const ai = Boolean(Astro.props.ai ?? s.imageGenerated ?? false) && Boolean(src);
+// Image badge: imageKind 'ai' | 'illustration' (missing -> 'illustration' if imageGenerated, else none;
+// 'photo' -> none). Override with <Card kind="ai"/>. The figure's [data-image-kind] is the styling hook.
+const kind = src ? (Astro.props.kind ?? imageKind(s)) : null;
+// imageAlt (string | null): decorative alt="" when absent (or identical to the headline),
+// since the headline sits right below the image on cards.
+const rawAlt = typeof s.imageAlt === 'string' ? s.imageAlt.trim() : '';
+const alt = rawAlt && rawAlt.toLowerCase() !== String(s.headline || '').trim().toLowerCase() ? rawAlt : '';
 const also = alsoCovered(s);
 ---
 <article class:list={['card', `cat-${s.category}`, { lead, 'is-eager': eager }]}>
- <figure class:list={['card-media', { 'is-empty': !src }]} data-ai-generated={ai ? '' : undefined}>
-  {src && <img src={src} alt={s.imageAlt || ''} width="800" height="450"
+ <figure class:list={['card-media', { 'is-empty': !src }]} data-image-kind={kind ?? undefined}>
+  {src && <img src={src} alt={alt} width="800" height="450"
      loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding={eager ? 'auto' : 'async'}
      referrerpolicy="no-referrer" class:list={[{ blurup: !eager }]}
      onload="this.classList.add('is-loaded')" onerror="this.closest('figure').classList.add('is-empty');this.remove()"/>}
-  {ai && <AiBadge/>}
-  {src && !ai && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
+  {kind && <ImageBadge kind={kind}/>}
+  {src && !kind && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
  </figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>

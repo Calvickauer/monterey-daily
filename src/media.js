@@ -21,3 +21,12 @@ export function alsoCovered(s) {
       return { name, url: a.url, title: a.title || undefined, es: /\(Español\)/i.test(name) };
     });
 }
+
+/** Which badge (if any) a story image gets: 'ai' | 'illustration' | null (photo / no image).
+ *  Uses imageKind when present; otherwise imageGenerated:true falls back to 'illustration'. */
+export function imageKind(s) {
+  const k = s?.imageKind;
+  if (k === 'ai' || k === 'illustration') return k;
+  if (k === 'photo') return null;
+  return (s?.imageGenerated ?? false) ? 'illustration' : null;
+}
