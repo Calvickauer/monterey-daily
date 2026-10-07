@@ -11,7 +11,7 @@ Motion uses only `transform` and `opacity`: staggered scroll-reveal for cards (I
 
 Generated (AI) images get a small frosted "AI illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "AI illustration: this image was generated with AI").
 
-- Story data: add `"imageAiGenerated": true` to a story JSON in `src/content/stories/` (optionally `"imageAlt"` for alt text). `Card.astro` then sets `data-ai-generated` on the `<figure>` and renders `<AiBadge/>`.
+- Story data: set `"imageGenerated": true` on a story JSON (the backend sets this for illustration-library images) in `src/content/stories/` (optionally `"imageAlt"` for alt text). `Card.astro` then sets `data-ai-generated` on the `<figure>` and renders `<AiBadge/>`.
 - Components: `<Card s={story} ai />` forces the badge; `<AiBadge label="AI illustration"/>` can be placed inside any positioned wrapper that carries `data-ai-generated`.
 - Plain HTML: `<figure data-ai-generated><img …><span class="ai-badge" role="note" aria-label="AI-generated illustration">AI illustration</span></figure>`.
 

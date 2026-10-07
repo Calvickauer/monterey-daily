@@ -17,7 +17,7 @@ const current = (t) => here === norm(t.href) || (t.prefix && here.startsWith(nor
   <a class="sitebar-brand" href={`${B}/`} tabindex="-1" aria-hidden="true">Monterey <em>Daily</em></a>
   <nav class="tabs" aria-label="Sections">
    <ul class="tabs-list" data-tabs>
-    {tabs.map((t) => <li><a class:list={['tab', t.cat && `tab-${t.cat}`]} href={t.href} aria-current={current(t) ? 'page' : undefined}>{t.label}</a></li>)}
+    {tabs.map((t) => <li><a class:list={['tab', t.cat ? `cat-${t.cat}` : 'plain']} href={t.href} aria-current={current(t) ? 'page' : undefined}>{t.label}</a></li>)}
    </ul>
   </nav>
   <a class="sitebar-search" href={searchHref} aria-current={here === norm(searchHref) ? 'page' : undefined} aria-keyshortcuts="/">
@@ -145,9 +145,6 @@ const current = (t) => here === norm(t.href) || (t.prefix && here.startsWith(nor
  .skip-link:focus,.skip-link:focus-visible{transform:none}
  main:focus{outline:none}
 
- /* Visible keyboard focus everywhere (low specificity so theme rules can override). */
- :where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--ui-focus);outline-offset:2px;border-radius:4px}
- .mast :where(a):focus-visible{outline-color:#fff}
 
  /* ---- Sticky section bar ---- */
  .sitebar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ui-bar-bg) 92%,transparent);
@@ -170,7 +167,9 @@ const current = (t) => here === norm(t.href) || (t.prefix && here.startsWith(nor
  .sitebar a.tab{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;min-height:2.25rem;padding:0 .7rem;border-radius:99px;
    cursor:pointer;color:var(--ui-muted);font:600 .88rem/1 var(--font-sans,Inter,system-ui,sans-serif);white-space:nowrap;position:relative;
    transition:color var(--ui-dur),background-color var(--ui-dur)}
- .sitebar a.tab::before{content:none}
+ /* Category tabs keep the per-category --glow dot from the theme; Top/Archive are .plain. */
+ .sitebar a.tab::before{content:"";width:.5em;height:.5em;margin-right:.4em;border-radius:50%;background:var(--glow);flex:none}
+ .sitebar a.tab.plain::before{content:none}
  .sitebar a.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
  .sitebar a.tab[aria-current="page"]{color:var(--ink);background:color-mix(in srgb,var(--ui-focus) 12%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ui-focus) 45%,transparent)}
  .sitebar a.tab:focus-visible{outline:3px solid var(--ui-focus);outline-offset:-3px}
