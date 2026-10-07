@@ -23,7 +23,7 @@ export function alsoCovered(s) {
 }
 
 /** Badge kind for a story image: 'illustration' or null.
- *  imageKind 'illustration' -> badge; 'photo' / 'stock' -> none;
+ *  imageKind 'illustration' -> badge; 'source' (alias 'photo') / 'stock' -> none;
  *  missing imageKind -> badge only when imageGenerated is true. */
 export function imageKind(s) {
   const k = s?.imageKind;
@@ -35,23 +35,26 @@ export function imageKind(s) {
 const httpUrl = (u) => (typeof u === 'string' && /^https?:\/\//i.test(u.trim()) ? u.trim() : undefined);
 const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : undefined);
 
-/** Credit for licensed stock photos (imageKind === 'stock' only).
- *  Structured: imageAttribution { author, authorUrl?, source, sourceUrl, license, licenseUrl? } -> { parts }.
- *  Fallback when imageAttribution is null: the plain imageCredit string -> { text }.
- *  Returns null when there is nothing to credit (no author and no source, and no credit string). */
+/** Credit caption for licensed stock photos (imageKind === 'stock' only; required for CC BY / BY-SA).
+ *  Contract (flat): imageCredit (text) + imageCreditUrl (photo's source page) -> { text, url? }.
+ *  Optional enrichment: imageAttribution { author, authorUrl?, source, sourceUrl, license, licenseUrl? }
+ *  -> { author, authorUrl, source, sourceUrl, license, licenseUrl } for per-part links.
+ *  Returns null only when there is nothing to credit. Field names live in this function only. */
 export function stockCredit(s) {
   if (s?.imageKind !== 'stock') return null;
-  const a = s.imageAttribution; // field name lives here only
+  const text = str(s.imageCredit);
+  const url = httpUrl(s.imageCreditUrl);
+  const a = s.imageAttribution;
   if (a && typeof a === 'object') {
     const author = str(a.author), source = str(a.source);
-    if (author || source) {
+    // Use the per-part version only if it's at least as complete as the text credit (keeps the license).
+    if ((author || source) && (str(a.license) || !text)) {
       return {
         author, authorUrl: httpUrl(a.authorUrl),
-        source, sourceUrl: httpUrl(a.sourceUrl),
+        source, sourceUrl: httpUrl(a.sourceUrl) ?? url,
         license: str(a.license), licenseUrl: httpUrl(a.licenseUrl),
       };
     }
   }
-  const text = str(s.imageCredit);
-  return text ? { text } : null;
+  return text ? { text, url } : null;
 }

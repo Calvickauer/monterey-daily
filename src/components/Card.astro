@@ -5,9 +5,10 @@ import ImageBadge from './ImageBadge.astro';
 const { s, lead = false, eager = lead } = Astro.props;
 const src = imgSrc(s.image);
 // Image badge: "Illustration" for imageKind 'illustration' (or missing imageKind + imageGenerated);
-// none for 'photo' / 'stock'. Override with <Card kind="illustration"/>. [data-image-kind] is the styling hook.
+// none for 'source' (alias 'photo') / 'stock'. Override with <Card kind="illustration"/>. [data-image-kind] is the styling hook.
 const kind = src ? (Astro.props.kind ?? imageKind(s)) : null;
-// Licensed stock photos carry a linked credit caption (imageAttribution, falling back to imageCredit text).
+// Licensed stock photos always carry a credit caption: imageCredit linked to imageCreditUrl,
+// enriched with per-part links when the optional imageAttribution is present.
 const credit = src && s.imageKind === 'stock' ? stockCredit(s) : null;
 // imageAlt (string | null): decorative alt="" when absent (or identical to the headline),
 // since the headline sits right below the image on cards.
@@ -24,7 +25,7 @@ const also = alsoCovered(s);
   {kind && <ImageBadge kind={kind}/>}
   {credit && (
    <figcaption class="credit" data-pagefind-ignore>
-    {credit.text ? credit.text : (<>
+    {credit.text ? (credit.url ? <a href={credit.url} target="_blank" rel="noopener">{credit.text}</a> : credit.text) : (<>
      Photo:{' '}
      {credit.author && (credit.authorUrl ? <a href={credit.authorUrl} target="_blank" rel="noopener">{credit.author}</a> : <span>{credit.author}</span>)}
      {credit.author && credit.source && ' / '}
@@ -33,7 +34,8 @@ const also = alsoCovered(s);
     </>)}
    </figcaption>
   )}
-  {src && !kind && !credit && s.imageKind !== 'stock' && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
+  {/* Legacy stories without imageKind keep the outlet's "Image: …" caption; 'source'/'photo' get none. */}
+  {src && !kind && !s.imageKind && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
  </figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>
