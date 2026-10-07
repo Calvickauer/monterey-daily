@@ -1,6 +1,6 @@
 ---
-import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import { stories, CATS } from '../../lib.js';
+import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, CATS } from '../../lib.js';
 export function getStaticPaths(){ return Object.keys(CATS).map(cat=>({params:{cat}})); }
 const { cat } = Astro.params; const list = stories.filter(s=>s.category===cat).slice(0,60);
 ---
-<Base title={`${CATS[cat]} – Monterey Daily`}><h1 class="sec">{CATS[cat]}</h1>{list.length?<div class="grid">{list.map(s=><Card s={s}/>)}</div>:<p>No stories yet.</p>}</Base>
+<Base title={`${CATS[cat]} – Monterey Daily`}><SectionHeader title={CATS[cat]} kicker="Category" sub={list.length ? `${list.length} recent ${list.length===1?'story':'stories'}` : undefined} cat={cat}/>{list.length?<div class="grid">{list.map(s=><Card s={s}/>)}</div>:<p>No stories yet.</p>}</Base>

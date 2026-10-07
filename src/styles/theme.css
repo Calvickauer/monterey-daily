@@ -1,0 +1,46 @@
+/* Monterey Daily coastal palette. All tokens are verified for WCAG AA
+   contrast where they are used as text/background pairs. */
+:root{
+  /* Pacific blues */
+  --pacific-950:#061a2b;
+  --pacific-900:#0b2d4a;
+  --pacific-700:#0e5a8a;
+  --pacific-500:#1a85c2; /* decorative only */
+  --pacific-200:#a9dcef;
+  --seaglass:#d4eef3;
+  /* Kelp greens */
+  --kelp-900:#123b27;
+  --kelp-700:#1f6b45;
+  --kelp-400:#5fae7f;    /* decorative only */
+  /* Sunset coral + gold */
+  --coral-700:#b03a22;
+  --coral-500:#ec6a4c;   /* decorative only */
+  --gold-800:#7a5200;
+  --gold-400:#f4b63f;    /* decorative only */
+  --gold-200:#ffe3a3;
+  /* Big Sur sand */
+  --sand-50:#fbf6ec;
+  --sand-100:#f4ead6;
+  --sand-300:#e4d1ab;
+  --foam:#fffdf9;
+  /* Text */
+  --ink:#10283a;
+  --muted:#4d5d66;
+  --on-dark:#ffffff;
+  --on-dark-soft:#d9eef6;
+
+  /* Default accent (used outside a category) */
+  --c:var(--pacific-700); --c-deep:var(--pacific-900); --c-soft:var(--seaglass); --glow:var(--pacific-500);
+}
+/* Per-category accents: --c (chips, borders, link hover), --c-deep (header
+   gradient start), --c-soft (tints), --glow (decorative highlight). */
+.cat-government   {--c:#1b5e9e;--c-deep:#0b2d4a;--c-soft:#e3eff9;--glow:#4aa3e0}
+.cat-public-safety{--c:#b5362a;--c-deep:#6e1c14;--c-soft:#fde6e1;--glow:#f08a5d}
+.cat-environment  {--c:#23704a;--c-deep:#123b27;--c-soft:#e0f2e6;--glow:#6cc58f}
+.cat-business     {--c:#875800;--c-deep:#4f3300;--c-soft:#fff0cc;--glow:#f4b63f}
+.cat-community    {--c:#0d7176;--c-deep:#073f42;--c-soft:#dbf2f1;--glow:#5cc8c4}
+.cat-sports       {--c:#6b43a6;--c-deep:#35205a;--c-soft:#ede5f8;--glow:#b08be0}
+.cat-weather      {--c:#46608c;--c-deep:#22304d;--c-soft:#e4eaf5;--glow:#9fb7dd}
+/* Non-category section header tones */
+.tone-home   {--c:#0e5a8a;--c-deep:#0b2d4a;--c-end:#b03a22;--glow:#f4b63f}
+.tone-archive{--c:#1f6b45;--c-deep:#0b2d4a;--c-soft:#e0f2e6;--glow:#5fae7f}

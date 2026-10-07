@@ -1,12 +1,16 @@
 ---
 import { CATS, B, fmt } from '../lib.js';
+import AiBadge from './AiBadge.astro';
 const { s, lead=false } = Astro.props;
+// Generated (AI) images: set "imageAiGenerated": true on a story JSON, or pass
+// ai={true} to <Card>. The figure gets data-ai-generated and a badge overlay.
+const ai = Boolean(Astro.props.ai ?? s.imageAiGenerated) && Boolean(s.image);
 ---
-<article class:list={['card',{lead}]}>
- <figure>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"/>}{s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}</figure>
+<article class:list={['card', `cat-${s.category}`, {lead}]}>
+ <figure data-ai-generated={ai ? '' : undefined}>{s.image && <img src={s.image} alt={s.imageAlt || ''} loading={lead ? 'eager' : 'lazy'} decoding="async" referrerpolicy="no-referrer" onerror="this.remove()"/>}{ai && <AiBadge/>}{s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}</figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}</a></h3>
   <p>{s.summary}</p>
-  <p class="meta" data-pagefind-ignore><a class="pill" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
+  <p class="meta" data-pagefind-ignore><a class="chip" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
    <span>Source: <a class="src" href={s.sourceUrl} target="_blank" rel="noopener" data-pagefind-filter="source">{s.source}</a></span><time datetime={s.date}>{fmt(s.date)}</time></p>
  </div></article>

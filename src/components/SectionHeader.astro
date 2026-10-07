@@ -1,0 +1,11 @@
+---
+// Vivid gradient section header. `cat` uses that category's accent; otherwise
+// `tone` picks a non-category palette (home | archive).
+const { title, kicker, sub, cat, tone = 'home' } = Astro.props;
+---
+<header class:list={['sec-head', cat ? `cat-${cat}` : `tone-${tone}`]}>
+ {kicker && <p class="kicker">{kicker}</p>}
+ <h1>{title}</h1>
+ {sub && <p class="sub">{sub}</p>}
+ <svg class="sec-wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 Q180 4 360 22 T720 22 T1080 22 T1440 22 V40 H0Z"/></svg>
+</header>

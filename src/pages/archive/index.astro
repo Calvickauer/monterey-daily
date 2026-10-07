@@ -1,7 +1,7 @@
 ---
-import Base from '../../layouts/Base.astro'; import { stories, B, day } from '../../lib.js';
+import Base from '../../layouts/Base.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, B, day } from '../../lib.js';
 const days = {}; stories.forEach(s=>{ const d=day(s.date); days[d]=(days[d]||0)+1; });
 const months = {}; Object.keys(days).sort().reverse().forEach(d=>(months[d.slice(0,7)] ||= []).push(d));
 ---
-<Base title="Archive – Monterey Daily"><h1 class="sec">Archive</h1>
-{Object.entries(months).map(([m,ds])=><section><h2>{new Date(m+'-15').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</h2><p class="days">{ds.map(d=><a href={`${B}/archive/${d}/`}>{d.slice(8)} ({days[d]})</a>)}</p></section>)}</Base>
+<Base title="Archive – Monterey Daily"><SectionHeader title="Archive" kicker="Browse by day" tone="archive"/>
+{Object.entries(months).map(([m,ds])=><section class="month"><h2>{new Date(m+'-15').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</h2><p class="days">{ds.map(d=><a href={`${B}/archive/${d}/`}>{d.slice(8)} ({days[d]})</a>)}</p></section>)}</Base>

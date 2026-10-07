@@ -1,0 +1,122 @@
+@import './theme.css';
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;overflow-x:clip;background:var(--sand-50);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+a{color:var(--pacific-700)}
+h1,h2,h3,.brand{font-family:Fraunces,Georgia,serif}
+:focus-visible{outline:3px solid var(--gold-400);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- Masthead: Pacific gradient, sunset glow, animated waves ---------- */
+.mast{position:relative;overflow:hidden;isolation:isolate;color:var(--on-dark);padding:1.3rem 1rem 3.6rem;text-align:center;
+  background:linear-gradient(165deg,var(--pacific-950) 0%,var(--pacific-900) 38%,var(--pacific-700) 82%,var(--kelp-700) 130%);
+  view-transition-name:mast}
+.mast::before,.mast::after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%}
+/* sunset glow (coral, 22%) low on the right, low sun (gold, 18%) top-right */
+.mast::before{right:-12%;bottom:-60%;width:70%;height:140%;background:radial-gradient(closest-side,var(--coral-500),transparent);opacity:.22}
+.mast::after{right:6%;top:-40%;width:22rem;height:22rem;max-width:60%;background:radial-gradient(closest-side,var(--gold-400),transparent);opacity:.18}
+.brand{position:relative;color:var(--on-dark);text-decoration:none;font-size:clamp(2.1rem,7vw,3.6rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.brand em{color:var(--gold-200)}
+.tag{margin:.25rem 0 .9rem;color:var(--on-dark-soft);font-size:.9rem}
+nav{position:relative;display:flex;gap:.35rem .5rem;flex-wrap:wrap;justify-content:center;font-size:.88rem}
+nav a{display:inline-flex;align-items:center;gap:.4em;color:var(--on-dark-soft);text-decoration:none;padding:.18rem .55rem;border-radius:99px;border:1px solid transparent}
+nav a::before{content:"";width:.5em;height:.5em;border-radius:50%;background:var(--glow);flex:none}
+nav a.plain::before{display:none}
+nav a:hover{color:var(--on-dark);border-color:rgba(255,255,255,.35)}
+nav a[aria-current="page"]{color:var(--on-dark);border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.08)}
+.waves{position:absolute;left:0;right:0;bottom:-1px;height:46px;pointer-events:none}
+.wave{position:absolute;bottom:0;left:0;width:200%;height:100%;will-change:transform;animation:md-drift 16s linear infinite}
+.wave.back{fill:var(--pacific-200);opacity:.28;animation-duration:26s;animation-direction:reverse}
+.wave.mid{fill:var(--kelp-400);opacity:.30;animation-duration:20s}
+.wave.front{fill:var(--sand-50);animation-duration:13s}
+@keyframes md-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
+/* ---------- Layout ---------- */
+main{max-width:1180px;margin:0 auto;padding:1.1rem 1rem 1rem}
+.grid{display:grid;gap:1.2rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid .lead{grid-column:span 2;grid-row:span 2}}
+
+/* ---------- Vivid gradient section headers ---------- */
+.sec-head{position:relative;overflow:hidden;isolation:isolate;color:#fff;border-radius:18px;padding:1.15rem 1.3rem 1.5rem;margin:.4rem 0 1.4rem;
+  background:linear-gradient(118deg,var(--c-deep) 0%,var(--c) 70%,var(--c-end,var(--c)) 100%);box-shadow:0 10px 30px -18px var(--c-deep)}
+.sec-head::before{content:"";position:absolute;z-index:-1;right:-10%;top:-70%;width:60%;height:200%;border-radius:50%;
+  background:radial-gradient(closest-side,var(--glow),transparent);opacity:.2;pointer-events:none}
+.sec-head .kicker{margin:0 0 .15rem;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.sec-head h1{margin:0;font-size:clamp(1.7rem,4.5vw,2.4rem);line-height:1.1;letter-spacing:-.01em}
+.sec-head .sub{margin:.3rem 0 0;font-size:.9rem}
+.sec-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;pointer-events:none;background:linear-gradient(90deg,var(--glow),var(--gold-400) 55%,var(--coral-500))}
+.sec-wave{position:absolute;z-index:-1;left:0;bottom:0;width:100%;height:22px;fill:#fff;opacity:.10}
+
+/* ---------- Cards ---------- */
+.card{--ease:cubic-bezier(.2,.75,.2,1);position:relative;min-width:0;display:flex;flex-direction:column;background:var(--foam);border-radius:14px;
+  border-top:4px solid var(--c);box-shadow:0 1px 3px rgba(11,45,74,.12);
+  transition:opacity .7s var(--ease) var(--d,0ms),transform .7s var(--ease) var(--d,0ms)}
+/* Hover shadow lives on a pseudo-element so only its opacity animates */
+.card::after{content:"";position:absolute;inset:-4px 0 0;border-radius:14px;pointer-events:none;opacity:0;
+  box-shadow:0 22px 42px -16px rgba(11,45,74,.45),0 0 0 1px var(--c);transition:opacity .3s ease}
+.card figure{margin:0;position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:10px 10px 0 0;
+  background:linear-gradient(135deg,var(--c-soft),var(--glow))}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card figcaption{position:absolute;right:0;bottom:0;background:rgba(6,26,43,.70);color:#fff;font-size:.68rem;padding:.12rem .45rem;border-top-left-radius:6px}
+.card .body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.45rem;flex:1;min-width:0;overflow-wrap:anywhere}
+.card h3{margin:0;font-size:1.15rem;line-height:1.25}.lead h3{font-size:clamp(1.35rem,2.4vw,1.75rem)}
+.card h3 a{color:var(--ink);text-decoration:none}
+.card h3 a:hover{color:var(--c)}
+.card p{margin:0;color:var(--muted);font-size:.93rem}
+.meta{margin-top:auto!important;font-size:.8rem!important;display:flex;flex-wrap:wrap;gap:.35rem .55rem;align-items:center}
+.chip{display:inline-flex;align-items:center;background:var(--c);color:#fff;border-radius:99px;padding:.1rem .6rem;font-size:.72rem;font-weight:600;text-decoration:none;letter-spacing:.01em}
+.chip:hover{text-decoration:underline}
+.src{font-weight:600;color:var(--ink)}
+
+/* Scroll reveal. Only applies once the inline head script has added .js,
+   so cards are always visible without JavaScript. */
+.js .card:not(.in){opacity:0;transform:translate3d(0,26px,0) scale(.985)}
+.card.settled{transition:transform .35s var(--ease)}
+
+/* Hover lift + subtle tilt: precise pointers only, never with reduced motion */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .card.settled:hover{transform:perspective(900px) translate3d(0,-6px,0) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+  .card:hover::after{opacity:1}
+}
+
+/* ---------- AI illustration badge ----------
+   Put data-ai-generated on any positioned image wrapper and add
+   <span class="ai-badge">AI illustration</span> inside it. */
+[data-ai-generated]{position:relative}
+.ai-badge{position:absolute;top:.6rem;left:.6rem;z-index:1;display:inline-flex;align-items:center;gap:.3rem;
+  padding:.2rem .6rem .2rem .45rem;border-radius:99px;font:600 .7rem/1.3 Inter,system-ui,sans-serif;letter-spacing:.03em;color:#fff;
+  background:rgba(6,26,43,.66);border:1px solid rgba(255,255,255,.28);box-shadow:0 2px 10px rgba(6,26,43,.25);
+  -webkit-backdrop-filter:blur(8px) saturate(1.4);backdrop-filter:blur(8px) saturate(1.4)}
+.ai-badge svg{width:.85rem;height:.85rem;fill:var(--gold-200);flex:none}
+figure:not(:has(img)) .ai-badge{display:none}
+
+/* ---------- Archive / search / footer ---------- */
+.month{margin:0 0 1.3rem}
+.month h2{margin:0 0 .5rem;font-size:1.3rem;color:var(--ink)}
+.days{display:flex;flex-wrap:wrap;gap:.4rem;margin:0}
+.days a{display:inline-block;padding:.22rem .65rem;border-radius:99px;background:var(--seaglass);color:var(--pacific-700);text-decoration:none;font-size:.88rem;font-weight:600}
+.days a:hover{text-decoration:underline}
+#search{--pagefind-ui-primary:var(--pacific-700);--pagefind-ui-text:var(--ink);--pagefind-ui-background:var(--foam);--pagefind-ui-border:var(--sand-300);--pagefind-ui-tag:var(--seaglass);--pagefind-ui-border-radius:12px;--pagefind-ui-font:Inter,system-ui,sans-serif}
+.note{color:var(--muted);font-size:.85rem}
+footer{position:relative;text-align:center;color:var(--muted);font-size:.82rem;padding:2rem 1rem 2.4rem;margin-top:1.5rem;background:var(--sand-100)}
+footer::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;
+  background:linear-gradient(90deg,var(--pacific-700),var(--kelp-700) 30%,var(--gold-400) 60%,var(--coral-500) 85%,var(--pacific-700))}
+footer p{max-width:760px;margin:0 auto}
+
+/* ---------- View Transitions (Astro <ViewTransitions/>): fade + slide, transform/opacity only ---------- */
+@keyframes md-out{to{opacity:0;transform:translate3d(0,-10px,0)}}
+@keyframes md-in{from{opacity:0;transform:translate3d(0,16px,0)}}
+::view-transition-old(root){animation:md-out .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:md-in .38s cubic-bezier(.2,.75,.2,1) .06s both}
+::view-transition-old(mast),::view-transition-new(mast){animation:none}
+
+/* ---------- Reduced motion: no reveal, tilt, wave, or page-transition motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .card:not(.in),.card,.card:hover{opacity:1;transform:none}
+  .wave{will-change:auto}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}

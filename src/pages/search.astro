@@ -1,11 +1,11 @@
 ---
-import Base from '../layouts/Base.astro'; import { B } from '../lib.js';
+import Base from '../layouts/Base.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { B } from '../lib.js';
 ---
-<Base title="Search – Monterey Daily"><h1 class="sec">Search</h1>
+<Base title="Search – Monterey Daily"><SectionHeader title="Search" kicker="Find a story" tone="archive"/>
 <link href={`${B}/pagefind/pagefind-ui.css`} rel="stylesheet"/><div id="search" data-base={B}></div>
 <script is:inline data-astro-rerun>
 (function(){ const el=document.getElementById('search'); const b=el.dataset.base;
  const go=()=>{ el.innerHTML=''; new PagefindUI({element:'#search',showSubResults:false,showImages:false,resetStyles:false}); };
  if(window.PagefindUI) return go(); const s=document.createElement('script'); s.src=b+'/pagefind/pagefind-ui.js'; s.onload=go; document.head.appendChild(s); })();
 </script>
-<p style="color:var(--muted);font-size:.85rem">Each result opens the original story at its outlet.</p></Base>
+<p class="note">Each result opens the original story at its outlet.</p></Base>

@@ -1,50 +1,89 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import { CATS, B } from '../lib.js';
+import '../styles/global.css';
 const { title = 'Monterey Daily', description = 'Monterey County news, gathered daily from local outlets.' } = Astro.props;
+// Three wave layers. Each path repeats every 720 viewBox units (= one container
+// width, since the SVG is 200% wide), so translateX(-50%) loops seamlessly.
+const waves = {
+  back:  'M0 22 Q90 6 180 22 T360 22 T540 22 T720 22 T900 22 T1080 22 T1260 22 T1440 22 V60 H0Z',
+  mid:   'M0 32 Q180 52 360 32 T720 32 T1080 32 T1440 32 V60 H0Z',
+  front: 'M0 40 Q180 18 360 40 T720 40 T1080 40 T1440 40 V60 H0Z',
+};
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>{title}</title><meta name="description" content={description}/><link rel="icon" href={`${B}/favicon.svg`}/>
+<title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#0b2d4a"/><link rel="icon" href={`${B}/favicon.svg`}/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+<script is:inline>
+ /* Opt in to scroll-reveal only when JS runs (cards stay visible without JS).
+    Astro's router swaps <html> attributes on navigation, so re-add after each swap.
+    Failsafe: if the reveal module never boots, drop .js so nothing stays hidden. */
+ (function(d){var h=d.documentElement;h.classList.add('js');d.addEventListener('astro:after-swap',function(){h.classList.add('js')});
+  setTimeout(function(){if(!window.__mdReveal)h.classList.remove('js')},4000)})(document);
+</script>
 <ViewTransitions/></head><body>
 <header class="mast" transition:persist>
  <a class="brand" href={`${B}/`}>Monterey <em>Daily</em></a>
  <p class="tag">Monterey County news, gathered each morning</p>
- <nav><a href={`${B}/`}>Top</a>{Object.entries(CATS).map(([k,v])=><a href={`${B}/category/${k}/`}>{v}</a>)}<a href={`${B}/archive/`}>Archive</a><a href={`${B}/search/`}>Search</a></nav>
- <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q180 0 360 30 T720 30 T1080 30 T1440 30 V60 H0Z"/><path class="w2" d="M0 40 Q180 15 360 40 T720 40 T1080 40 T1440 40 V60 H0Z"/></svg>
+ <nav aria-label="Sections"><a class="plain" href={`${B}/`}>Top</a>{Object.entries(CATS).map(([k,v])=><a class={`cat-${k}`} href={`${B}/category/${k}/`}>{v}</a>)}<a class="plain" href={`${B}/archive/`}>Archive</a><a class="plain" href={`${B}/search/`}>Search</a></nav>
+ <div class="waves" aria-hidden="true">{Object.entries(waves).map(([k,d])=><svg class={`wave ${k}`} viewBox="0 0 1440 60" preserveAspectRatio="none"><path d={d}/></svg>)}</div>
 </header>
 <main><slot/></main>
 <footer><p>Monterey Daily links to and credits original reporting. Headlines and brief summaries only; read full stories at each outlet. Weather alerts: National Weather Service.</p></footer>
 <script>
- function reveal(){ const els=document.querySelectorAll('.card:not(.in)');
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -5% 0px'}); els.forEach(e=>io.observe(e)); }
- document.addEventListener('astro:page-load',reveal);
+ const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+ const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+ (window as any).__mdReveal = true;
+
+ // Mark the current section in the (persisted) header nav.
+ function markNav(){
+  const here = location.pathname.replace(/\/?$/,'/');
+  document.querySelectorAll<HTMLAnchorElement>('.mast nav a').forEach(a=>{
+   const p = new URL(a.href).pathname.replace(/\/?$/,'/');
+   if (p===here) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+  });
+ }
+
+ // Staggered scroll reveal: cards entering together get 70ms-step delays.
+ let io: IntersectionObserver | undefined;
+ function settle(el: HTMLElement){ el.classList.add('in','settled'); el.style.removeProperty('--d'); }
+ function reveal(){
+  io?.disconnect();
+  const cards = [...document.querySelectorAll<HTMLElement>('.card:not(.in)')];
+  if (reduce.matches || !('IntersectionObserver' in window)) { cards.forEach(settle); return; }
+  io = new IntersectionObserver(entries=>{
+   entries.filter(e=>e.isIntersecting)
+    .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top || a.boundingClientRect.left-b.boundingClientRect.left)
+    .forEach((e,i)=>{
+     const el = e.target as HTMLElement; io!.unobserve(el);
+     el.style.setProperty('--d', `${Math.min(i,8)*70}ms`);
+     el.addEventListener('transitionend', ev=>{ if (ev.propertyName==='transform' && ev.target===el) settle(el); }, { once:false });
+     requestAnimationFrame(()=>el.classList.add('in'));
+     setTimeout(()=>settle(el), 1400 + Math.min(i,8)*70); // in case transitionend is skipped
+    });
+  }, { rootMargin:'0px 0px -6% 0px', threshold:0.06 });
+  cards.forEach(c=>io!.observe(c));
+ }
+
+ // Subtle pointer tilt (max ~3deg), rAF-throttled, transform-only.
+ let raf = 0, active: HTMLElement | null = null, px = 0, py = 0;
+ function resetTilt(el: HTMLElement | null){ if (el) { el.style.removeProperty('--rx'); el.style.removeProperty('--ry'); } }
+ document.addEventListener('pointermove', e=>{
+  if (!finePointer.matches || reduce.matches || e.pointerType!=='mouse') return;
+  const card = (e.target as Element).closest?.('.card.settled') as HTMLElement | null;
+  if (card!==active) { resetTilt(active); active = card; }
+  if (!card) return;
+  px = e.clientX; py = e.clientY;
+  if (!raf) raf = requestAnimationFrame(()=>{
+   raf = 0; if (!active) return;
+   const r = active.getBoundingClientRect();
+   const x = (px-r.left)/r.width-.5, y = (py-r.top)/r.height-.5;
+   active.style.setProperty('--ry', `${(x*6).toFixed(2)}deg`);
+   active.style.setProperty('--rx', `${(-y*5).toFixed(2)}deg`);
+  });
+ }, { passive:true });
+ document.addEventListener('pointerleave', ()=>{ resetTilt(active); active = null; });
+
+ document.addEventListener('astro:page-load', ()=>{ markNav(); reveal(); });
 </script>
-<style is:global>
-:root{--ink:#0f2a3a;--sea:#1d6f8c;--kelp:#2f6b4f;--sand:#f6f1e7;--foam:#fffdf8;--coral:#d9644a;--muted:#5b6b73}
-*{box-sizing:border-box}body{margin:0;overflow-x:clip;background:var(--sand);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
-a{color:var(--sea)}h1,h2,h3,.brand{font-family:Fraunces,Georgia,serif}
-.mast{position:relative;overflow:hidden;background:linear-gradient(160deg,#0f2a3a,#1d6f8c);color:#fff;padding:1.2rem 1rem 3.2rem;text-align:center}
-.brand{color:#fff;text-decoration:none;font-size:clamp(2rem,7vw,3.4rem);font-weight:800;letter-spacing:-.02em}.brand em{color:#9fd8e0}
-.tag{margin:.2rem 0 .8rem;opacity:.85;font-size:.9rem}
-nav{display:flex;gap:.3rem .9rem;flex-wrap:wrap;justify-content:center;font-size:.9rem}nav a{color:#e6f4f6;text-decoration:none}nav a:hover{text-decoration:underline}
-.wave{position:absolute;bottom:-1px;left:0;width:200%;height:40px;fill:var(--sand);animation:drift 18s linear infinite}.wave .w2{opacity:.5}
-@keyframes drift{to{transform:translateX(-50%)}}
-main{max-width:1180px;margin:0 auto;padding:1rem}
-h1.sec{font-size:1.7rem;border-bottom:3px solid var(--ink);padding-bottom:.3rem}
-.grid{display:grid;gap:1.1rem;grid-template-columns:1fr}
-@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}.grid .lead{grid-column:span 2;grid-row:span 2}}
-.card{background:var(--foam);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px #0f2a3a22;display:flex;flex-direction:column;opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease,box-shadow .2s}
-.card.in{opacity:1;transform:none}.card:hover{box-shadow:0 6px 18px #0f2a3a33}
-.card figure{margin:0;position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#9fd8e0,#2f6b4f)}.card img{width:100%;height:100%;object-fit:cover;display:block}
-.card figcaption{position:absolute;right:0;bottom:0;background:#0009;color:#fff;font-size:.68rem;padding:.1rem .4rem}
-.card .body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.4rem;flex:1}
-.card h3{margin:0;font-size:1.15rem;line-height:1.25}.lead h3{font-size:1.6rem}.card h3 a{color:var(--ink);text-decoration:none}.card h3 a:hover{color:var(--sea)}
-.card p{margin:0;color:var(--muted);font-size:.93rem}.meta{margin-top:auto!important;font-size:.8rem!important;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
-.pill{background:var(--kelp);color:#fff;border-radius:99px;padding:.05rem .55rem;font-size:.72rem;text-decoration:none}
-.src{font-weight:600;color:var(--ink)}
-footer{text-align:center;color:var(--muted);font-size:.82rem;padding:2rem 1rem;max-width:760px;margin:0 auto}
-.days a{display:inline-block;margin:.2rem .5rem .2rem 0}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}.card{opacity:1;transform:none}::view-transition-group(*){animation:none!important}}
-</style></body></html>
+</body></html>
