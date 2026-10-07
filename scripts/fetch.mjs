@@ -35,7 +35,7 @@ for (const s of sources) {
         return {title:strip(i.title), link:txt(i.link?.['@href']??i.link).trim(), date:txt(i.pubDate||i.published||i['dc:date']), summary:i.description||html, image: mc?.['@url'] || html.match(/<img[^>]+src=["']([^"']+)/i)?.[1] || null}; });
     }
     if (/KION/.test(s.name)) list = list.filter(i=>!/\/(national-world|cnn-style|noticias-cnn|cnn-[a-z-]+)\//.test(i.link));
-    if (FILTER.test(s.name)) list = list.filter(i=>PLACES.test(i.title+' '+strip(i.summary)));
+    if (FILTER.test(s.name) || /KION/.test(s.name)) list = list.filter(i=>PLACES.test(i.title+' '+strip(i.summary)));
     if (/Voices/.test(s.name)) list = list.slice(0,15);
     let n=0;
     for (const i of list) { if(!i.title||!i.link) continue; const d=new Date(i.date); i.date=isNaN(d)?new Date().toISOString():d.toISOString(); i.link=i.link.replace(/^http:\/\//i,'https://'); i.source=s.name; i.sourceUrl=s.url; items.push(i); n++; }
