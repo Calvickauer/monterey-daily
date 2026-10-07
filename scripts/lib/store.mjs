@@ -4,13 +4,14 @@ import path from 'node:path';
 import { dedupeStories } from './dedupe.mjs';
 
 export const OUT = 'src/content/stories';
-const ORDER = ['headline', 'summary', 'source', 'sourceUrl', 'link', 'date', 'category', 'image', 'imageAlt', 'imageCredit', 'imageGenerated', 'imageKind', 'imageAttribution', 'alsoCoveredBy'];
+const ORDER = ['headline', 'summary', 'source', 'sourceUrl', 'link', 'date', 'category', 'image', 'imageAlt', 'imageCredit', 'imageCreditUrl', 'imageGenerated', 'imageKind', 'imageAttribution', 'alsoCoveredBy'];
 
 /** Fill contract fields: imageGenerated (bool), imageAlt (string|null), imageAttribution (object|null), alsoCoveredBy (array) are always present. */
 export function withDefaults(s) {
   const o = { ...s };
   if (o.imageAlt === undefined || o.imageAlt === '') o.imageAlt = null;
   if (o.imageAttribution === undefined) o.imageAttribution = null;
+  if (o.imageCreditUrl === undefined) o.imageCreditUrl = null;
   o.imageGenerated = !!o.imageGenerated;
   if (!Array.isArray(o.alsoCoveredBy)) o.alsoCoveredBy = [];
   return o;

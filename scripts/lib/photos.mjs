@@ -59,7 +59,7 @@ export function stockFields(stem, e = {}) {
   const author = e.author || null, license = e.license || null;
   const imageAttribution = { author, ...(e.author_url || e.authorUrl ? { authorUrl: e.author_url || e.authorUrl } : {}), source, sourceUrl, license, ...(e.license_url || e.licenseUrl ? { licenseUrl: e.license_url || e.licenseUrl } : {}) };
   const credit = author || source ? `Photo: ${[author, source].filter(Boolean).join(' / ')}${license ? `, ${license}` : ''}` : (e.credit || 'Photo');
-  return { image: `/photos/${stem}.webp`, imageAlt: e.alt || null, imageCredit: credit, imageGenerated: false, imageKind: 'stock', imageAttribution };
+  return { image: `/photos/${stem}.webp`, imageAlt: e.alt || null, imageCredit: credit, imageCreditUrl: sourceUrl, imageGenerated: false, imageKind: 'stock', imageAttribution };
 }
 
 export const hasPhotoFile = (stem, publicDir = 'public') => fs.existsSync(path.join(publicDir, 'photos', `${stem}.webp`));

@@ -139,7 +139,9 @@ test('assignImages: publisher photo > stock photo > illustration; upgrades to st
   assert.equal(s[1].image, '/photos/q.webp'); assert.equal(s[1].imageKind, 'stock'); assert.equal(s[1].imageGenerated, false);
   assert.equal(s[1].imageCredit, 'Photo: Jane Doe / Wikimedia Commons, CC BY-SA 4.0'); assert.equal(s[1].imageAlt, 'Monterey city hall');
   assert.deepEqual(s[1].imageAttribution, { author: 'Jane Doe', source: 'Wikimedia Commons', sourceUrl: man.q.source_page_url, license: 'CC BY-SA 4.0', licenseUrl: man.q.license_url });
+  assert.equal(s[1].imageCreditUrl, man.q.source_page_url); assert.equal(s[0].imageCreditUrl, null);
   assert.equal(r.stockNew, 1); assert.equal(s[0].imageAttribution, null);
+  for (const x of s) assert.equal(x.imageGenerated, x.imageKind === 'illustration');
   r = assignImages(s, { publicDir: pub, lib, alts: {}, photos: man }); assert.equal(r.stockNew, 0); assert.equal(r.stock, 1); // idempotent
   assert.equal(sourceName('https://www.nps.gov/pinn/x.htm'), 'NPS'); assert.equal(sourceName('https://unsplash.com/photos/abc'), 'Unsplash');
   assert.equal(stockFields('z', { author: 'A', license: 'Public domain', source_page_url: 'https://www.fisheries.noaa.gov/x', author_url: 'https://a' }).imageAttribution.authorUrl, 'https://a');
@@ -149,5 +151,5 @@ test('assignImages: publisher photo > stock photo > illustration; upgrades to st
 
 test('serialize always includes contract fields', () => {
   const o = JSON.parse(serialize({ id: 'x', headline: 'h', image: null }));
-  assert.equal(o.imageGenerated, false); assert.deepEqual(o.alsoCoveredBy, []); assert.equal(o.imageAlt, null); assert.equal(o.imageAttribution, null); assert.equal(o.id, undefined);
+  assert.equal(o.imageGenerated, false); assert.deepEqual(o.alsoCoveredBy, []); assert.equal(o.imageAlt, null); assert.equal(o.imageAttribution, null); assert.equal(o.imageCreditUrl, null); assert.equal(o.id, undefined);
 });
