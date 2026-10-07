@@ -1,0 +1,207 @@
+{
+  "description": "Generic, story-agnostic placeholder illustrations for Monterey Daily stories without a source photo. Original vector artwork drawn in code (no AI model, no third-party assets); label as \"Illustration\" on cards.",
+  "categories": [
+    "government",
+    "public-safety",
+    "environment",
+    "business",
+    "community",
+    "sports",
+    "weather",
+    "general"
+  ],
+  "images": [
+    {
+      "category": "government",
+      "file": "government/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 19842,
+      "alt": "Illustration of a domed civic building with columns at sunset, framed by palm trees"
+    },
+    {
+      "category": "government",
+      "file": "government/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 18992,
+      "alt": "Illustration of a mission-style adobe building with a bell tower and bougainvillea on a sunny day"
+    },
+    {
+      "category": "government",
+      "file": "government/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 18206,
+      "alt": "Illustration of a modern civic building with a clock tower and oak trees in morning light"
+    },
+    {
+      "category": "public-safety",
+      "file": "public-safety/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 11752,
+      "alt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights"
+    },
+    {
+      "category": "public-safety",
+      "file": "public-safety/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 11338,
+      "alt": "Illustration of a fire station with an engine in an open bay at evening"
+    },
+    {
+      "category": "public-safety",
+      "file": "public-safety/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 11898,
+      "alt": "Illustration of a smoky ridge at sunset with an air tanker flying overhead"
+    },
+    {
+      "category": "environment",
+      "file": "environment/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 33120,
+      "alt": "Illustration of sea otters floating among golden kelp in blue water"
+    },
+    {
+      "category": "environment",
+      "file": "environment/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 14780,
+      "alt": "Illustration of a concrete arch bridge spanning a coastal canyon above the ocean"
+    },
+    {
+      "category": "environment",
+      "file": "environment/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 13386,
+      "alt": "Illustration of a whale tail rising from the bay at sunset"
+    },
+    {
+      "category": "business",
+      "file": "business/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 22008,
+      "alt": "Illustration of colorful cannery-style storefronts with a skybridge by the waterfront"
+    },
+    {
+      "category": "business",
+      "file": "business/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 44236,
+      "alt": "Illustration of green crop rows in a farm valley with a red barn, tractor and golden hills"
+    },
+    {
+      "category": "business",
+      "file": "business/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 18018,
+      "alt": "Illustration of fishing boats in a harbor beside a wharf lined with colorful shops"
+    },
+    {
+      "category": "community",
+      "file": "community/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 29176,
+      "alt": "Illustration of striped farmers market tents with fresh produce under string lights"
+    },
+    {
+      "category": "community",
+      "file": "community/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 37296,
+      "alt": "Illustration of a white lighthouse above magenta ice plant at golden hour"
+    },
+    {
+      "category": "community",
+      "file": "community/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 27496,
+      "alt": "Illustration of a downtown street at twilight with string lights and colorful storefronts"
+    },
+    {
+      "category": "sports",
+      "file": "sports/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 22174,
+      "alt": "Illustration of a high school football stadium under bright lights at dusk"
+    },
+    {
+      "category": "sports",
+      "file": "sports/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 19366,
+      "alt": "Illustration of a baseball diamond at sunset with oak-covered hills beyond"
+    },
+    {
+      "category": "sports",
+      "file": "sports/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 13960,
+      "alt": "Illustration of a clifftop golf green with a coral flag above the ocean"
+    },
+    {
+      "category": "weather",
+      "file": "weather/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 9016,
+      "alt": "Illustration of fog rolling over the bay past cypress-topped headlands"
+    },
+    {
+      "category": "weather",
+      "file": "weather/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 21464,
+      "alt": "Illustration of a storm over the ocean with rain and lightning"
+    },
+    {
+      "category": "weather",
+      "file": "weather/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 16846,
+      "alt": "Illustration of a rainbow over green valley hills after rain"
+    },
+    {
+      "category": "general",
+      "file": "general/1.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 15844,
+      "alt": "Illustration of a crescent bay coastline with town lights at sunset"
+    },
+    {
+      "category": "general",
+      "file": "general/2.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 11314,
+      "alt": "Illustration of a lone windswept cypress on a granite rock at sunset"
+    },
+    {
+      "category": "general",
+      "file": "general/3.webp",
+      "width": 1200,
+      "height": 675,
+      "bytes": 17964,
+      "alt": "Illustration of a starry night sky and moon over a coastal town"
+    }
+  ]
+}

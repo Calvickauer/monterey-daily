@@ -6,6 +6,12 @@
   "link": "https://www.ci.seaside.ca.us/CivicAlerts.aspx?aid=917",
   "date": "2026-09-11T22:05:33.000Z",
   "category": "community",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/community/2.webp",
+  "imageAlt": "Illustration of a white lighthouse above magenta ice plant at golden hour",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

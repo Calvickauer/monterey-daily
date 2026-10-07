@@ -6,6 +6,12 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12464/",
   "date": "2026-09-21T07:00:00.000Z",
   "category": "environment",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/environment/1.webp",
+  "imageAlt": "Illustration of sea otters floating among golden kelp in blue water",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

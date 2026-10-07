@@ -7,5 +7,17 @@
   "date": "2026-10-06T18:32:00.000Z",
   "category": "public-safety",
   "image": "https://kubrick.htvapps.com/vidthumb/65595e79-51b7-4bde-983c-0090bd8cb99e/72cddaed-ee72-476a-b77d-e7d00e54f096.jpg",
-  "imageCredit": "Image: KSBW Action News 8 (local)"
+  "imageAlt": null,
+  "imageCredit": "Image: KSBW Action News 8 (local)",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "KSBW Action News 8 (local)",
+      "url": "https://www.ksbw.com/article/what-we-know-3-victims-killed-head-on-crash-salinas/74055100",
+      "title": "What we know about 3 victims killed in head-on crash near Salinas"
+    }
+  ]
 }

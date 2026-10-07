@@ -7,5 +7,11 @@
   "date": "2026-09-16T18:00:57.000Z",
   "category": "environment",
   "image": "https://www.mbari.org/wp-content/uploads/OMI_2026GhanaFieldwork_02_1150-300x400.jpeg",
-  "imageCredit": "Image: MBARI News"
+  "imageAlt": null,
+  "imageCredit": "Image: MBARI News",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

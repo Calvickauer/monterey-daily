@@ -7,5 +7,11 @@
   "date": "2026-10-07T00:00:00.000Z",
   "category": "community",
   "image": "https://bloximages.newyork1.vip.townnews.com/montereycountynow.com/content/tncms/assets/v3/editorial/d/ad/dad20386-01f3-4323-9b13-32cfc098ce26/6ac586ba3e8d1.image.jpg?resize=300%2C200",
-  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW"
+  "imageAlt": null,
+  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

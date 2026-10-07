@@ -6,6 +6,18 @@
   "link": "https://voicesofmontereybay.org/2026/08/25/alebrijes-and-nahuales-bring-color-and-stories-to-salinas/",
   "date": "2026-08-26T06:06:37.000Z",
   "category": "community",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/community/2.webp",
+  "imageAlt": "Illustration of a white lighthouse above magenta ice plant at golden hour",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "Voices of Monterey Bay (Español)",
+      "url": "https://voicesofmontereybay.org/2026/09/10/alebrijes-y-nahuales-traen-color-e-historias-a-salinas/",
+      "title": "Alebrijes y Nahuales traen color e historias a Salinas"
+    }
+  ]
 }

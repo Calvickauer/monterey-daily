@@ -7,5 +7,11 @@
   "date": "2026-10-05T15:00:29.000Z",
   "category": "public-safety",
   "image": "https://kingcityrustler.com/wp-content/uploads/sites/9/2022/12/Police-Reports-metro-web-NEW-1-1024x683.jpg",
-  "imageCredit": "Image: King City Rustler / South County Newspapers"
+  "imageAlt": null,
+  "imageCredit": "Image: King City Rustler / South County Newspapers",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

@@ -6,6 +6,18 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12470/",
   "date": "2026-10-06T22:47:00.000Z",
   "category": "public-safety",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/public-safety/1.webp",
+  "imageAlt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "County of Monterey News",
+      "url": "https://www.countyofmonterey.gov/Home/Components/News/News/12472/",
+      "title": "OFELIA GARCIA ORTEGA, Mother of 14-Year-Old in Baby Angelita Investigation Has Been Arrested"
+    }
+  ]
 }

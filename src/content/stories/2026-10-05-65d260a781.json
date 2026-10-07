@@ -7,5 +7,11 @@
   "date": "2026-10-05T15:30:00.000Z",
   "category": "public-safety",
   "image": "https://kingcityrustler.com/wp-content/uploads/sites/9/2026/09/BofA-elderly-scams-1024x660.jpg",
-  "imageCredit": "Image: King City Rustler / South County Newspapers"
+  "imageAlt": null,
+  "imageCredit": "Image: King City Rustler / South County Newspapers",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

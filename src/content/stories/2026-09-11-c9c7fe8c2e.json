@@ -6,6 +6,12 @@
   "link": "https://www.ci.seaside.ca.us/CivicAlerts.aspx?aid=918",
   "date": "2026-09-11T22:07:19.000Z",
   "category": "community",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/community/3.webp",
+  "imageAlt": "Illustration of a downtown street at twilight with string lights and colorful storefronts",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

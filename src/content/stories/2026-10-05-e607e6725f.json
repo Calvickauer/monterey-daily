@@ -7,5 +7,11 @@
   "date": "2026-10-05T22:28:00.000Z",
   "category": "business",
   "image": "https://kubrick.htvapps.com/htv-prod/ibmig/cms/image/ksbw/30991512-30991512.jpg",
-  "imageCredit": "Image: KSBW Action News 8 (local)"
+  "imageAlt": null,
+  "imageCredit": "Image: KSBW Action News 8 (local)",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

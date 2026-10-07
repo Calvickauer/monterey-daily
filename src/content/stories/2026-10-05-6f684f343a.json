@@ -7,5 +7,11 @@
   "date": "2026-10-05T17:00:00.000Z",
   "category": "community",
   "image": "https://kingcityrustler.com/wp-content/uploads/sites/9/2026/09/Rodeo-check-1-full-group-2026-1024x583.jpg",
-  "imageCredit": "Image: King City Rustler / South County Newspapers"
+  "imageAlt": null,
+  "imageCredit": "Image: King City Rustler / South County Newspapers",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

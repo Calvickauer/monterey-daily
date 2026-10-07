@@ -7,5 +7,17 @@
   "date": "2026-10-05T20:38:00.000Z",
   "category": "community",
   "image": "https://bloximages.newyork1.vip.townnews.com/montereycountynow.com/content/tncms/assets/v3/editorial/9/38/9382db54-d7ae-4d38-b14f-1945bd75eb22/6abc0e9ad882e.image.jpg?resize=300%2C214",
-  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW"
+  "imageAlt": null,
+  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "MC NOW (Español)",
+      "url": "https://www.montereycountynow.com/svnow/translation/comienza-la-temporada-de-gripe-y-regresan-las-cl-nicas-de-vacunaci-n-gratuitas/article_b230039b-494b-45a3-9f4b-663dc3fe220c.html",
+      "title": "Comienza la temporada de gripe y regresan las clínicas de vacunación gratuitas."
+    }
+  ]
 }

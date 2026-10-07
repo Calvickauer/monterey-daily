@@ -7,5 +7,11 @@
   "date": "2026-10-05T18:00:00.000Z",
   "category": "sports",
   "image": "https://kingcityrustler.com/wp-content/uploads/sites/9/2026/10/Colts-cross-country-group-09-26-1024x628.jpg",
-  "imageCredit": "Image: King City Rustler / South County Newspapers"
+  "imageAlt": null,
+  "imageCredit": "Image: King City Rustler / South County Newspapers",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

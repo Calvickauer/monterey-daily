@@ -7,5 +7,11 @@
   "date": "2026-10-02T17:08:52.000Z",
   "category": "sports",
   "image": "https://kingcityrustler.com/wp-content/uploads/sites/9/2026/08/Cover-3-sports-podcast-logo-WEB-1-1-1024x1024.jpg",
-  "imageCredit": "Image: King City Rustler / South County Newspapers"
+  "imageAlt": null,
+  "imageCredit": "Image: King City Rustler / South County Newspapers",
+  "imageCreditUrl": null,
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

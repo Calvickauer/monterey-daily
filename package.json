@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "fetch": "node scripts/fetch.mjs",
-    "build": "astro build && node scripts/index.mjs"
+    "build": "astro build && node scripts/index.mjs",
+    "dedupe": "node scripts/dedupe-archive.mjs",
+    "backfill-images": "node scripts/backfill-images.mjs",
+    "test": "node --test test/ scripts/"
   },
   "keywords": [],
   "author": "",
