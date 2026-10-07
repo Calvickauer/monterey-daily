@@ -23,7 +23,7 @@ const waves = {
     Astro's router swaps <html> attributes on navigation, so re-add after each swap.
     Failsafe: if the reveal module never boots, drop .js so nothing stays hidden. */
  (function(d){var h=d.documentElement;h.classList.add('js');d.addEventListener('astro:after-swap',function(){h.classList.add('js')});
-  setTimeout(function(){if(!window.__mdReveal)h.classList.remove('js')},4000)})(document);
+  setTimeout(function(){if(!window.__mdReveal)h.classList.remove('js')},1500)})(document);
 </script>
 <ViewTransitions/></head><body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -41,25 +41,41 @@ const waves = {
  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
  (window as any).__mdReveal = true;
 
- // Staggered scroll reveal: cards entering together get 70ms-step delays.
+ // Scroll reveal. Cards already in the viewport when a page loads (and the eager
+ // LCP card) are shown immediately with no fade; only cards below the fold get
+ // .will-reveal (hidden while off-screen) and animate in, staggered 70ms apart.
  let io: IntersectionObserver | undefined;
- function settle(el: HTMLElement){ el.classList.add('in','settled'); el.style.removeProperty('--d'); }
+ const pending = new WeakMap<HTMLElement, { onEnd: (ev: TransitionEvent) => void; timer: number }>();
+ function settle(el: HTMLElement){
+  const p = pending.get(el);
+  if (p) { el.removeEventListener('transitionend', p.onEnd); clearTimeout(p.timer); pending.delete(el); }
+  el.classList.add('in','settled'); el.style.removeProperty('--d');
+ }
  function reveal(){
   io?.disconnect();
   const cards = [...document.querySelectorAll<HTMLElement>('.card:not(.in)')];
   if (reduce.matches || !('IntersectionObserver' in window)) { cards.forEach(settle); return; }
+  // Batch layout reads before any class writes (one layout pass).
+  const vh = window.innerHeight;
+  const visible = cards.map(c=>{ if (c.classList.contains('is-eager')) return true; const r = c.getBoundingClientRect(); return r.top < vh && r.bottom > 0; });
+  const later = cards.filter((c,i)=>!visible[i]);
+  cards.forEach((c,i)=>{ if (visible[i]) settle(c); });
+  later.forEach(c=>c.classList.add('will-reveal'));
   io = new IntersectionObserver(entries=>{
    entries.filter(e=>e.isIntersecting)
     .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top || a.boundingClientRect.left-b.boundingClientRect.left)
     .forEach((e,i)=>{
      const el = e.target as HTMLElement; io!.unobserve(el);
-     el.style.setProperty('--d', `${Math.min(i,8)*70}ms`);
-     el.addEventListener('transitionend', ev=>{ if (ev.propertyName==='transform' && ev.target===el) settle(el); }, { once:false });
+     const delay = Math.min(i,8)*70;
+     el.style.setProperty('--d', `${delay}ms`);
+     const onEnd = (ev: TransitionEvent)=>{ if (ev.propertyName==='transform' && ev.target===el) settle(el); };
+     el.addEventListener('transitionend', onEnd);
+     // Fallback in case transitionend never fires; settle() clears it and the listener.
+     pending.set(el, { onEnd, timer: window.setTimeout(()=>settle(el), 1400 + delay) });
      requestAnimationFrame(()=>el.classList.add('in'));
-     setTimeout(()=>settle(el), 1400 + Math.min(i,8)*70); // in case transitionend is skipped
     });
   }, { rootMargin:'0px 0px -6% 0px', threshold:0.06 });
-  cards.forEach(c=>io!.observe(c));
+  later.forEach(c=>io!.observe(c));
  }
 
  // Subtle pointer tilt (max ~3deg), rAF-throttled, transform-only.
