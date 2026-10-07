@@ -7,5 +7,10 @@
   "date": "2026-10-06T01:16:24.000Z",
   "category": "government",
   "image": "https://kubrick.htvapps.com/vidthumb/9eda8661-c3fd-427b-b65a-d13605a658a8/abaa897a-504e-44da-87ed-45fae1d1f076.jpg",
-  "imageCredit": "Image: KSBW Action News 8 (local)"
+  "imageAlt": null,
+  "imageCredit": "Image: KSBW Action News 8 (local)",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

@@ -7,5 +7,31 @@
   "date": "2026-10-05T20:01:00.000Z",
   "category": "public-safety",
   "image": "https://bloximages.newyork1.vip.townnews.com/montereycountynow.com/content/tncms/assets/v3/editorial/6/f7/6f7347b8-9268-4649-afb2-946a2a9543b6/6aa4981bb4766.image.jpg?resize=300%2C223",
-  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW"
+  "imageAlt": null,
+  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "KSBW Action News 8 (local)",
+      "url": "https://www.ksbw.com/article/14-year-old-girl-rescued-mexico-father-incest-arrest/74020695",
+      "title": "14-year-old Monterey County girl rescued in Mexico; father accused of incest arrested"
+    },
+    {
+      "name": "KSBW Action News 8 (local)",
+      "url": "https://www.ksbw.com/article/monterey-county-girl-safe-mexico-amber-alert-father-arrest/74041127",
+      "title": "Monterey County girl found safe in Mexico after amber alert, father arrested"
+    },
+    {
+      "name": "County of Monterey News",
+      "url": "https://www.countyofmonterey.gov/Home/Components/News/News/12462/",
+      "title": "14-Year-Old Diana Galvez Ortega Safely Rescued in Mexico; Sergio Galvez Perez Arrested"
+    },
+    {
+      "name": "MC NOW (Español)",
+      "url": "https://www.montereycountynow.com/svnow/translation/encuentran-en-m-xico-a-la-joven-de-14-a-os-que-dio-a-luz/article_85330190-faa5-41b2-9a0c-aee186848df7.html",
+      "title": "Encuentran en México a la joven de 14 años que dio a luz a la “Bebé Angelita”; el padre está bajo custodia."
+    }
+  ]
 }

@@ -6,6 +6,11 @@
   "link": "https://www.ci.seaside.ca.us/CivicAlerts.aspx?aid=926",
   "date": "2026-09-23T23:05:54.000Z",
   "category": "government",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/government/2.webp",
+  "imageAlt": "Illustration of a mission-style adobe building with a bell tower and bougainvillea on a sunny day",
+  "imageCredit": "Illustration",
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

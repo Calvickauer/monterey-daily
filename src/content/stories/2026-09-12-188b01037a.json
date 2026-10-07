@@ -6,6 +6,17 @@
   "link": "https://voicesofmontereybay.org/2026/09/12/coming-home-to-the-land/",
   "date": "2026-09-12T23:52:25.000Z",
   "category": "community",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/community/3.webp",
+  "imageAlt": "Illustration of a downtown street at twilight with string lights and colorful storefronts",
+  "imageCredit": "Illustration",
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": [
+    {
+      "name": "Voices of Monterey Bay (Español)",
+      "url": "https://voicesofmontereybay.org/2026/09/27/regreso-al-hogar-a-la-tierra/",
+      "title": "Regreso al hogar, a la tierra"
+    }
+  ]
 }

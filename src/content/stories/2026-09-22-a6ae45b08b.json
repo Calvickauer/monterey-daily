@@ -7,5 +7,10 @@
   "date": "2026-09-22T23:04:08.000Z",
   "category": "community",
   "image": "https://www.cityofmarina.org/ImageRepository/Document?documentID=17368",
-  "imageCredit": "Image: City of Marina News Flash"
+  "imageAlt": null,
+  "imageCredit": "Image: City of Marina News Flash",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

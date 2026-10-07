@@ -7,5 +7,10 @@
   "date": "2026-09-16T23:00:42.000Z",
   "category": "environment",
   "image": "https://www.mbari.org/wp-content/uploads/CFE_ChasingMarineSnowstormsFall2026_13_ColleenDurkin_1150-300x400.jpeg",
-  "imageCredit": "Image: MBARI News"
+  "imageAlt": null,
+  "imageCredit": "Image: MBARI News",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

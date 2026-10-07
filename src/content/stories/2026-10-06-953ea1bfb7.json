@@ -7,5 +7,10 @@
   "date": "2026-10-06T18:40:45.000Z",
   "category": "environment",
   "image": "https://www.mbari.org/wp-content/uploads/2026DavidPackardDistinguishedLectureAward_05_RoseDalrymple_1150-300x450.jpg",
-  "imageCredit": "Image: MBARI News"
+  "imageAlt": null,
+  "imageCredit": "Image: MBARI News",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

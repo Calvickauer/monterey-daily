@@ -6,6 +6,11 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/1143/",
   "date": "2026-10-03T15:00:00.000Z",
   "category": "weather",
-  "image": null,
-  "imageCredit": null
+  "image": "/illustrations/weather/2.webp",
+  "imageAlt": "Illustration of a storm over the ocean with rain and lightning",
+  "imageCredit": "Illustration",
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

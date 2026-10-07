@@ -7,5 +7,10 @@
   "date": "2026-09-22T21:40:14.000Z",
   "category": "environment",
   "image": "https://www.mbari.org/wp-content/uploads/ClimateWeek26_Mon21_quickselects_029_1150-300x200.jpg",
-  "imageCredit": "Image: MBARI News"
+  "imageAlt": null,
+  "imageCredit": "Image: MBARI News",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

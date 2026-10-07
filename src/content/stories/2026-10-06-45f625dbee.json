@@ -7,5 +7,10 @@
   "date": "2026-10-06T17:31:00.000Z",
   "category": "community",
   "image": "https://kubrick.htvapps.com/htv-prod-media.s3.amazonaws.com/images/trump-ap-1519332499.jpg",
-  "imageCredit": "Image: KSBW Action News 8 (local)"
+  "imageAlt": null,
+  "imageCredit": "Image: KSBW Action News 8 (local)",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

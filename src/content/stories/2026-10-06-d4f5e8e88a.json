@@ -7,5 +7,10 @@
   "date": "2026-10-06T17:27:43.000Z",
   "category": "government",
   "image": "https://lookout.co/wp-content/uploads/2025/11/2025-11-12-PVUSD-meeting-14-scaled.jpg",
-  "imageCredit": "Image: Lookout Santa Cruz (regional)"
+  "imageAlt": null,
+  "imageCredit": "Image: Lookout Santa Cruz (regional)",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

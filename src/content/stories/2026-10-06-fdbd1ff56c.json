@@ -7,5 +7,10 @@
   "date": "2026-10-06T23:02:00.000Z",
   "category": "environment",
   "image": "https://bloximages.newyork1.vip.townnews.com/montereycountynow.com/content/tncms/assets/v3/editorial/7/71/7717f2c1-d8fc-4e8d-bfe4-655629858239/6ac57def34748.image.jpg?resize=300%2C200",
-  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW"
+  "imageAlt": null,
+  "imageCredit": "Image: Monterey County Weekly / Monterey County NOW",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

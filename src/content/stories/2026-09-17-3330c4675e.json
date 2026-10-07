@@ -7,5 +7,10 @@
   "date": "2026-09-17T16:00:09.000Z",
   "category": "environment",
   "image": "https://www.mbari.org/wp-content/uploads/AUV2026Symposium_01_QuinnShemet_1150-300x200.jpg",
-  "imageCredit": "Image: MBARI News"
+  "imageAlt": null,
+  "imageCredit": "Image: MBARI News",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }

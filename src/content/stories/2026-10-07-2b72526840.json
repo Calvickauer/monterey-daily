@@ -7,5 +7,10 @@
   "date": "2026-10-07T00:04:00.000Z",
   "category": "public-safety",
   "image": "https://kubrick.htvapps.com/htv-prod/images/59ff1157-1f2c-49ac-9d50-2a46fe3af002.jpg",
-  "imageCredit": "Image: KSBW Action News 8 (local)"
+  "imageAlt": null,
+  "imageCredit": "Image: KSBW Action News 8 (local)",
+  "imageGenerated": false,
+  "imageKind": "photo",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
 }
