@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12468/",
   "date": "2026-10-06T22:26:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/3.webp",
-  "imageAlt": "Illustration of a smoky ridge at sunset with an air tanker flying overhead",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-10-06-df835ac4cb.webp",
+  "imageAlt": "Rolls of razor wire on top of a fence at a correctional facility",
+  "imageCredit": "Photo: Tony Webster / Wikimedia Commons, CC BY 2.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Rolls_of_razor_barbed_wire_fence_at_a_prison_correctional_facility.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Tony Webster",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rolls_of_razor_barbed_wire_fence_at_a_prison_correctional_facility.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

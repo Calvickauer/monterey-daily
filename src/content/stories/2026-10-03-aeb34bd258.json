@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/1143/",
   "date": "2026-10-03T15:00:00.000Z",
   "category": "weather",
-  "image": "/illustrations/weather/2.webp",
-  "imageAlt": "Illustration of a storm over the ocean with rain and lightning",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-10-03-aeb34bd258.webp",
+  "imageAlt": "A digital thermometer reading 100 degrees",
+  "imageCredit": "Photo: Famartin / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:2026-07-02_13_47_58_Nimbus_digital_thermometer_displaying_a_temperature_of_100.0_degrees_Fahrenheit_at_the_National_Weather_Service%27s_Philadelphia-Mount_Holly_Weather_Forecast_Office_in_Westampton,_New_Jersey.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Famartin",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2026-07-02_13_47_58_Nimbus_digital_thermometer_displaying_a_temperature_of_100.0_degrees_Fahrenheit_at_the_National_Weather_Service%27s_Philadelphia-Mount_Holly_Weather_Forecast_Office_in_Westampton,_New_Jersey.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

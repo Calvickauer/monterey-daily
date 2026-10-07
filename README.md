@@ -36,14 +36,27 @@ Story JSON (`src/content/stories/<id>.json`) always carries:
 - `image`, `imageAlt` (string|null), `imageCredit` (string|null), `imageCreditUrl` (string|null), `imageGenerated` (boolean, === `imageKind === 'illustration'`), `imageKind`, `imageAttribution` (object|null).
   - `imageKind: 'source'`: publisher (outlet) image from the feed or og:image (`imageGenerated: false`).
   - `imageKind: 'stock'`: matched freely licensed photo at `/photos/<id>.webp` (`imageGenerated: false`), with
-    `imageAttribution: { author, authorUrl?, source, sourceUrl, license, licenseUrl? }` `imageCredit: "Photo: {author} / {source}, {license}"` and `imageCreditUrl` = source page.
+    `imageAttribution: { author, authorUrl?, source, sourceUrl, license, licenseUrl?, changes? }`, `imageCreditUrl` = source page and
+    `imageCredit: "Photo: {author} / {source}, {license}"` plus ` (cropped)`/` (resized)` for CC BY* photos we modified (full note in `imageAttribution.changes`).
+    `imageFilePhoto: true` (credit prefixed `File photo. `) when the manifest alt says "(file photo)"; `false` otherwise. Only stock stories carry this key.
+    Stock photos go only to primary stories (not folded duplicates). Manifest entries missing an author/license, or with an NC/ND/non-free license, are skipped and reported.
   - `imageKind: 'illustration'`: code-drawn category art at `/illustrations/<category>/<n>.webp` (`imageGenerated: true`, credit `Illustration`).
   - Local image paths are root-relative; the UI prefixes the Pages base (`imgSrc` in `src/media.js`).
 
+Dedupe rules (`scripts/lib/dedupe.mjs`): normalized URL; headline token Jaccard >= 0.6 within 48h; a rare-word "same event" rule across different outlets only
+(36h, IDF-weighted); same outlet re-publishing an identical summary within 7 days; Spanish twins. Follow-up pieces ("What we know...", "Timeline", live updates)
+and opposite status updates (issued vs lifted) never fold. `alsoCoveredBy` entries that point at a standalone story are dropped.
+
+Fetching (`scripts/lib/http.mjs`): every request retries 429/5xx/network errors up to 3 tries with exponential backoff + jitter, honors `Retry-After`
+(capped at 15s) and stops within a 45s budget per URL. A feed that still fails is logged as a GitHub `::warning` and skipped; the run continues.
+Per source in `scripts/sources.json`: `"user_agent": "browser"` (or a literal UA string) sends browser-like `User-Agent`/`Accept` headers (used for
+City of Pacific Grove, which 403s the bot UA from Actions), and `"headers": {...}` adds extra request headers.
+
 Scripts:
 
-- `npm run fetch`: fetch feeds, dedupe against the whole archive (normalized URL, fuzzy headline within 48h, Spanish twins), then assign images (photo > stock > illustration).
+- `npm run fetch`: fetch feeds, dedupe against the whole archive, then assign images (source > stock > illustration). Log line: `images: N source, N stock, N illustration`.
 - `npm run dedupe`: one-off/maintenance dedupe of the whole archive (`-- --dry` to preview).
-- `npm run backfill-images`: idempotent. Syncs `/workspace/monterey-news/illustrations` and `/workspace/monterey-news/photos` (override with `--src=` / `--photos-src=`), tries og:image, then wires stock photos and illustrations. Rerun whenever new photos land.
+- `npm run backfill-images`: idempotent. Syncs `/workspace/monterey-news/illustrations` and `/workspace/monterey-news/photos` (override with `--src=` / `--photos-src=`), tries og:image (`--no-og` to skip), copies only the stock photos actually used into `public/photos/` (recompressing anything over ~150KB at 1200px wide), then wires stock photos and illustrations. Rerun whenever new photos land.
+- `node scripts/recategorize.mjs [--dry]`: re-runs category rules over the archive (road closures, slides, Highway 1/Caltrans and traffic advisories are `public-safety`).
 - `node scripts/purge-nws.mjs`: removes archived NWS alerts that don't name Monterey County zones.
-- `npm test`: unit tests for dedupe and image assignment.
+- `npm test`: unit tests for dedupe, categorization, retry/headers, stock photo validation and image assignment.

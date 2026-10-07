@@ -13,5 +13,16 @@
   "imageGenerated": false,
   "imageKind": "source",
   "imageAttribution": null,
-  "alsoCoveredBy": []
+  "alsoCoveredBy": [
+    {
+      "name": "Monterey County Weekly / Monterey County NOW",
+      "url": "https://www.montereycountynow.com/svnow/opinion/the-monterey-county-weekly-editorial-board-weighed-in-on-ballot-measures-and-propositions-now-it/article_91666c73-177d-4149-b171-f12e847c9715.html",
+      "title": "The Monterey County Weekly editorial board weighed in on ballot measures and propositions. Now it’s your turn to decide."
+    },
+    {
+      "name": "MC NOW (Español)",
+      "url": "https://www.montereycountynow.com/svnow/translation/la-junta-editorial-de-monterey-county-weekly-da-su-opini-n-sobre-las-medidas-electorales/article_600e9184-46dc-445a-a80c-0a9264c9250e.html",
+      "title": "La junta editorial de Monterey County Weekly da su opinión sobre las medidas electorales y las proposiciones. Ahora es su turno de decidir."
+    }
+  ]
 }

@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12460/",
   "date": "2026-09-30T21:57:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/1.webp",
-  "imageAlt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-30-3c62726eac.webp",
+  "imageAlt": "A wheel of soft raw milk cheese cut open on a wooden board",
+  "imageCredit": "Photo: Myrabella / Wikimedia Commons, CC BY-SA 3.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Coulommiers_lait_cru.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Myrabella",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coulommiers_lait_cru.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

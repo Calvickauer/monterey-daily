@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/09/04/mother-of-newborn-baby-anjelita-not-being-sought-on-criminal-charges/",
   "date": "2026-09-04T07:10:41.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/1.webp",
-  "imageAlt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-04-f8c202ea96.webp",
+  "imageAlt": "A wooden gavel resting on a courtroom bench",
+  "imageCredit": "Photo: Joe Gratz / Wikimedia Commons, CC0",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Courtroom_One_Gavel_-_Flickr_-_Joe_Gratz.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Joe Gratz",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Courtroom_One_Gavel_-_Flickr_-_Joe_Gratz.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

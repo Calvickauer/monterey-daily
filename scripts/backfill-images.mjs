@@ -13,8 +13,7 @@ const src = arg('src', process.env.ILLUSTRATIONS_SRC || '/workspace/monterey-new
 const sync = syncLibrary(src);
 console.log(sync.ok ? `library synced from ${src}: ${sync.copied.length} file(s) updated` : `library source ${src} not found; using public/illustrations as-is`);
 const photoSrc = arg('photos-src', process.env.PHOTOS_SRC || '/workspace/monterey-news/photos');
-const ps = syncPhotos(photoSrc);
-console.log(ps.ok ? `stock photos synced from ${photoSrc}: ${ps.copied.length} file(s) updated` : `stock photo source ${photoSrc} not found; using public/photos as-is`);
+
 const lib = loadLibrary();
 console.log('library:', Object.fromEntries(Object.entries(lib).map(([k, v]) => [k, v.length])));
 const all = loadArchive();
@@ -26,8 +25,12 @@ if (!process.argv.includes('--no-og')) {
     if (im) { Object.assign(s, { image: im, imageAlt: null, imageCredit: `Image: ${s.source}`, imageGenerated: false }); og++; }
   }));
 }
+// Stock photos: copy only those used (story exists and has no publisher image), recompress big ones.
+const ps = await syncPhotos(photoSrc, { wanted: stem => { const s = all.find(x => x.id === stem); return !!s && !hasRealImage(s); } });
+if (ps.ok) console.log({ stockUsed: ps.used.length, stockSkipped: ps.skipped, stockNotNeeded: ps.notNeeded, recompressed: ps.recompressed, removedFromPublic: ps.removed });
+else console.log(`stock photo manifest not found in ${photoSrc}; using public/photos as-is`);
 const res = assignImages(all, { lib });
 let written = 0; for (const s of all) if (writeStory(s)) written++;
-console.log({ stories: all.length, photo: res.photo, ogImagesFound: og, stock: res.stock, stockNewlyWired: res.stockNew,
+console.log({ stories: all.length, source: res.source, ogImagesFound: og, stock: res.stock, stockNewlyWired: res.stockNew,
   illustration: res.illustration, illustrationByCategory: res.byCategory, withoutImage: res.none, filesWritten: written });
 if (!Object.keys(lib).length) console.log('NOTE: illustration library is empty; rerun this script once it lands.');

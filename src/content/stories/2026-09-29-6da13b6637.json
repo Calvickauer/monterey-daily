@@ -6,12 +6,20 @@
   "link": "https://www.countyofmonterey.gov/Home/Components/News/News/12456/",
   "date": "2026-09-29T08:00:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/2.webp",
-  "imageAlt": "Illustration of a fire station with an engine in an open bay at evening",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-29-6da13b6637.webp",
+  "imageAlt": "Wildfire smoke rising over the Santa Lucia Mountains during the 2016 Soberanes Fire (file photo)",
+  "imageCredit": "File photo. Photo: U.S. Forest Service (USDA) / Wikimedia Commons, Public domain",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Fire-Soberanes_Fire_-_Mountain_View_.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": true,
+  "imageAttribution": {
+    "author": "U.S. Forest Service (USDA)",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fire-Soberanes_Fire_-_Mountain_View_.jpg",
+    "license": "Public domain",
+    "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

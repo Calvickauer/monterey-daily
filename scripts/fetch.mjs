@@ -6,6 +6,7 @@ import { normalizeUrl } from './lib/dedupe.mjs';
 import { loadArchive, dedupeAndPrune, writeStory } from './lib/store.mjs';
 import { assignImages } from './lib/illustrations.mjs';
 import { ogImage, NO_OG } from './lib/og.mjs';
+import { fetchWithRetry, sourceHeaders } from './lib/http.mjs';
 const UA = 'MontereyDaily/1.0 (+https://github.com/Calvickauer/monterey-daily; contact: calvickauer@users.noreply.github.com)';
 const DRY = process.argv.includes('--dry'); // fetch + report, write nothing
 const T0 = Date.now();
@@ -32,19 +33,20 @@ const montereyAreas = p => String(p.areaDesc||'').split(';').map(a=>a.trim()).fi
 const appliesToMonterey = p => { const g=p.geocode||{}; const geo=(g.SAME||[]).includes('006053') || (g.UGC||[]).some(z=>MONTEREY_UGC.has(z)) || (p.affectedZones||[]).some(u=>MONTEREY_UGC.has(String(u).split('/').pop()));
   return geo && (montereyAreas(p).length>0 || (g.UGC||[]).some(z=>MONTEREY_UGC.has(z))); };
 const cat = (t, s) => (s.name.includes('NWS')?'weather':CATS.find(([,r])=>r.test(t))?.[0]) || 'community';
-async function get(url){ const r = await fetch(url,{headers:{'User-Agent':UA,'Accept':'*/*'},signal:AbortSignal.timeout(20000)}); if(!r.ok) throw new Error(r.status); return r.text(); }
+// Shared fetch helper: per-source UA/headers (sources.json "user_agent"/"headers"), retry on 429/5xx with backoff.
+async function get(url, src = {}){ const r = await fetchWithRetry(url,{headers:sourceHeaders(src),timeoutMs:20000,log:m=>console.warn(m)}); return r.text(); }
 const report = []; const items = [];
 for (const s of sources) {
   try {
     let list = [];
     if (s.type==='api') {
-      const j = JSON.parse(await get(s.feed_url));
+      const j = JSON.parse(await get(s.feed_url, s));
       // Keep only alerts that apply to Monterey County (SAME 006053 / Monterey UGC zones) and title them with the
       // Monterey County zones only (multi-county alerts list e.g. Sonoma zones first).
       list = j.features.filter(f=>appliesToMonterey(f.properties)).map(f=>{ const p=f.properties; const areas=montereyAreas(p);
         return {title:`${p.event}: ${areas.length ? areas.slice(0,3).join(', ') : 'Monterey County'}`, link:p['@id']||f.id, date:p.sent, summary:p.headline||p.description, image:null}; });
     } else {
-      const x = p.parse(await get(s.feed_url)); const ch = x.rss?.channel; let raw = ch?.item ?? x.feed?.entry ?? []; if(!Array.isArray(raw)) raw=[raw];
+      const x = p.parse(await get(s.feed_url, s)); const ch = x.rss?.channel; let raw = ch?.item ?? x.feed?.entry ?? []; if(!Array.isArray(raw)) raw=[raw];
       list = raw.slice(0,30).map(i=>{ const html = txt(i['content:encoded'])||txt(i.description);
         const mc=[].concat(i['media:content']||[],i['media:thumbnail']||[],i.enclosure||[]).find(m=>m?.['@url']&&!/audio|video/.test(m['@type']||''));
         const img = html.match(/<img[^>]*>/i)?.[0] || '';
@@ -69,7 +71,7 @@ for (const s of sources) {
     let n=0;
     for (const i of list) { if(!i.title||!i.link) continue; const d=new Date(i.date); i.date=isNaN(d)?new Date().toISOString():d.toISOString(); i.link=i.link.replace(/^http:\/\//i,'https://'); i.source=s.name; i.sourceUrl=s.url; items.push(i); n++; }
     report.push(`${s.name}: ${n}`);
-  } catch(e){ report.push(`${s.name}: FAILED (${e.message})`); }
+  } catch(e){ report.push(`${s.name}: FAILED (${e.message})`); console.warn(`::warning title=Feed skipped::${s.name}: ${e.message} (continuing without it)`); }
 }
 // ---- merge with archive, dedupe (URL + fuzzy headline), write ----
 const archive = loadArchive();
@@ -98,6 +100,7 @@ let written = 0;
 if (!DRY) for (const s of res.kept) { delete s._new; if (writeStory(s)) written++; }
 console.log(report.join('\n'));
 console.log(`fetched ${items.length}, new ${fresh.filter(s=>s._new).length}, added ${keptNew.length}`);
+for (const r of res.removed) if (r.reason !== 'url') console.log(`  ${r.reason} merge: [${r.story.source}] ${r.story.headline.slice(0, 90)}\n      into [${r.keptAs.source}] ${r.keptAs.headline.slice(0, 90)}`);
 console.log(`dedupe: removed ${res.stats.removedUrl} by URL, ${res.stats.removedFuzzy} by headline, ${res.stats.removedTranslation} Spanish translations; archive ${archive.length} -> ${res.kept.length}`);
-console.log(`images: ${img.photo} photo, ${img.stock} stock (${img.stockNew} newly wired), ${img.illustration} illustration (${img.illustrationsChanged} assigned this run ${JSON.stringify(img.byCategory)}), ${img.none} without image`);
+console.log(`images: ${img.source} source, ${img.stock} stock (${img.stockNew} newly wired), ${img.illustration} illustration (${img.illustrationsChanged} assigned this run ${JSON.stringify(img.byCategory)}), ${img.none} without image`);
 console.log(`files written ${written}${DRY?' (dry run)':''}; ${Math.round((Date.now()-T0)/1000)}s`);

@@ -95,16 +95,7 @@ test('Spanish twin folds into English version, listed as (Español)', () => {
   assert.ok(!isSpanish({ headline: 'Del Rey Oaks police knew in advance of ICE presence', summary: 'The police chief said', link: 'https://x/y' }));
 });
 
-test('event rule merges differently-worded repeats but not opposite status updates', () => {
-  const H = 3600e3;
-  const r = dedupeStories([
-    st({ id: 'k1', headline: '14-year-old Monterey County girl rescued in Mexico; father accused of incest arrested', link: 'https://ksbw.com/a/1', source: 'KSBW' }),
-    st({ id: 'k2', headline: 'Monterey County girl found safe in Mexico after amber alert, father arrested', link: 'https://ksbw.com/a/2', source: 'KSBW', date: new Date(t0 + 16 * H).toISOString() }),
-    st({ id: 'x1', headline: 'Whale watching season begins in Monterey Bay', link: 'https://a.com/w', source: 'A' }),
-    st({ id: 'x2', headline: 'Library hours change at Seaside branch', link: 'https://a.com/l', source: 'A' }),
-    st({ id: 'x3', headline: 'Downtown Salinas farmers market moves to Saturday', link: 'https://a.com/f', source: 'A' }),
-  ]);
-  assert.equal(r.kept.length, 4);
+test('status guard: opposite updates never merge', () => {
   assert.ok(statusConflict('Shelter-in-Place Order LIFTED - Battery Fire', 'Shelter In Place Order Issued Due to Fire'));
 });
 

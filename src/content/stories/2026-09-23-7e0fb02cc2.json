@@ -6,12 +6,20 @@
   "link": "https://www.ci.seaside.ca.us/CivicAlerts.aspx?aid=925",
   "date": "2026-09-23T22:26:00.000Z",
   "category": "public-safety",
-  "image": "/illustrations/public-safety/1.webp",
-  "imageAlt": "Illustration of a coastal highway curving along cliffs at dusk with distant emergency lights",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-09-23-7e0fb02cc2.webp",
+  "imageAlt": "Coastal dunes and ice plant in Seaside, California, with Monterey Bay beyond",
+  "imageCredit": "Photo: Clotee Allochuku (Panoramio) / Wikimedia Commons, CC BY-SA 3.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Seaside,_CA,_USA_-_panoramio.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Clotee Allochuku (Panoramio)",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seaside,_CA,_USA_-_panoramio.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }

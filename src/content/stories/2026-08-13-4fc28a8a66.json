@@ -6,12 +6,20 @@
   "link": "https://voicesofmontereybay.org/2026/08/12/an-idea-born-in-an-airport-became-one-of-salinas-most-enduring-nights-of-art/",
   "date": "2026-08-13T05:14:02.000Z",
   "category": "community",
-  "image": "/illustrations/community/3.webp",
-  "imageAlt": "Illustration of a downtown street at twilight with string lights and colorful storefronts",
-  "imageCredit": "Illustration",
-  "imageCreditUrl": null,
-  "imageGenerated": true,
-  "imageKind": "illustration",
-  "imageAttribution": null,
+  "image": "/photos/2026-08-13-4fc28a8a66.webp",
+  "imageAlt": "Main Street in downtown Salinas, California, lined with shops and trees",
+  "imageCredit": "Photo: Agarre16 / Wikimedia Commons, CC BY-SA 4.0 (cropped)",
+  "imageCreditUrl": "https://commons.wikimedia.org/wiki/File:Main_Street_Salinas_City_Center_1.jpg",
+  "imageGenerated": false,
+  "imageKind": "stock",
+  "imageFilePhoto": false,
+  "imageAttribution": {
+    "author": "Agarre16",
+    "source": "Wikimedia Commons",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Main_Street_Salinas_City_Center_1.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "Resized to 1200px wide and cropped; converted to WebP"
+  },
   "alsoCoveredBy": []
 }
