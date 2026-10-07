@@ -4,7 +4,7 @@ import path from 'node:path';
 import { dedupeStories } from './dedupe.mjs';
 
 export const OUT = 'src/content/stories';
-const ORDER = ['headline', 'summary', 'source', 'sourceUrl', 'link', 'date', 'category', 'image', 'imageAlt', 'imageCredit', 'imageCreditUrl', 'imageGenerated', 'imageKind', 'imageAttribution', 'alsoCoveredBy'];
+const ORDER = ['headline', 'summary', 'source', 'sourceUrl', 'link', 'date', 'category', 'image', 'imageAlt', 'imageCredit', 'imageCreditUrl', 'imageGenerated', 'imageKind', 'imageFilePhoto', 'imageAttribution', 'alsoCoveredBy'];
 
 /** Fill contract fields: imageGenerated (bool), imageAlt (string|null), imageAttribution (object|null), alsoCoveredBy (array) are always present. */
 export function withDefaults(s) {

@@ -115,23 +115,23 @@ export function assignIllustrations(stories, { lib = loadLibrary(), alts = loadA
 
 /**
  * Full image pass. Priority per story: publisher photo (feed/og:image, imageKind 'source')
- * -> matched stock photo public/photos/<id>.webp ('stock') -> category illustration ('illustration').
+ * -> matched stock photo public/photos/<file from manifest> ('stock') -> category illustration ('illustration').
  * Sets image, imageAlt, imageCredit, imageCreditUrl, imageGenerated (=== kind 'illustration'), imageKind, imageAttribution. Idempotent: stories are
  * upgraded from illustration to stock as soon as a photo file exists.
  * `only` limits which illustration assignments may change (null = recompute all, used by the backfill).
  */
 export function assignImages(stories, { only = null, publicDir = 'public', lib = loadLibrary(), alts = loadAlts(), photos = loadPhotoManifest(path.join(publicDir, 'photos')) } = {}) {
-  const res = { photo: 0, stock: 0, stockNew: 0, illustration: 0, none: 0, byCategory: {} };
+  const res = { source: 0, stock: 0, stockNew: 0, illustration: 0, none: 0, byCategory: {} };
   const rest = [];
   for (const s of stories) {
-    if (hasRealImage(s)) { Object.assign(s, { imageGenerated: false, imageKind: 'source', imageAttribution: null, imageCreditUrl: null }); if (s.imageAlt === undefined) s.imageAlt = null; res.photo++; continue; }
-    if (hasPhotoFile(s.id, publicDir)) {
+    if (hasRealImage(s)) { Object.assign(s, { imageGenerated: false, imageKind: 'source', imageAttribution: null, imageCreditUrl: null }); delete s.imageFilePhoto; if (s.imageAlt === undefined) s.imageAlt = null; res.source++; continue; }
+    if (hasPhotoFile(s.id, publicDir, photos)) {
       if (s.imageKind !== 'stock') res.stockNew++;
       Object.assign(s, stockFields(s.id, photos[s.id]));
       res.stock++; continue;
     }
     if (s.imageKind === 'stock' || String(s.image || '').startsWith('/photos/')) s.image = null; // photo removed -> illustration
-    s.imageAttribution = null; s.imageCreditUrl = null;
+    s.imageAttribution = null; s.imageCreditUrl = null; delete s.imageFilePhoto;
     rest.push(s);
   }
   const ill = assignIllustrations(rest, { lib, alts, only, publicDir });
