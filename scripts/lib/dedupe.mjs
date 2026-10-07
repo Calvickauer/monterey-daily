@@ -70,6 +70,9 @@ const SYN = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', se
   death: 'dead', collision: 'crash', crashe: 'crash', blaze: 'fire', wildfire: 'fire' };
 
 // Opposite status words: "order issued" vs "order lifted" are separate updates, never merge them.
+// Follow-up pieces ("What we know about the victims") are separate stories, never repeats.
+export const FOLLOW_UP = /^\s*(what (we|you) know|what to know|who (was|were|is)\b|timeline\b|live( updates)?\b|explainer\b|analysis:|q ?& ?a\b)/i;
+
 const STATUS_A = /\b(lifted|ended|expire[ds]?|cancell?ed|rescinded|reopen(s|ed|ing)?|contained|over)\b/i;
 const STATUS_B = /\b(issued|ordered|extended|closed|closes|closure|begins?|starts?|announced)\b/i;
 export function statusConflict(h1, h2) {
@@ -170,15 +173,29 @@ export function clusterStories(stories, { threshold = 0.6, windowHours = 48, eve
       const j = order[y];
       if (spanish[i] !== spanish[j]) continue; // cross-language handled below
       if (statusConflict(stories[i].headline, stories[j].headline)) continue;
+      if (FOLLOW_UP.test(stories[i].headline) || FOLLOW_UP.test(stories[j].headline)) continue; // follow-ups stay separate
       const sim = jaccard(toks[i], toks[j]);
       let hit = sim >= threshold, kind = 'jaccard';
-      if (!hit && t[j] - t[i] <= ev) {
+      // Same-event rule only links different outlets (one outlet's later stories are follow-ups, not repeats).
+      if (!hit && t[j] - t[i] <= ev && stories[i].source !== stories[j].source) {
         let shared = 0; for (const w of toks[i]) if (toks[j].has(w)) shared++;
         const w = shared >= 4 ? wjac(toks[i], toks[j]) : 0;
         if (w >= 0.4) { hit = true; kind = 'event'; }
       }
       if (hit) { fuzzyPairs.push([i, j, sim, kind]); union(i, j); }
     }
+  }
+  // 2b) Same outlet re-publishing the same piece (identical substantive summary) within 7 days,
+  //     e.g. MC NOW running a Weekly editorial again on /svnow/ with a reworded headline.
+  const sumKey = stories.map(st => { const x = plain(st.summary || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    return x.length >= 80 && x !== plain(st.headline || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim() ? x : null; });
+  const bySum = new Map();
+  for (const i of order) {
+    const k = sumKey[i] && `${stories[i].source}|${sumKey[i]}`;
+    if (!k) continue;
+    const prev = bySum.get(k);
+    if (prev != null && t[i] - t[prev] <= 7 * 24 * HOURS && !statusConflict(stories[i].headline, stories[prev].headline)) { union(prev, i); fuzzyPairs.push([prev, i, 1, 'republish']); }
+    else bySum.set(k, i);
   }
   // 3) Spanish -> English twin (same outlet; MC NOW posts minutes apart, VoMB up to ~3 weeks later)
   const translationPairs = [];
@@ -238,6 +255,14 @@ export function dedupeStories(stories, opts = {}) {
     if (ac.length) stats.clusters++;
     kept.push({ ...best, alsoCoveredBy: ac });
   }
+  // An entry whose URL is itself a kept story (e.g. an un-merged follow-up) is not "also covered by".
+  const keptUrls = new Set(kept.map(k => normalizeUrl(k.link)));
+  for (const k of kept) {
+    const before = k.alsoCoveredBy.length;
+    k.alsoCoveredBy = k.alsoCoveredBy.filter(e => !keptUrls.has(normalizeUrl(e.url)));
+    stats.staleEntriesDropped = (stats.staleEntriesDropped || 0) + before - k.alsoCoveredBy.length;
+  }
+  stats.clusters = kept.filter(k => k.alsoCoveredBy.length).length;
   stats.output = kept.length;
   stats.clustersMerged = clusters.filter(c => c.length > 1).length;
   return { kept, removed, stats };
