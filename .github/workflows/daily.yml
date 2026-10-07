@@ -13,12 +13,13 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
       - run: npm ci
+      - run: npm test
       - if: github.event_name != 'push'
-        run: npm run fetch
+        run: npm run fetch   # fetch + dedupe (URL / headline / Spanish twins) + photo > AI image > illustration
       - if: github.event_name != 'push'
         run: |
           git config user.name "monterey-daily-bot"; git config user.email "actions@users.noreply.github.com"
-          git add src/content/stories && (git diff --cached --quiet || (git commit -m "Daily stories $(date -u +%F)" && git push))
+          git add -A src/content/stories public && (git diff --cached --quiet || (git commit -m "Daily stories $(date -u +%F)" && git push))
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }

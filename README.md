@@ -20,3 +20,23 @@ The badge hides itself if the image fails to load.
 ## Content & SEO
 
 Summaries are built by `scripts/summarize.mjs` (entity decoding, boilerplate/byline removal, 1–2 sentences, ≤280 chars). `node --test scripts/` runs its tests; `node scripts/summary-report.mjs` prints before/after against the live feeds; `node scripts/resummarize.mjs` re-cleans stored stories. The build also emits `feed.xml` (RSS of our headlines, linking to the original articles), `sitemap.xml` and `robots.txt` from `src/pages/*.js`; nothing extra needs committing. Page metadata/OpenGraph/JSON-LD live in `src/components/Seo.astro` + `src/site.js`; `node scripts/og-image.mjs` regenerates `public/og-image.png` and `public/logo.png`.
+
+## Backend: dedupe & images
+
+Story JSON (`src/content/stories/<id>.json`) always carries:
+
+- `alsoCoveredBy: [{ name, url, title? }]`: other outlets (or Spanish twins, e.g. `MC NOW (Español)`) folded into this story; `[]` if none.
+- `image`, `imageAlt` (string|null), `imageCredit` (string|null), `imageGenerated` (boolean), `imageKind`, `imageAttribution`.
+  - `imageKind: 'photo'`: publisher image from the feed or og:image (`imageGenerated: false`).
+  - `imageKind: 'stock'`: matched freely licensed photo at `/photos/<id>.webp` (`imageGenerated: false`), with
+    `imageAttribution: { author, authorUrl?, source, sourceUrl, license, licenseUrl? }` and `imageCredit: "Photo: {author} / {source}, {license}"`.
+  - `imageKind: 'illustration'`: code-drawn category art at `/illustrations/<category>/<n>.webp` (`imageGenerated: true`, credit `Illustration`).
+  - Local image paths are root-relative; the UI prefixes the Pages base (`imgSrc` in `src/media.js`).
+
+Scripts:
+
+- `npm run fetch`: fetch feeds, dedupe against the whole archive (normalized URL, fuzzy headline within 48h, Spanish twins), then assign images (photo > stock > illustration).
+- `npm run dedupe`: one-off/maintenance dedupe of the whole archive (`-- --dry` to preview).
+- `npm run backfill-images`: idempotent. Syncs `/workspace/monterey-news/illustrations` and `/workspace/monterey-news/photos` (override with `--src=` / `--photos-src=`), tries og:image, then wires stock photos and illustrations. Rerun whenever new photos land.
+- `node scripts/purge-nws.mjs`: removes archived NWS alerts that don't name Monterey County zones.
+- `npm test`: unit tests for dedupe and image assignment.
