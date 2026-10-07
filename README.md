@@ -13,7 +13,7 @@ Motion uses only `transform` and `opacity`: staggered scroll-reveal for cards (I
 
 | `imageKind` | Image | On the card |
 |---|---|---|
-| `photo` | the outlet's own photo | existing "Image: …" credit caption (bottom right) |
+| `source` (alias `photo`) | the outlet's own photo | existing "Image: …" credit caption (bottom right), linked to `imageCreditUrl` when present |
 | `stock` | licensed stock photo (Wikimedia Commons, Unsplash, Pexels, NOAA…), root-relative or absolute URL | linked credit on a scrim along the bottom of the image |
 | `illustration` | code-drawn vector art, `public/illustrations/<category>/<n>.webp` | frosted "Illustration" pill, top left |
 

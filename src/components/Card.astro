@@ -34,8 +34,8 @@ const also = alsoCovered(s);
     </>)}
    </figcaption>
   )}
-  {/* Legacy stories without imageKind keep the outlet's "Image: …" caption; 'source'/'photo' get none. */}
-  {src && !kind && !s.imageKind && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
+  {/* Publisher photos ('source' / 'photo' / no imageKind) keep main's "Image: …" credit, linked when imageCreditUrl exists. */}
+  {src && !kind && !credit && s.imageKind !== 'stock' && s.imageCredit && <figcaption data-pagefind-ignore>{/^https?:\/\//i.test(s.imageCreditUrl || '') ? <a href={s.imageCreditUrl} target="_blank" rel="noopener">{s.imageCredit}</a> : s.imageCredit}</figcaption>}
  </figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>
@@ -71,6 +71,8 @@ const also = alsoCovered(s);
  .card figcaption.credit{left:0;right:0;bottom:0;max-width:none;padding:.3rem .6rem .35rem;border-radius:0;
    background:color-mix(in srgb,var(--pacific-950,#061a2b) 82%,transparent);color:var(--on-dark,#fff);
    font-size:.7rem;line-height:1.35;overflow-wrap:anywhere}
+ .card figcaption:not(.credit) a{color:inherit;text-decoration:underline;text-underline-offset:.14em}
+ .card figcaption:not(.credit) a:focus-visible{outline:2px solid var(--gold-400);outline-offset:1px}
  .credit a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em}
  .credit a:hover{color:var(--gold-200)}
  .credit a:focus-visible{outline:2px solid var(--gold-400);outline-offset:1px;border-radius:2px}
