@@ -1,0 +1,19 @@
+{
+  "name": "monterey-daily",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fetch": "node scripts/fetch.mjs",
+    "build": "astro build && pagefind --site dist --glob \"archive/**/*.html\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "astro": "^4.5.18",
+    "fast-xml-parser": "^5.11.2",
+    "pagefind": "^1.5.2"
+  },
+  "type": "module"
+}

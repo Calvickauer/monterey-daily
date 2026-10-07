@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro'; import Card from '../components/Card.astro'; import { stories } from '../lib.js';
+const top = []; const per = {};
+for (const s of stories) { if ((per[s.source]=(per[s.source]||0)+1) <= 4) top.push(s); if (top.length>=24) break; }
+const lead = top.findIndex(s=>s.image);
+if (lead>0) top.unshift(top.splice(lead,1)[0]);
+---
+<Base><h1 class="sec">Top Stories</h1><div class="grid">{top.map((s,i)=><Card s={s} lead={i===0}/>)}</div></Base>
