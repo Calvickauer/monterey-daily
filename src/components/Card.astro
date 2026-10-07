@@ -1,16 +1,55 @@
 ---
 import { CATS, B, fmt } from '../lib.js';
+import { imgSrc, alsoCovered } from '../media.js';
 import AiBadge from './AiBadge.astro';
-const { s, lead=false } = Astro.props;
-// Generated (AI) images: set "imageAiGenerated": true on a story JSON, or pass
-// ai={true} to <Card>. The figure gets data-ai-generated and a badge overlay.
-const ai = Boolean(Astro.props.ai ?? s.imageAiGenerated) && Boolean(s.image);
+const { s, lead = false, eager = lead } = Astro.props;
+const src = imgSrc(s.image);
+// AI illustration badge: driven by the backend's `imageGenerated` flag (or force with <Card ai/>).
+// The figure gets [data-ai-generated], the single hook for badge styling.
+const ai = Boolean(Astro.props.ai ?? s.imageGenerated ?? false) && Boolean(src);
+const also = alsoCovered(s);
 ---
-<article class:list={['card', `cat-${s.category}`, {lead}]}>
- <figure data-ai-generated={ai ? '' : undefined}>{s.image && <img src={s.image} alt={s.imageAlt || ''} loading={lead ? 'eager' : 'lazy'} decoding="async" referrerpolicy="no-referrer" onerror="this.remove()"/>}{ai && <AiBadge/>}{s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}</figure>
+<article class:list={['card', `cat-${s.category}`, { lead, 'is-eager': eager }]}>
+ <figure class:list={['card-media', { 'is-empty': !src }]} data-ai-generated={ai ? '' : undefined}>
+  {src && <img src={src} alt={s.imageAlt || ''} width="800" height="450"
+     loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding={eager ? 'auto' : 'async'}
+     referrerpolicy="no-referrer" class:list={[{ blurup: !eager }]}
+     onload="this.classList.add('is-loaded')" onerror="this.closest('figure').classList.add('is-empty');this.remove()"/>}
+  {ai && <AiBadge/>}
+  {src && !ai && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
+ </figure>
  <div class="body">
-  <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}</a></h3>
+  <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>
   <p>{s.summary}</p>
+  {also.length > 0 && (
+   <div class="also" data-pagefind-ignore>
+    <span class="also-label" aria-hidden="true">Also covered by</span>
+    <ul class="also-list" aria-label="Also covered by (links open in a new tab)">
+     {also.map((a) => <li><a href={a.url} target="_blank" rel="noopener noreferrer" title={a.title} hreflang={a.es ? 'es' : undefined} lang={a.es ? 'es' : undefined}>{a.name}</a></li>)}
+    </ul>
+   </div>
+  )}
   <p class="meta" data-pagefind-ignore><a class="chip" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
    <span>Source: <a class="src" href={s.sourceUrl} target="_blank" rel="noopener" data-pagefind-filter="source">{s.source}</a></span><time datetime={s.date}>{fmt(s.date)}</time></p>
  </div></article>
+
+<style>
+ /* Frontend polish layer: image loading + "Also covered by". Palette, badge pill,
+    reveal and hover motion live in src/styles/global.css (Stylist). */
+ .card{--ui-accent:var(--c,var(--pacific-700));--ui-fade:.35s}
+ /* Fixed 16:9 box (aspect-ratio + width/height attrs): no layout shift whether the
+    image loads, fails, or is lazy. The figure's category-tinted gradient is the placeholder. */
+ .card-media{aspect-ratio:16/9;contain:paint}
+ .card-media img{width:100%;height:100%;object-fit:cover;display:block}
+ /* Blur-up: the photo fades/un-blurs in over the placeholder once decoded. */
+ img.blurup{opacity:0;filter:blur(14px);transform:scale(1.03);transition:opacity var(--ui-fade) ease,filter var(--ui-fade) ease,transform var(--ui-fade) ease}
+ img.blurup.is-loaded{opacity:1;filter:none;transform:none}
+ @media (prefers-reduced-motion: reduce){img.blurup{transition:none;filter:none;transform:none}}
+
+ .also{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .5rem;font-size:.8rem;color:var(--muted)}
+ .also-label{font-weight:600}
+ .also-list{display:flex;flex-wrap:wrap;gap:.15rem .5rem;list-style:none;margin:0;padding:0}
+ .also-list li:not(:last-child)::after{content:"·";margin-left:.5rem;color:var(--muted)}
+ .also-list a{color:var(--ui-accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}
+ .also-list a:hover{text-decoration-thickness:2px}
+</style>
