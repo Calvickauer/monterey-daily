@@ -12,5 +12,5 @@ const ai = Boolean(Astro.props.ai ?? s.imageGenerated) && Boolean(s.image);
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}</a></h3>
   <p>{s.summary}</p>
   <p class="meta" data-pagefind-ignore><a class="chip" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
-   <span>Source: <a class="src" href={s.sourceUrl} target="_blank" rel="noopener" data-pagefind-filter="source">{s.source}</a></span><time datetime={s.date}>{fmt(s.date)}</time></p>
+   <span>Source: <a class="src" href={s.link} target="_blank" rel="noopener" title={`Read the full story at ${s.source}`} data-pagefind-filter="source">{s.source}</a></span><time datetime={s.date}>{fmt(s.date)}</time></p>
  </div></article>
