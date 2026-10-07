@@ -1,12 +1,14 @@
 ---
 import { CATS, B, fmt } from '../lib.js';
-import { imgSrc, alsoCovered } from '../media.js';
+import { imgSrc, alsoCovered, imageKind, stockCredit } from '../media.js';
 import ImageBadge from './ImageBadge.astro';
 const { s, lead = false, eager = lead } = Astro.props;
 const src = imgSrc(s.image);
-// Image badge (Lead Dev): driven only by the backend's `imageGenerated` flag; label is always
-// "Illustration". Override with <Card kind="illustration"/>. [data-image-kind] is the styling hook.
-const kind = src ? (Astro.props.kind ?? (s.imageGenerated ? 'illustration' : null)) : null;
+// Image badge: "Illustration" for imageKind 'illustration' (or missing imageKind + imageGenerated);
+// none for 'photo' / 'stock'. Override with <Card kind="illustration"/>. [data-image-kind] is the styling hook.
+const kind = src ? (Astro.props.kind ?? imageKind(s)) : null;
+// Licensed stock photos carry a linked credit caption (imageAttribution, falling back to imageCredit text).
+const credit = src && s.imageKind === 'stock' ? stockCredit(s) : null;
 // imageAlt (string | null): decorative alt="" when absent (or identical to the headline),
 // since the headline sits right below the image on cards.
 const rawAlt = typeof s.imageAlt === 'string' ? s.imageAlt.trim() : '';
@@ -20,7 +22,18 @@ const also = alsoCovered(s);
      referrerpolicy="no-referrer" class:list={[{ blurup: !eager }]}
      onload="this.classList.add('is-loaded')" onerror="this.closest('figure').classList.add('is-empty');this.remove()"/>}
   {kind && <ImageBadge kind={kind}/>}
-  {src && !kind && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
+  {credit && (
+   <figcaption class="credit" data-pagefind-ignore>
+    {credit.text ? credit.text : (<>
+     Photo:{' '}
+     {credit.author && (credit.authorUrl ? <a href={credit.authorUrl} target="_blank" rel="noopener">{credit.author}</a> : <span>{credit.author}</span>)}
+     {credit.author && credit.source && ' / '}
+     {credit.source && (credit.sourceUrl ? <a href={credit.sourceUrl} target="_blank" rel="noopener">{credit.source}</a> : <span>{credit.source}</span>)}
+     {credit.license && <>, {credit.licenseUrl ? <a href={credit.licenseUrl} target="_blank" rel="license noopener">{credit.license}</a> : <span>{credit.license}</span>}</>}
+    </>)}
+   </figcaption>
+  )}
+  {src && !kind && !credit && s.imageKind !== 'stock' && s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}
  </figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>
@@ -49,6 +62,16 @@ const also = alsoCovered(s);
  img.blurup{opacity:0;filter:blur(14px);transform:scale(1.03);transition:opacity var(--ui-fade) ease,filter var(--ui-fade) ease,transform var(--ui-fade) ease}
  img.blurup.is-loaded{opacity:1;filter:none;transform:none}
  @media (prefers-reduced-motion: reduce){img.blurup{transition:none;filter:none;transform:none}}
+
+ /* Stock-photo credit: full-width scrim pinned to the bottom of the 16:9 box (absolute, so no
+    layout shift; the Illustration badge sits top-left and never appears on stock photos).
+    on-dark text over pacific-950 at 82% stays >= 10:1 even over a pure-white photo. */
+ .card figcaption.credit{left:0;right:0;bottom:0;max-width:none;padding:.3rem .6rem .35rem;border-radius:0;
+   background:color-mix(in srgb,var(--pacific-950,#061a2b) 82%,transparent);color:var(--on-dark,#fff);
+   font-size:.7rem;line-height:1.35;overflow-wrap:anywhere}
+ .credit a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em}
+ .credit a:hover{color:var(--gold-200)}
+ .credit a:focus-visible{outline:2px solid var(--gold-400);outline-offset:1px;border-radius:2px}
 
  .also{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .5rem;font-size:.8rem;color:var(--muted)}
  .also-label{font-weight:600}
