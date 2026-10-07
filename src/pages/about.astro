@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro'; import { B } from '../lib.js'; import { SITE, outlets } from '../site.js';
+---
+<Base title="About – Monterey Daily" description="What Monterey Daily is: a daily digest of Monterey County headlines with short summaries that always link to the original outlet. How it updates, how sources are credited, and how AI illustrations are used.">
+<article class="prose">
+<h1 class="sec">About Monterey Daily</h1>
+<p><strong>{SITE.tagline}</strong></p>
+<p>Monterey Daily is a free news aggregator for Monterey County, California. Each morning it collects headlines from {outlets.length} sources (local newsrooms, public agencies and the National Weather Service) and puts them in one place, sorted by topic.</p>
+
+<h2>What we publish, and what we don’t</h2>
+<ul>
+ <li>For each story we show only the <strong>headline, a one- or two-sentence summary, the outlet’s name and the publication date</strong>.</li>
+ <li>Every headline and every outlet name <strong>links to the original article</strong> on the outlet’s own website. We never republish full articles; please read and support the reporting at the source.</li>
+ <li>Summaries are trimmed automatically from the outlet’s own feed description. Bylines, “read more” links and similar boilerplate are removed; nothing is rewritten to change its meaning.</li>
+ <li>We don’t report or edit news ourselves. All reporting, and the copyright in it, belongs to the original outlets. See <a href={`${B}/sources/`}>Sources</a> for the full list.</li>
+</ul>
+
+<h2>About the images and AI illustrations</h2>
+<p>When an outlet’s feed or story page includes a photo, we show it with a credit to that outlet (for example, “Image: KSBW Action News 8”).</p>
+<p>When a story has no photo, we may show an <strong>AI-generated illustration</strong> instead. These images are labeled <strong>“AI illustration”</strong> on the card. They are created by an image-generation model from the story’s general topic (for example “a coastal highway” or “a civic building”) and are <strong>for decoration only</strong>:</p>
+<ul>
+ <li>They are <strong>not photographs</strong> and do <strong>not depict the actual event, place, or people</strong> in the story.</li>
+ <li>They are generated without people, faces, names or text, and should never be read as evidence of what happened.</li>
+ <li>They are not produced by, or endorsed by, the outlet that reported the story.</li>
+</ul>
+
+<h2>How often it updates</h2>
+<p>An automated job runs <strong>once a day at 13:00 UTC</strong>, which is about <strong>6 a.m. Pacific Daylight Time</strong> (5 a.m. Pacific Standard Time). It checks every source, adds new stories, and republishes the site. Stories stay available in the <a href={`${B}/archive/`}>archive</a>, and you can follow along with our <a href={`${B}/feed.xml`}>RSS feed</a>.</p>
+
+<h2>Corrections and contact</h2>
+<p>If a headline, summary, date or credit is wrong, or you’re an outlet that would like a change in how your work is listed, please <a href={SITE.issues} rel="noopener">open an issue on our GitHub repository</a>. Corrections to the underlying reporting should go to the outlet that published it.</p>
+<p>The site’s code is open source at <a href={SITE.repo} rel="noopener">github.com/Calvickauer/monterey-daily</a>.</p>
+</article>
+</Base>

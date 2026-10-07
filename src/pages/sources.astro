@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro'; import { B, stories } from '../lib.js'; import { SITE, outlets, outletFor } from '../site.js';
+const counts = {}; for (const s of stories) { const k = outletFor(s).key; counts[k] = (counts[k] || 0) + 1; }
+// Every outlet that appears in stories should be listed, even if it's no longer an active feed.
+const extra = [...new Set(stories.map(s => s.source))].filter(k => !outlets.some(o => o.key === k)).map(k => outletFor(stories.find(s => s.source === k)));
+const list = [...outlets, ...extra].sort((a, b) => a.name.localeCompare(b.name));
+---
+<Base title="Sources – Monterey Daily" description={`The ${list.length} Monterey County news outlets and public agencies Monterey Daily links to, with links to each outlet’s homepage. All reporting and copyrights belong to them.`}>
+<article class="prose">
+<h1 class="sec">Sources</h1>
+<p>Monterey Daily is only possible because of the journalists and public-information staff below. We show a headline, a short summary and a link for each story; <strong>the full reporting lives on each outlet’s website, and all copyrights belong to the outlets</strong>. Please visit and support them.</p>
+<ul class="outlets">
+ {list.map(o => (
+  <li>
+   <a class="src" href={o.url} rel="noopener"><strong>{o.name}</strong></a> <span class="muted">· {new URL(o.url).hostname.replace(/^www\./, '')}</span>
+   {o.about && <p class="muted">{o.about}</p>}
+   {counts[o.key] ? <p class="muted">{counts[o.key]} {counts[o.key] === 1 ? 'story' : 'stories'} in our archive.</p> : null}
+  </li>
+ ))}
+</ul>
+<h2>How sources are used</h2>
+<p>We read each outlet’s public RSS feed (or, for weather alerts, the National Weather Service API) once a day. Regional outlets are filtered so that only stories mentioning Monterey County communities appear. Photos shown on cards come from the outlet and are credited to it; images labeled “AI illustration” are generated and are not photos of real events (see <a href={`${B}/about/`}>About</a>).</p>
+<p>Are you one of these outlets and want a change in how your work appears, or want to suggest a new source? <a href={SITE.issues} rel="noopener">Open an issue on GitHub</a>.</p>
+</article>
+</Base>
