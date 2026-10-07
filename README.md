@@ -7,15 +7,22 @@ Coastal palette tokens live in `src/styles/theme.css` (Pacific blues, kelp green
 
 Motion uses only `transform` and `opacity`: staggered scroll-reveal for cards (IntersectionObserver, only active once JS adds `html.js`, so cards are visible without JS), hover lift + tilt on precise pointers, a three-layer drifting wave in the masthead, and Astro View Transitions (`<ViewTransitions/>`) with a fade/slide between pages. `prefers-reduced-motion: reduce` turns all of it off and shows content immediately.
 
-### Illustration badge
+### Image kinds, badge and stock credits
 
-Fallback illustrations (generic vector art from `public/illustrations/<category>/<n>.webp`, not AI, not photos) get a small frosted "Illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "Illustration: not a photo of this story").
+`imageKind` (optional) says what a story image is:
 
-- Story data: the backend sets `"imageGenerated": true` (the only field the badge reads) and optionally `"imageAlt"`. Root-relative image paths get the site base prefixed. `imageAlt` becomes the `alt`; when absent (or identical to the headline) cards use `alt=""`.
-- `Card.astro` sets `data-image-kind="illustration"` on the `<figure>` and renders `<ImageBadge kind="illustration"/>`; photos get the outlet credit caption instead.
-- Plain HTML: `<figure data-image-kind="illustration"><img …><span class="img-badge" role="note" aria-label="Illustration: not a photo of this story">Illustration</span></figure>`.
+| `imageKind` | Image | On the card |
+|---|---|---|
+| `photo` | the outlet's own photo | existing "Image: …" credit caption (bottom right) |
+| `stock` | licensed stock photo (Wikimedia Commons, Unsplash, Pexels, NOAA…), root-relative or absolute URL | linked credit on a scrim along the bottom of the image |
+| `illustration` | code-drawn vector art, `public/illustrations/<category>/<n>.webp` | frosted "Illustration" pill, top left |
 
-The badge hides itself if the image fails to load.
+If `imageKind` is missing, `"imageGenerated": true` means "Illustration"; otherwise it's treated as a photo. Root-relative image paths get the site base prefixed. `imageAlt` (string or null) becomes the `alt`; when absent (or identical to the headline) cards use `alt=""`.
+
+Stock credit (`stockCredit()` in `src/media.js`): built from `imageAttribution: { author, authorUrl?, source, sourceUrl, license, licenseUrl? }` as "Photo: author / source, license", linking author to `authorUrl`, source to `sourceUrl` (the photo's page) and license to `licenseUrl` when present (new tab, `rel="noopener"`). If `imageAttribution` is null, the plain `imageCredit` string is shown unlinked. Nothing renders when there is no author, source or credit text. The caption lives in the `<figure>`, never inside the headline link.
+
+- Plain HTML badge: `<figure data-image-kind="illustration"><img …><span class="img-badge" role="note" aria-label="Illustration: not a photo of this story">Illustration</span></figure>`.
+- The badge hides itself if the image fails to load.
 
 ## Content & SEO
 
