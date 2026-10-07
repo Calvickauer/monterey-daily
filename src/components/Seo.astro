@@ -1,0 +1,42 @@
+---
+// <head> metadata for every page: title, description, canonical, OpenGraph, Twitter card, RSS alternate, JSON-LD.
+import { SITE, SITE_URL, abs, ldJson } from '../site.js';
+import { CATS } from '../lib.js';
+const { title: t, description: d, image, imageAlt, type = 'website', jsonld = null, noindex = false } = Astro.props;
+// Canonical: absolute, under /monterey-daily/, directory-style trailing slash (how GitHub Pages serves pages).
+const path = Astro.url.pathname.replace(/index\.html$/, '').replace(/\/?$/, '/');
+const canonical = new URL(path, Astro.site).href;
+// Sensible per-section descriptions when a page doesn't pass one.
+const rel = canonical.slice(SITE_URL.length);
+const cat = rel.match(/^category\/([^/]+)\//)?.[1];
+const day = rel.match(/^archive\/(\d{4}-\d{2}-\d{2})\//)?.[1];
+const auto = cat ? `Latest ${CATS[cat] ?? cat} headlines from Monterey County news outlets, with short summaries that link to the original reporting.`
+  : day ? `Monterey County headlines from ${new Date(day + 'T12:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}, gathered from local outlets and linked to the original reporting.`
+  : rel === 'archive/' ? 'Browse past Monterey Daily headlines by day. Every story links to the outlet that reported it.'
+  : rel === 'search/' ? 'Search Monterey Daily’s archive of Monterey County headlines. Each result opens the original story at its outlet.'
+  : SITE.description;
+const title = t || SITE.title;
+const description = d || auto;
+const img = image ? abs(image) : SITE.ogImage;
+const ld = jsonld ? [].concat(jsonld) : [];
+---
+<title>{title}</title>
+<meta name="description" content={description}/>
+<link rel="canonical" href={canonical}/>
+{noindex && <meta name="robots" content="noindex"/>}
+<meta property="og:type" content={type}/>
+<meta property="og:site_name" content={SITE.name}/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:title" content={title}/>
+<meta property="og:description" content={description}/>
+<meta property="og:url" content={canonical}/>
+<meta property="og:image" content={img}/>
+{!image && <><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:type" content="image/png"/></>}
+<meta property="og:image:alt" content={imageAlt || SITE.ogImageAlt}/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content={title}/>
+<meta name="twitter:description" content={description}/>
+<meta name="twitter:image" content={img}/>
+<meta name="twitter:image:alt" content={imageAlt || SITE.ogImageAlt}/>
+<link rel="alternate" type="application/rss+xml" title={`${SITE.name} – latest headlines`} href={abs('feed.xml')}/>
+{ld.length > 0 && <script type="application/ld+json" set:html={ldJson(ld)}/>}
