@@ -30,7 +30,7 @@ const waves = {
  <div class="waves" aria-hidden="true">{Object.entries(waves).map(([k,d])=><svg class={`wave ${k}`} viewBox="0 0 1440 60" preserveAspectRatio="none"><path d={d}/></svg>)}</div>
 </header>
 <main><slot/></main>
-<footer><p>Monterey Daily links to and credits original reporting. Headlines and brief summaries only; read full stories at each outlet. Illustrations marked “AI illustration” are not photos of real events. Weather alerts: National Weather Service.</p>
+<footer><p>Monterey Daily links to and credits original reporting. Headlines and brief summaries only; read full stories at each outlet. Images marked “Illustration” are generic artwork, not photos of real events. Weather alerts: National Weather Service.</p>
  <p class="foot-links" style="margin-top:.5rem"><a href={`${B}/about/`}>About</a> · <a href={`${B}/sources/`}>Sources</a> · <a href={`${B}/feed.xml`}>RSS feed</a> · <a href={SITE.issues} rel="noopener">Corrections &amp; feedback</a></p></footer>
 <script>
  const reduce = matchMedia('(prefers-reduced-motion: reduce)');

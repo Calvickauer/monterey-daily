@@ -7,13 +7,13 @@ Coastal palette tokens live in `src/styles/theme.css` (Pacific blues, kelp green
 
 Motion uses only `transform` and `opacity`: staggered scroll-reveal for cards (IntersectionObserver, only active once JS adds `html.js`, so cards are visible without JS), hover lift + tilt on precise pointers, a three-layer drifting wave in the masthead, and Astro View Transitions (`<ViewTransitions/>`) with a fade/slide between pages. `prefers-reduced-motion: reduce` turns all of it off and shows content immediately.
 
-### AI illustration badge
+### Illustration badge
 
-Generated (AI) images get a small frosted "AI illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "AI illustration: this image was generated with AI").
+Fallback illustrations (generic vector art, not AI, not photos) get a small frosted "Illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "Illustration: generic artwork, not a photo of this story").
 
 - Story data: add `"imageGenerated": true` to a story JSON in `src/content/stories/` (optionally `"imageAlt"` for alt text). `Card.astro` then sets `data-ai-generated` on the `<figure>` and renders `<AiBadge/>`.
-- Components: `<Card s={story} ai />` forces the badge; `<AiBadge label="AI illustration"/>` can be placed inside any positioned wrapper that carries `data-ai-generated`.
-- Plain HTML: `<figure data-ai-generated><img …><span class="ai-badge" role="note" aria-label="AI-generated illustration">AI illustration</span></figure>`.
+- Components: `<Card s={story} ai />` forces the badge; `<AiBadge label="Illustration"/>` can be placed inside any positioned wrapper that carries `data-ai-generated`.
+- Plain HTML: `<figure data-ai-generated><img …><span class="ai-badge" role="note" aria-label="Illustration: generic artwork, not a photo of this story">Illustration</span></figure>`.
 
 The badge hides itself if the image fails to load.
 
