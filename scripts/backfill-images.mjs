@@ -1,12 +1,15 @@
 // Re-runnable / idempotent: npm run backfill-images [-- --no-og] [--src=/path/to/illustrations] [--photos-src=/path/to/photos]
 // 1) sync the illustration library into public/illustrations (if the source folder exists)
 // 2) try the publisher og:image for archived stories that have no image (real images first)
+// 2b) rehost publisher images from cookie-setting hosts (sources.json "rehostImages") into public/source-images/
 // 3) wire matched stock photos (public/photos/<stem>.webp + manifest.json, synced from --photos-src)
 // 4) (re)assign illustrations deterministically to every story still without a photo
 import { loadArchive, writeStory } from './lib/store.mjs';
 import { syncLibrary, loadLibrary, assignImages, hasRealImage } from './lib/illustrations.mjs';
 import { syncPhotos } from './lib/photos.mjs';
 import { ogImage, NO_OG } from './lib/og.mjs';
+import { rehostImages, pruneRehosted } from './lib/rehost.mjs';
+import fs from 'node:fs';
 const arg = (k, d) => { const a = process.argv.find(x => x.startsWith(`--${k}=`)); return a ? a.split('=').slice(1).join('=') : d; };
 const UA = 'MontereyDaily/1.0 (+https://github.com/Calvickauer/monterey-daily; contact: calvickauer@users.noreply.github.com)';
 const src = arg('src', process.env.ILLUSTRATIONS_SRC || '/workspace/monterey-news/illustrations');
@@ -25,12 +28,17 @@ if (!process.argv.includes('--no-og')) {
     if (im) { Object.assign(s, { image: im, imageAlt: null, imageCredit: `Image: ${s.source}`, imageGenerated: false }); og++; }
   }));
 }
+// Rehost images from hosts that set cookies (kept remote, with a warning, if the download fails).
+const sources = JSON.parse(fs.readFileSync('scripts/sources.json', 'utf8'));
+const rh = await rehostImages(all, sources);
+console.log({ rehosted: rh.rehosted.map(r => `${r.id} ${Math.round(r.bytes / 1024)}KB ${r.width}x${r.height}`), rehostReused: rh.reused, rehostFailed: rh.failed.map(r => `${r.id}: ${r.error}`) });
 // Stock photos: copy only those used (story exists and has no publisher image), recompress big ones.
 const ps = await syncPhotos(photoSrc, { wanted: stem => { const s = all.find(x => x.id === stem); return !!s && !hasRealImage(s); } });
 if (ps.ok) console.log({ stockUsed: ps.used.length, stockSkipped: ps.skipped, stockNotNeeded: ps.notNeeded, recompressed: ps.recompressed, removedFromPublic: ps.removed });
 else console.log(`stock photo manifest not found in ${photoSrc}; using public/photos as-is`);
 const res = assignImages(all, { lib });
 let written = 0; for (const s of all) if (writeStory(s)) written++;
+const prunedRehosted = pruneRehosted(all); if (prunedRehosted.length) console.log({ prunedRehosted });
 console.log({ stories: all.length, source: res.source, ogImagesFound: og, stock: res.stock, stockNewlyWired: res.stockNew,
   illustration: res.illustration, illustrationByCategory: res.byCategory, withoutImage: res.none, filesWritten: written });
 if (!Object.keys(lib).length) console.log('NOTE: illustration library is empty; rerun this script once it lands.');

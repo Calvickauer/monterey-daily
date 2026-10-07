@@ -72,7 +72,8 @@ export function loadLibrary(dir = ILLU_DIR) {
 
 export const hashIndex = id => parseInt(crypto.createHash('sha1').update(String(id)).digest('hex').slice(0, 8), 16);
 /** Publisher photo from the feed or og:image (not a stock match, not an illustration). */
-export const hasRealImage = s => !!s.image && !s.imageGenerated && s.imageKind !== 'stock' && !String(s.image).startsWith('/');
+// Publisher image: remote URL, or one rehosted into /source-images/ (see lib/rehost.mjs).
+export const hasRealImage = s => !!s.image && !s.imageGenerated && s.imageKind !== 'stock' && (!String(s.image).startsWith('/') || String(s.image).startsWith('/source-images/'));
 export const groupFor = (category, lib) => (lib[category]?.length ? category : lib.general?.length ? 'general' : null);
 const fileExists = (img, publicDir) => !!img && fs.existsSync(path.join(publicDir, img));
 
@@ -124,7 +125,7 @@ export function assignImages(stories, { only = null, publicDir = 'public', lib =
   const res = { source: 0, stock: 0, stockNew: 0, illustration: 0, none: 0, byCategory: {} };
   const rest = [];
   for (const s of stories) {
-    if (hasRealImage(s)) { Object.assign(s, { imageGenerated: false, imageKind: 'source', imageAttribution: null, imageCreditUrl: null }); delete s.imageFilePhoto; if (s.imageAlt === undefined) s.imageAlt = null; res.source++; continue; }
+    if (hasRealImage(s)) { Object.assign(s, { imageGenerated: false, imageKind: 'source', imageAttribution: null, imageCreditUrl: s.imageKind === 'stock' ? null : (s.imageCreditUrl ?? null) }); delete s.imageFilePhoto; if (s.imageAlt === undefined) s.imageAlt = null; res.source++; continue; }
     if (hasPhotoFile(s.id, publicDir, photos)) {
       if (s.imageKind !== 'stock') res.stockNew++;
       Object.assign(s, stockFields(s.id, photos[s.id]));

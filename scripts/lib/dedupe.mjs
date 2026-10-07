@@ -91,7 +91,8 @@ export function jaccard(a, b) {
 const REGIONAL = /lookout|kqed|pajaronian|regional/i;
 export function sourceTier(source = '') { return REGIONAL.test(source) ? 0 : 1; }
 
-export const hasRealImage = s => !!s.image && !s.imageGenerated && s.imageKind !== 'stock' && !String(s.image).startsWith('/');
+// Publisher image: remote URL, or one rehosted into /source-images/ (see lib/rehost.mjs).
+export const hasRealImage = s => !!s.image && !s.imageGenerated && s.imageKind !== 'stock' && (!String(s.image).startsWith('/') || String(s.image).startsWith('/source-images/'));
 
 /** Comparator: negative if a is the better version to keep. */
 export function compareQuality(a, b) {
