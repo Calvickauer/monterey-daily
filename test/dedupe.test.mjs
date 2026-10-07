@@ -132,7 +132,7 @@ test('assignImages: publisher photo > stock photo > illustration; upgrades to st
   const s = [{ id: 'p', category: 'government', date: '2026-10-01', image: 'https://x/p.jpg', imageGenerated: false },
              { id: 'q', category: 'government', date: '2026-10-02', image: null }];
   let r = assignImages(s, { publicDir: pub, lib, alts: {}, photos: {} });
-  assert.equal(s[0].imageKind, 'photo'); assert.equal(s[1].imageKind, 'illustration'); assert.equal(r.illustration, 1);
+  assert.equal(s[0].imageKind, 'source'); assert.equal(s[1].imageKind, 'illustration'); assert.equal(r.illustration, 1);
   fs.mkdirSync(path.join(pub, 'photos')); fs.writeFileSync(path.join(pub, 'photos', 'q.webp'), 'x');
   const man = { q: { alt: 'Monterey city hall', author: 'Jane Doe', license: 'CC BY-SA 4.0', license_url: 'https://creativecommons.org/licenses/by-sa/4.0/', source_page_url: 'https://commons.wikimedia.org/wiki/File:X.jpg' } };
   r = assignImages(s, { publicDir: pub, lib, alts: {}, photos: man });

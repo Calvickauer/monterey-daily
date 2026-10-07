@@ -15,7 +15,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - if: github.event_name != 'push'
-        run: npm run fetch   # fetch + dedupe (URL / headline / Spanish twins) + photo > AI image > illustration
+        run: npm run fetch   # fetch + dedupe (URL / headline / Spanish twins) + images: source photo > stock photo > illustration
       - if: github.event_name != 'push'
         run: |
           git config user.name "monterey-daily-bot"; git config user.email "actions@users.noreply.github.com"

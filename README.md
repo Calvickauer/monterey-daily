@@ -27,7 +27,7 @@ Story JSON (`src/content/stories/<id>.json`) always carries:
 
 - `alsoCoveredBy: [{ name, url, title? }]`: other outlets (or Spanish twins, e.g. `MC NOW (Español)`) folded into this story; `[]` if none.
 - `image`, `imageAlt` (string|null), `imageCredit` (string|null), `imageCreditUrl` (string|null), `imageGenerated` (boolean, === `imageKind === 'illustration'`), `imageKind`, `imageAttribution` (object|null).
-  - `imageKind: 'photo'`: publisher image from the feed or og:image (`imageGenerated: false`).
+  - `imageKind: 'source'`: publisher (outlet) image from the feed or og:image (`imageGenerated: false`).
   - `imageKind: 'stock'`: matched freely licensed photo at `/photos/<id>.webp` (`imageGenerated: false`), with
     `imageAttribution: { author, authorUrl?, source, sourceUrl, license, licenseUrl? }` `imageCredit: "Photo: {author} / {source}, {license}"` and `imageCreditUrl` = source page.
   - `imageKind: 'illustration'`: code-drawn category art at `/illustrations/<category>/<n>.webp` (`imageGenerated: true`, credit `Illustration`).
