@@ -1,0 +1,17 @@
+{
+  "headline": "Heat Advisory: Southern Salinas Valley/Arroyo Seco and Lake San Antonio, Santa Lucia Mountains and Los Padres National Forest, Mountains Of San Benito County And Interior Monterey County Including Pinnacles National Park",
+  "summary": "Heat Advisory issued October 7 at 8:42AM PDT until October 8 at 10:00PM PDT by NWS San Francisco CA",
+  "source": "NWS alerts – Monterey County zones",
+  "sourceUrl": "https://www.weather.gov/mtr/",
+  "link": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.483145bec025b7a499816477740186088a160049.002.1",
+  "date": "2026-10-07T15:42:00.000Z",
+  "category": "weather",
+  "image": "/illustrations/weather/3.webp",
+  "imageAlt": "Illustration of a rainbow over green valley hills after rain",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
+}
