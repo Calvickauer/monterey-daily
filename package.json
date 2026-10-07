@@ -16,7 +16,8 @@
   "dependencies": {
     "astro": "^4.5.18",
     "fast-xml-parser": "^5.11.2",
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "sharp": "^0.32.6"
   },
   "type": "module"
 }

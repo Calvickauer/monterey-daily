@@ -7,6 +7,7 @@ import { loadArchive, dedupeAndPrune, writeStory } from './lib/store.mjs';
 import { assignImages } from './lib/illustrations.mjs';
 import { ogImage, NO_OG } from './lib/og.mjs';
 import { fetchWithRetry, sourceHeaders } from './lib/http.mjs';
+import { rehostImages, pruneRehosted } from './lib/rehost.mjs';
 const UA = 'MontereyDaily/1.0 (+https://github.com/Calvickauer/monterey-daily; contact: calvickauer@users.noreply.github.com)';
 const DRY = process.argv.includes('--dry'); // fetch + report, write nothing
 const T0 = Date.now();
@@ -95,12 +96,15 @@ const archiveIds = new Set(archive.map(s => s.id));
 const keptNew = res.kept.filter(s => !archiveIds.has(s.id));
 // Real publisher images first (feed image, then og:image); illustrations only for stories with neither.
 for (const s of keptNew) if (!s.image && !NO_OG.test(s.source)) { const im = await ogImage(s.link, UA); if (im) { s.image = im; s.imageAlt = null; s.imageCredit = `Image: ${s.source}`; } }
+// Rehost images from cookie-setting hosts (sources.json "rehostImages"), new and archived stories alike; failures keep the remote URL.
+const rh = await rehostImages(res.kept, sources, { dry: DRY });
 const img = assignImages(res.kept, { only: new Set(keptNew.map(s => s.id)) });
 let written = 0;
-if (!DRY) for (const s of res.kept) { delete s._new; if (writeStory(s)) written++; }
+if (!DRY) { for (const s of res.kept) { delete s._new; if (writeStory(s)) written++; } rh.pruned = pruneRehosted(res.kept); }
 console.log(report.join('\n'));
 console.log(`fetched ${items.length}, new ${fresh.filter(s=>s._new).length}, added ${keptNew.length}`);
 for (const r of res.removed) if (r.reason !== 'url') console.log(`  ${r.reason} merge: [${r.story.source}] ${r.story.headline.slice(0, 90)}\n      into [${r.keptAs.source}] ${r.keptAs.headline.slice(0, 90)}`);
 console.log(`dedupe: removed ${res.stats.removedUrl} by URL, ${res.stats.removedFuzzy} by headline, ${res.stats.removedTranslation} Spanish translations; archive ${archive.length} -> ${res.kept.length}`);
 console.log(`images: ${img.source} source, ${img.stock} stock (${img.stockNew} newly wired), ${img.illustration} illustration (${img.illustrationsChanged} assigned this run ${JSON.stringify(img.byCategory)}), ${img.none} without image`);
+console.log(`rehosted images: ${rh.rehosted.length}${DRY?' (dry run, not saved)':''} ${rh.rehosted.map(r=>`${r.id} ${Math.round(r.bytes/1024)}KB ${r.width}x${r.height}`).join(', ')}; ${rh.reused} already local; ${rh.failed.length} failed${rh.pruned?.length?`; pruned ${rh.pruned.length}`:''}`);
 console.log(`files written ${written}${DRY?' (dry run)':''}; ${Math.round((Date.now()-T0)/1000)}s`);

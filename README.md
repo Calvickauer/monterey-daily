@@ -52,6 +52,12 @@ Fetching (`scripts/lib/http.mjs`): every request retries 429/5xx/network errors 
 Per source in `scripts/sources.json`: `"user_agent": "browser"` (or a literal UA string) sends browser-like `User-Agent`/`Accept` headers (used for
 City of Pacific Grove, which 403s the bot UA from Actions), and `"headers": {...}` adds extra request headers.
 
+Rehosted publisher images: hosts that set third-party cookies on image requests hurt Lighthouse best practices (CivicPlus `ci.seaside.ca.us` sets
+`ASP.NET_SessionId`/`CP_IsMobile`). A source with `"rehostImages": ["host", ...]` (or `true` for any host) in `sources.json` gets its images downloaded at
+fetch/backfill time, compressed with sharp to WebP at <= 1200px wide, and saved as `public/source-images/<id>.webp`; `image` points there while
+`imageKind` stays `'source'` and `imageCredit`/`imageCreditUrl` are unchanged. A failed download keeps the remote URL with a `::warning` (retried next run);
+files no story uses are pruned.
+
 Scripts:
 
 - `npm run fetch`: fetch feeds, dedupe against the whole archive, then assign images (source > stock > illustration). Log line: `images: N source, N stock, N illustration`.
