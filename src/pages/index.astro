@@ -1,9 +1,10 @@
 ---
-import Base from '../layouts/Base.astro'; import Card from '../components/Card.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { stories } from '../lib.js'; import { websiteLD, organizationLD, storyListLD } from '../site.js';
+import Base from '../layouts/Base.astro'; import Card from '../components/Card.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { stories } from '../lib.js'; import { websiteLD, organizationLD, storyListLD } from '../site.js'; import { imgSrc } from '../media.js';
 const top = []; const per = {};
 for (const s of stories) { if ((per[s.source]=(per[s.source]||0)+1) <= 4) top.push(s); if (top.length>=24) break; }
 const lead = top.findIndex(s=>s.image);
 if (lead>0) top.unshift(top.splice(lead,1)[0]);
 const updated = stories[0] ? new Date(stories[0].date).toLocaleDateString('en-US',{timeZone:'America/Los_Angeles',weekday:'long',month:'long',day:'numeric'}) : '';
+const heroImage = top[0]?.image ? imgSrc(top[0].image) : null;
 ---
-<Base jsonld={[websiteLD(), organizationLD(), storyListLD(top)]}><SectionHeader title="Top Stories" kicker={updated && `Updated ${updated}`} sub="The latest from Monterey County's local newsrooms" tone="home"/><div class="grid">{top.map((s,i)=><Card s={s} lead={i===0}/>)}</div></Base>
+<Base heroImage={heroImage} jsonld={[websiteLD(), organizationLD(), storyListLD(top)]}><SectionHeader title="Top Stories" kicker={updated && `Updated ${updated}`} sub="The latest from Monterey County's local newsrooms" tone="home"/><h2 class="sr-only">Latest Monterey County stories</h2><div class="grid">{top.map((s,i)=><Card s={s} lead={i===0}/>)}</div></Base>

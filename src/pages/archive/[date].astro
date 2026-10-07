@@ -1,6 +1,6 @@
 ---
-import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, day } from '../../lib.js';
+import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, day } from '../../lib.js'; import { imgSrc } from '../../media.js';
 export function getStaticPaths(){ return [...new Set(stories.map(s=>day(s.date)))].map(date=>({params:{date}})); }
 const { date } = Astro.params; const list = stories.filter(s=>day(s.date)===date);
 ---
-<Base title={`${date} – Monterey Daily`}><SectionHeader title={new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})} kicker="Daily edition" sub={`${list.length} ${list.length===1?'story':'stories'}`} tone="archive"/><div class="grid">{list.map(s=><Card s={s}/>)}</div></Base>
+<Base title={`${date} – Monterey Daily`} heroImage={list[0]?.image ? imgSrc(list[0].image) : null}><SectionHeader title={new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})} kicker="Daily edition" sub={`${list.length} ${list.length===1?'story':'stories'}`} tone="archive"/><h2 class="sr-only">Stories from this day</h2><div class="grid">{list.map((s,i)=><Card s={s} eager={i===0}/>)}</div></Base>

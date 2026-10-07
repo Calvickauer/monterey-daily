@@ -1,11 +1,68 @@
 ---
 import Base from '../layouts/Base.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { B } from '../lib.js';
 ---
-<Base title="Search – Monterey Daily"><SectionHeader title="Search" kicker="Find a story" tone="archive"/>
-<link href={`${B}/pagefind/pagefind-ui.css`} rel="stylesheet"/><div id="search" data-base={B}></div>
+<Base title="Search – Monterey Daily" description="Search recent Monterey County headlines from local outlets."><SectionHeader title="Search" kicker="Find a story" tone="archive"/>
+<link href={`${B}/pagefind/pagefind-ui.css`} rel="stylesheet"/>
+<div class="search-shell">
+ <div id="search" class="search-ui" data-base={B} aria-busy="true">
+  <div class="search-skeleton" aria-hidden="true"><span></span></div>
+  <p class="search-status" role="status">Loading search…</p>
+  <noscript><p class="search-status">Search needs JavaScript. You can browse <a href={`${B}/archive/`}>the archive</a> instead.</p></noscript>
+ </div>
+ <p class="note search-hint">Press <kbd class="kbd">/</kbd> to jump to search and <kbd class="kbd">Esc</kbd> to clear it. Results open the original story at its outlet.</p>
+</div>
 <script is:inline data-astro-rerun>
-(function(){ const el=document.getElementById('search'); const b=el.dataset.base;
- const go=()=>{ el.innerHTML=''; new PagefindUI({element:'#search',showSubResults:false,showImages:false,resetStyles:false}); };
- if(window.PagefindUI) return go(); const s=document.createElement('script'); s.src=b+'/pagefind/pagefind-ui.js'; s.onload=go; document.head.appendChild(s); })();
+(function(){
+ var el=document.getElementById('search'); if(!el) return; var b=el.dataset.base;
+ var params=new URLSearchParams(location.search); var q=params.get('q')||'';
+ var wantFocus=sessionStorage.getItem('md:focus-search')==='1'; sessionStorage.removeItem('md:focus-search');
+ function go(){
+  el.innerHTML='';
+  var ui=new PagefindUI({element:'#search',showSubResults:false,showImages:false,resetStyles:false,excerptLength:24,
+   autofocus:wantFocus&&!q, debounceTimeoutMs:200,
+   translations:{placeholder:'Search Monterey County news',zero_results:'No stories match “[SEARCH_TERM]”. Try a town, agency, or topic.',clear_search:'Clear'}});
+  el.removeAttribute('aria-busy');
+  var input=el.querySelector('.pagefind-ui__search-input');
+  if(!input) return;
+  input.setAttribute('aria-label','Search stories');
+  input.setAttribute('enterkeyhint','search');
+  if(q){ ui.triggerSearch(q); if(wantFocus) input.focus(); }
+  // Keep ?q= in the URL so searches can be shared/bookmarked.
+  var t; input.addEventListener('input',function(){ clearTimeout(t); t=setTimeout(function(){
+   var u=new URL(location.href); if(input.value.trim()) u.searchParams.set('q',input.value.trim()); else u.searchParams.delete('q');
+   history.replaceState(history.state,'',u); },300); });
+  // Esc: first press clears (keeping focus), second press leaves the field. Capture phase so it runs before Pagefind's own handler.
+  el.addEventListener('keydown',function(e){ if(e.key!=='Escape'||e.target!==input) return; e.stopPropagation();
+   if(input.value){ e.preventDefault(); var c=el.querySelector('.pagefind-ui__search-clear'); if(c) c.click(); else { input.value=''; input.dispatchEvent(new Event('input',{bubbles:true})); } setTimeout(function(){ var i=el.querySelector('.pagefind-ui__search-input'); if(i) i.focus(); },0); }
+   else input.blur(); },true);
+ }
+ function fail(){ el.removeAttribute('aria-busy'); el.innerHTML='<p class="search-status" role="status">Search is unavailable right now. Browse <a href="'+b+'/archive/">the archive</a> instead.</p>'; }
+ if(window.PagefindUI) return go();
+ var s=document.createElement('script'); s.src=b+'/pagefind/pagefind-ui.js'; s.onload=go; s.onerror=fail; document.head.appendChild(s);
+})();
 </script>
-<p class="note">Each result opens the original story at its outlet.</p></Base>
+<style is:global>
+ /* Pagefind UI layout polish; colors come from the --pagefind-ui-* tokens in global.css. */
+ #search{--pagefind-ui-scale:.9;--pagefind-ui-border-width:1px;min-height:4.5rem}
+ .search-skeleton span{display:block;height:64px;border-radius:12px;background:var(--foam);border:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
+ .search-status{color:var(--muted);font-size:.9rem;margin:.6rem 0}
+ .search-hint{color:var(--muted);font-size:.85rem;margin-top:1rem}
+ #search .pagefind-ui__search-input{font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+ #search .pagefind-ui__search-input::placeholder{color:var(--muted);opacity:1;font-weight:400}
+ #search .pagefind-ui__filter-panel{border:0}
+ #search .pagefind-ui__filter-name{color:var(--ink)}
+ #search .pagefind-ui__search-input:focus-visible{outline:3px solid var(--pacific-700,var(--sea));outline-offset:2px}
+ #search .pagefind-ui__search-clear{border-radius:8px;color:var(--ink);font-weight:600}
+ #search .pagefind-ui__search-clear:focus-visible{outline:3px solid var(--pacific-700,var(--sea));outline-offset:-3px}
+ #search .pagefind-ui__message{color:var(--muted);font-weight:600}
+ #search .pagefind-ui__results{display:grid;gap:.75rem}
+ #search .pagefind-ui__result{background:var(--foam);border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);border-radius:12px;padding:.9rem 1.1rem;border-top-width:1px}
+ #search .pagefind-ui__result-inner{margin:0}
+ #search .pagefind-ui__result-title{font-family:var(--font-serif,Fraunces,Georgia,serif);font-size:1.12rem;line-height:1.3}
+ #search .pagefind-ui__result-link{color:var(--ink);text-decoration:none}
+ #search .pagefind-ui__result-link:hover{color:var(--pacific-700,var(--sea));text-decoration:underline}
+ #search .pagefind-ui__result-excerpt{color:var(--muted);font-size:.93rem;margin-top:.3rem}
+ #search mark{background:color-mix(in srgb,var(--pacific-700,var(--sea)) 16%,transparent);color:inherit;border-radius:3px;padding:0 .1em}
+ #search .pagefind-ui__button{border-radius:99px;font-weight:600}
+</style>
+</Base>

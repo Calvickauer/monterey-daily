@@ -1,0 +1,9 @@
+---
+// Frosted "Illustration" pill (Stylist's style) for fallback vector illustrations.
+// Place inside a positioned image wrapper that carries data-image-kind="illustration".
+// Per Lead Dev the badge text is always "Illustration"; driven by story.imageGenerated.
+const { kind = 'illustration' } = Astro.props;
+const k = { label: 'Illustration', desc: 'Illustration: not a photo of this story',
+  icon: 'M11.6 1.2a1.2 1.2 0 0 1 1.7 0l1.5 1.5a1.2 1.2 0 0 1 0 1.7L5.6 13.6l-3.9 1.1 1.1-3.9z' };
+---
+<span class="img-badge" data-kind={kind} role="note" aria-label={k.desc} title={k.desc} data-pagefind-ignore><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d={k.icon}/></svg><span aria-hidden="true">{k.label}</span></span>

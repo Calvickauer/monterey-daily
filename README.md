@@ -9,11 +9,11 @@ Motion uses only `transform` and `opacity`: staggered scroll-reveal for cards (I
 
 ### Illustration badge
 
-Fallback illustrations (generic vector art, not AI, not photos) get a small frosted "Illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "Illustration: generic artwork, not a photo of this story").
+Fallback illustrations (generic vector art from `public/illustrations/<category>/<n>.webp`, not AI, not photos) get a small frosted "Illustration" pill in the image's top-left corner, with an accessible label (`role="note"`, "Illustration: not a photo of this story").
 
-- Story data: add `"imageGenerated": true` to a story JSON in `src/content/stories/` (optionally `"imageAlt"` for alt text). `Card.astro` then sets `data-ai-generated` on the `<figure>` and renders `<AiBadge/>`.
-- Components: `<Card s={story} ai />` forces the badge; `<AiBadge label="Illustration"/>` can be placed inside any positioned wrapper that carries `data-ai-generated`.
-- Plain HTML: `<figure data-ai-generated><img …><span class="ai-badge" role="note" aria-label="Illustration: generic artwork, not a photo of this story">Illustration</span></figure>`.
+- Story data: the backend sets `"imageGenerated": true` (the only field the badge reads) and optionally `"imageAlt"`. Root-relative image paths get the site base prefixed. `imageAlt` becomes the `alt`; when absent (or identical to the headline) cards use `alt=""`.
+- `Card.astro` sets `data-image-kind="illustration"` on the `<figure>` and renders `<ImageBadge kind="illustration"/>`; photos get the outlet credit caption instead.
+- Plain HTML: `<figure data-image-kind="illustration"><img …><span class="img-badge" role="note" aria-label="Illustration: not a photo of this story">Illustration</span></figure>`.
 
 The badge hides itself if the image fails to load.
 
