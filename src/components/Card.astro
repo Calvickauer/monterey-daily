@@ -2,9 +2,9 @@
 import { CATS, B, fmt } from '../lib.js';
 import AiBadge from './AiBadge.astro';
 const { s, lead=false } = Astro.props;
-// Generated (AI) images: set "imageAiGenerated": true on a story JSON, or pass
+// Generated (AI) images: set "imageGenerated": true on a story JSON, or pass
 // ai={true} to <Card>. The figure gets data-ai-generated and a badge overlay.
-const ai = Boolean(Astro.props.ai ?? s.imageAiGenerated) && Boolean(s.image);
+const ai = Boolean(Astro.props.ai ?? s.imageGenerated) && Boolean(s.image);
 ---
 <article class:list={['card', `cat-${s.category}`, {lead}]}>
  <figure data-ai-generated={ai ? '' : undefined}>{s.image && <img src={s.image} alt={s.imageAlt || ''} loading={lead ? 'eager' : 'lazy'} decoding="async" referrerpolicy="no-referrer" onerror="this.remove()"/>}{ai && <AiBadge/>}{s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}</figure>
