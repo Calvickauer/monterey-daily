@@ -33,23 +33,23 @@ for (const s of sources) {
         const mc=[].concat(i['media:content']||[],i['media:thumbnail']||[],i.enclosure||[]).find(m=>m?.['@url']&&!/audio|video/.test(m['@type']||''));
         return {title:strip(i.title), link:txt(i.link?.['@href']??i.link).trim(), date:txt(i.pubDate||i.published||i['dc:date']), summary:i.description||html, image: mc?.['@url'] || html.match(/<img[^>]+src=["']([^"']+)/i)?.[1] || null}; });
     }
-    if (/KION/.test(s.name)) list = list.filter(i=>!i.link.includes('/national-world/'));
+    if (/KION/.test(s.name)) list = list.filter(i=>!/\/(national-world|cnn-style|noticias-cnn)\//.test(i.link));
     if (FILTER.test(s.name)) list = list.filter(i=>PLACES.test(i.title+' '+strip(i.summary)));
     if (/Voices/.test(s.name)) list = list.slice(0,15);
     let n=0;
-    for (const i of list) { if(!i.title||!i.link) continue; const d=new Date(i.date); i.date=isNaN(d)?new Date().toISOString():d.toISOString(); i.source=s.name; i.sourceUrl=s.url; items.push(i); n++; }
+    for (const i of list) { if(!i.title||!i.link) continue; const d=new Date(i.date); i.date=isNaN(d)?new Date().toISOString():d.toISOString(); i.link=i.link.replace(/^http:\/\//i,'https://'); i.source=s.name; i.sourceUrl=s.url; items.push(i); n++; }
     report.push(`${s.name}: ${n}`);
   } catch(e){ report.push(`${s.name}: FAILED (${e.message})`); }
 }
 const norm = t => t.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(' ').filter(w=>w.length>3).slice(0,8).join(' ');
-const seen = new Set(fs.readdirSync(OUT).map(f=>f.replace('.json','')));
+const seen = new Set(fs.readdirSync(OUT).map(f=>JSON.parse(fs.readFileSync(path.join(OUT,f))).link));
 const titles = new Set(fs.readdirSync(OUT).map(f=>norm(JSON.parse(fs.readFileSync(path.join(OUT,f))).headline)));
 let added=0;
 for (const i of items.sort((a,b)=>b.date.localeCompare(a.date))) {
   const id = i.date.slice(0,10)+'-'+crypto.createHash('sha1').update(i.link).digest('hex').slice(0,10);
   const key = norm(i.title);
-  if ([...seen].some(x=>x.endsWith(id.slice(11))) || titles.has(key)) continue;
-  seen.add(id); titles.add(key);
+  if (seen.has(i.link) || titles.has(key)) continue;
+  seen.add(i.link); titles.add(key);
   if (!i.image && i.source!=='NWS alerts – Monterey County zones' && !/County of Monterey|Seaside|Marina/.test(i.source)) i.image = await og(i.link);
   const story = { headline:i.title, summary:short(i.summary)||i.title, source:i.source, sourceUrl:i.sourceUrl, link:i.link, date:i.date, category:cat(i.title+' '+strip(i.summary).slice(0,300), {name:i.source}), image:i.image||null, imageCredit:i.image?`Image: ${i.source}`:null };
   fs.writeFileSync(path.join(OUT,id+'.json'), JSON.stringify(story,null,2)); added++;

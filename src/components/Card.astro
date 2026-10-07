@@ -2,11 +2,11 @@
 import { CATS, B, fmt } from '../lib.js';
 const { s, lead=false } = Astro.props;
 ---
-<article class:list={['card',{lead}]} data-pagefind-body>
- <figure>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"/>}{s.imageCredit && <figcaption>{s.imageCredit}</figcaption>}</figure>
+<article class:list={['card',{lead}]}>
+ <figure>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"/>}{s.imageCredit && <figcaption data-pagefind-ignore>{s.imageCredit}</figcaption>}</figure>
  <div class="body">
   <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}</a></h3>
   <p>{s.summary}</p>
-  <p class="meta"><a class="pill" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
+  <p class="meta" data-pagefind-ignore><a class="pill" href={`${B}/category/${s.category}/`} data-pagefind-filter="category">{CATS[s.category]}</a>
    <span>Source: <a class="src" href={s.sourceUrl} target="_blank" rel="noopener" data-pagefind-filter="source">{s.source}</a></span><time datetime={s.date}>{fmt(s.date)}</time></p>
  </div></article>

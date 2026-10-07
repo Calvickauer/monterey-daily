@@ -23,9 +23,9 @@ const { title = 'Monterey Daily', description = 'Monterey County news, gathered 
 </script>
 <style is:global>
 :root{--ink:#0f2a3a;--sea:#1d6f8c;--kelp:#2f6b4f;--sand:#f6f1e7;--foam:#fffdf8;--coral:#d9644a;--muted:#5b6b73}
-*{box-sizing:border-box}body{margin:0;background:var(--sand);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;overflow-x:clip;background:var(--sand);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
 a{color:var(--sea)}h1,h2,h3,.brand{font-family:Fraunces,Georgia,serif}
-.mast{position:relative;background:linear-gradient(160deg,#0f2a3a,#1d6f8c);color:#fff;padding:1.2rem 1rem 3.2rem;text-align:center}
+.mast{position:relative;overflow:hidden;background:linear-gradient(160deg,#0f2a3a,#1d6f8c);color:#fff;padding:1.2rem 1rem 3.2rem;text-align:center}
 .brand{color:#fff;text-decoration:none;font-size:clamp(2rem,7vw,3.4rem);font-weight:800;letter-spacing:-.02em}.brand em{color:#9fd8e0}
 .tag{margin:.2rem 0 .8rem;opacity:.85;font-size:.9rem}
 nav{display:flex;gap:.3rem .9rem;flex-wrap:wrap;justify-content:center;font-size:.9rem}nav a{color:#e6f4f6;text-decoration:none}nav a:hover{text-decoration:underline}
