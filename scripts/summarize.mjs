@@ -63,6 +63,7 @@ const LEADING = [
   new RegExp(`^[^\\n]{0,160}?Traducci[oó]n(?:\\s+por|\\s*:)?\\s+${NAME}\\s+`, 'u'),   // Voices bylines incl. translator
   new RegExp(`^\\s*${CREDIT}\\s+${NAME}(?:\\s*(?:,|and|y|&)\\s*${NAME})*(?:\\s*,\\s*(?:CNN|AP|Reuters|KION|KSBW|Bay City News|CalMatters|[A-Z]{2,6}))?\\s*(?:\\(CNN\\)\\s*[—–-]+\\s*)?(?:[|—–-]\\s*)?`, 'u'),
   /^\s*\((CNN|AP|Reuters|Bay City News)\)\s*[—–-]+\s*/i,
+  /^\s*\S[^/\n]{0,60}?\s\/\/\s(?:Shutterstock|Getty Images|Canva|iStock|Unsplash|Pexels|Adobe Stock|Wikimedia Commons|[A-Z][\w.&-]+(?: [A-Z][\w.&-]+){0,2})\s+/,   // Stacker photo credit "name // Shutterstock"
   /^\s*[A-Z][\w .]{1,30}, [A-Z]{2}\.?\s*[—–-]+\s*[A-Z][a-z]+\.? \d{1,2},? \d{4}\s*[—–-]?\s*/,   // "Marina, CA — September 22, 2026"
 ];
 const ABBR = /\b(Mr|Mrs|Ms|Dr|Sr|Jr|St|Mt|Ft|Ave|Blvd|Rd|Hwy|No|Gov|Sen|Rep|Sgt|Lt|Capt|Det|Ofc|Dep|Supt|Prof|Inc|Co|Corp|Ltd|vs|etc|approx|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|Calif|U\.S|a\.m|p\.m|[A-Z])\.$/;
@@ -70,7 +71,7 @@ const ABBR = /\b(Mr|Mrs|Ms|Dr|Sr|Jr|St|Mt|Ft|Ave|Blvd|Rd|Hwy|No|Gov|Sen|Rep|Sgt|
 /** Split into sentences, avoiding common abbreviations / initials. */
 export function sentences(s) {
   const out = []; let start = 0;
-  const re = /[.!?]+["”’)\]]*(?=\s+["“¿¡(]?[\p{Lu}\d])/gu; let m;
+  const re = /[.!?]+["”’)\]]*(?=\s+["“¿¡(#]?[\p{Lu}\d])/gu; let m;
   while ((m = re.exec(s))) {
     const end = m.index + m[0].length; const chunk = s.slice(start, end);
     if (m[0][0] === '.' && ABBR.test(s.slice(Math.max(start, m.index - 12), m.index + 1))) continue;
@@ -133,6 +134,7 @@ export function summarize(raw, { title = '', source = '', max = 280 } = {}) {
   }
   if (!out) {                              // first sentence too long (or no boundary): cut on a word
     if (s.length <= max && !truncated) return s;
+    if (s.length < max) return s.replace(/[\s,;:—–-]+$/, '') + '…';   // feed already cut it mid-sentence
     const cut = s.slice(0, max - 1); const sp = cut.lastIndexOf(' ');
     return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:—–-]+$/, '') + '…';
   }

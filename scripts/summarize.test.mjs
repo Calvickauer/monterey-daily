@@ -54,3 +54,13 @@ test('removes syndication credits ("originally published by", "republished with 
   assert.equal(summarize('FEATURED By Keith Menconi, San José Spotlight This story was originally published by San José Spotlight. Federal authorities have agreed to pause construction work.'), 'Federal authorities have agreed to pause construction work.');
   assert.equal(summarize('FEATURED STORY By Gabriel Thompson This article was produced by Capital Main. It is republished here with permission. When Sara Ramirez started as an interpreter, she was happy.'), 'When Sara Ramirez started as an interpreter, she was happy.');
 });
+
+test('drops stock-photo credit prefix (Stacker style)', () => {
+  assert.equal(summarize('anatoliy_gleb // Shutterstock Stacker compiled a list of the cheapest gas stations in Salinas. Gas stations are ranked by price. #1. Shell'), 'Stacker compiled a list of the cheapest gas stations in Salinas. Gas stations are ranked by price.');
+});
+
+test('is idempotent on already-trimmed summaries', () => {
+  for (const raw of ['The office will close Oct. 30 after a June 2025 audit found it was out of compliance [&#8230;]', 'FEATURED By George B. Sánchez-Tello Dozens of residents told the board to stop a proposal. More text here that goes on and on and on for a while to make it long enough to need trimming, really quite long indeed, longer than one hundred and forty characters for sure.']) {
+    const once = summarize(raw); assert.equal(summarize(once), once);
+  }
+});
