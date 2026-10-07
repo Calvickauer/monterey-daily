@@ -1,5 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
 import { categorize } from './categorize.mjs';
+import { cleanText, summarize } from './summarize.mjs';
 import fs from 'node:fs'; import path from 'node:path'; import crypto from 'node:crypto';
 const UA = 'MontereyDaily/1.0 (+https://github.com/Calvickauer/monterey-daily; contact: calvickauer@users.noreply.github.com)';
 const OUT = 'src/content/stories';
@@ -8,8 +9,9 @@ const PLACES = /\b(monterey|salinas|seaside|marina|carmel|pacific grove|big sur|
 const FILTER = /lookout|kqed|pajaronian/i;
 const p = new XMLParser({ ignoreAttributes:false, attributeNamePrefix:'@' });
 const txt = v => (v==null?'':typeof v==='object'?(v['#text']??''):String(v));
-const strip = s => txt(s).replace(/<[^>]+>/g,' ').replace(/&#8217;|&rsquo;/g,"'").replace(/&#8220;|&#8221;|&quot;/g,'"').replace(/&amp;/g,'&').replace(/&nbsp;|&#160;/g,' ').replace(/&#\d+;/g,'').replace(/\s+/g,' ').trim();
-const short = s => { s=strip(s); return s.length>240 ? s.slice(0,s.lastIndexOf(' ',237))+'…' : s; };
+const strip = s => cleanText(s).replace(/\s+/g,' ');
+// 1–2 sentence teaser (never full text); fall back to full content only when the description is thin.
+const short = (i) => { const o={title:i.title,source:i.source}; const a=summarize(i.summary,o); return a.length>=60||!i.alt ? a : (summarize(i.alt,o).length>a.length ? summarize(i.alt,o) : a); };
 const CATS = [
  ['weather',/\b(weather|storm|rain|heat|wind advisory|forecast|flood watch|red flag|surf advisory)\b/i],
  ['public-safety',/\b(police|sheriff|fire|crash|arrest|shooting|homicide|chp|collision|suspect|court|sentenc|da |district attorney|evacuat|missing|stabb|robbery)\b/i],
@@ -32,7 +34,7 @@ for (const s of sources) {
       const x = p.parse(await get(s.feed_url)); const ch = x.rss?.channel; let raw = ch?.item ?? x.feed?.entry ?? []; if(!Array.isArray(raw)) raw=[raw];
       list = raw.slice(0,30).map(i=>{ const html = txt(i['content:encoded'])||txt(i.description);
         const mc=[].concat(i['media:content']||[],i['media:thumbnail']||[],i.enclosure||[]).find(m=>m?.['@url']&&!/audio|video/.test(m['@type']||''));
-        return {title:strip(i.title), link:txt(i.link?.['@href']??i.link).trim(), date:txt(i.pubDate||i.published||i['dc:date']), summary:i.description||html, image: mc?.['@url'] || html.match(/<img[^>]+src=["']([^"']+)/i)?.[1] || null}; });
+        return {title:strip(i.title), link:txt(i.link?.['@href']??i.link).trim(), date:txt(i.pubDate||i.published||i['dc:date']), summary:i.description||html, alt:html, image: mc?.['@url'] || html.match(/<img[^>]+src=["']([^"']+)/i)?.[1] || null}; });
     }
     if (/KION/.test(s.name)) list = list.filter(i=>!/\/(national-world|cnn-style|noticias-cnn|cnn-[a-z-]+)\//.test(i.link));
     if (FILTER.test(s.name) || /KION/.test(s.name)) list = list.filter(i=>PLACES.test(i.title+' '+strip(i.summary)));
@@ -52,7 +54,7 @@ for (const i of items.sort((a,b)=>b.date.localeCompare(a.date))) {
   if (seen.has(i.link) || titles.has(key)) continue;
   seen.add(i.link); titles.add(key);
   if (!i.image && i.source!=='NWS alerts – Monterey County zones' && !/County of Monterey|Seaside|Marina/.test(i.source)) i.image = await og(i.link);
-  const story = { headline:i.title, summary:short(i.summary)||i.title, source:i.source, sourceUrl:i.sourceUrl, link:i.link, date:i.date, category:null, image:i.image||null, imageCredit:i.image?`Image: ${i.source}`:null };
+  const story = { headline:i.title, summary:short(i)||i.title, source:i.source, sourceUrl:i.sourceUrl, link:i.link, date:i.date, category:null, image:i.image||null, imageCredit:i.image?`Image: ${i.source}`:null };
   story.category = categorize(story);
   fs.writeFileSync(path.join(OUT,id+'.json'), JSON.stringify(story,null,2)); added++;
 }
