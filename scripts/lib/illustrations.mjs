@@ -1,4 +1,4 @@
-// Generic per-category AI illustrations for stories without a publisher photo.
+// Generic per-category vector illustrations (original art drawn in code) for stories without a publisher photo.
 // Library lives in public/illustrations/<category>/<n>.webp (plus a "general" set) and is committed to the repo.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -70,6 +70,39 @@ export function loadLibrary(dir = ILLU_DIR) {
   return lib;
 }
 
+/** Keyword hints: story text -> preferred library images (checked in order; first rule with a hit wins).
+ *  Lets e.g. a heat story avoid the lightning-storm art. Paths may point outside the story's category. */
+export const KEYWORD_PICKS = [
+  [/\b(heat|hot weather|heat wave|heatwave|high temperatures?|excessive heat)\b/i, ['/illustrations/general/1.webp', '/illustrations/general/2.webp']],
+  [/\b(fog|marine layer|dense fog)\b/i, ['/illustrations/weather/1.webp']],
+  [/\b(storms?|rain|flood(ing)?|atmospheric river|wind advisory|high surf|el ni[ñn]o|thunder|lightning)\b/i, ['/illustrations/weather/2.webp']],
+  [/\b(rainbow|clearing|after the rain)\b/i, ['/illustrations/weather/3.webp']],
+  [/\b(wildfire|\w+ fire\b|fire evacuation|evacuat\w*|smoke|burn area|red flag)\b/i, ['/illustrations/public-safety/3.webp']],
+  [/\b(fire station|firefighters?|fire department|engine)\b/i, ['/illustrations/public-safety/2.webp']],
+  [/\b(highway|hwy|crash|collision|road|traffic|closure|pursuit|chp|lane|realignment|mud creek|landslide|slide)\b/i, ['/illustrations/public-safety/1.webp', '/illustrations/environment/2.webp']],
+  [/\b(otters?|kelp|marine life|sea stars?)\b/i, ['/illustrations/environment/1.webp']],
+  [/\b(whales?|ocean|bay|sanctuary)\b/i, ['/illustrations/environment/3.webp']],
+  [/\b(farm\w*|agricultur\w*|crops?|lettuce|strawberr\w*|vineyard|wine|harvest)\b/i, ['/illustrations/business/2.webp']],
+  [/\b(fish\w*|harbor|wharf|boats?)\b/i, ['/illustrations/business/3.webp']],
+  [/\b(farmers market|food|meals?|produce|pantry)\b/i, ['/illustrations/community/1.webp']],
+  [/\b(festival|art|downtown|concert|celebrat\w*)\b/i, ['/illustrations/community/3.webp']],
+  [/\b(football)\b/i, ['/illustrations/sports/1.webp']],
+  [/\b(baseball|softball)\b/i, ['/illustrations/sports/2.webp']],
+  [/\b(golf)\b/i, ['/illustrations/sports/3.webp']],
+];
+/** Keyword-preferred images for a story, limited to files present in the library. Weather/public-safety
+ *  rules are only used within those categories' natural neighbours to avoid odd cross-picks. */
+export function keywordCandidates(s, lib) {
+  const all = new Set(Object.values(lib).flat());
+  const text = `${s.headline || ''} ${s.summary || ''}`;
+  for (const [re, imgs] of KEYWORD_PICKS) {
+    if (!re.test(text)) continue;
+    const own = imgs.filter(p => all.has(p) && (p.split('/')[2] === s.category || p.split('/')[2] === 'general' || s.category === 'weather' || s.category === 'public-safety' || s.category === 'environment'));
+    if (own.length) return own;
+  }
+  return null;
+}
+
 export const hashIndex = id => parseInt(crypto.createHash('sha1').update(String(id)).digest('hex').slice(0, 8), 16);
 /** Publisher photo from the feed or og:image (not a stock match, not an illustration). */
 // Publisher image: remote URL, or one rehosted into /source-images/ (see lib/rehost.mjs).
@@ -104,9 +137,11 @@ export function assignIllustrations(stories, { lib = loadLibrary(), alts = loadA
       const s = list[i];
       const prev = list[i - 1]?.image;
       const next = list[i + 1] && !target[i + 1] ? list[i + 1].image : null;
-      const start = hashIndex(s.id) % imgs.length;
-      let pick = imgs[start];
-      for (let k = 0; k < imgs.length; k++) { const c = imgs[(start + k) % imgs.length]; if (c !== prev && c !== next) { pick = c; break; } }
+      const kwc = keywordCandidates(s, lib);
+      const pool = kwc || imgs;
+      const start = hashIndex(s.id) % pool.length;
+      let pick = pool[start];
+      for (let k = 0; k < pool.length; k++) { const c = pool[(start + k) % pool.length]; if (c !== prev && c !== next) { pick = c; break; } }
       s.image = pick; s.imageGenerated = true; s.imageCredit = CREDIT; s.imageAlt = alts[pick] || null;
       res.assigned++; res.byCategory[g] = (res.byCategory[g] || 0) + 1;
     }

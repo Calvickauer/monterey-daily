@@ -1,6 +1,19 @@
 ---
-import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, day } from '../../lib.js'; import { imgSrc } from '../../media.js';
-export function getStaticPaths(){ return [...new Set(stories.map(s=>day(s.date)))].map(date=>({params:{date}})); }
+import Base from '../../layouts/Base.astro'; import Card from '../../components/Card.astro'; import SectionHeader from '../../components/SectionHeader.astro'; import { stories, day, archiveDays, B } from '../../lib.js'; import { imgSrc } from '../../media.js';
+export function getStaticPaths(){ return archiveDays.map(date=>({params:{date}})); }
 const { date } = Astro.params; const list = stories.filter(s=>day(s.date)===date);
+// Days kept after dedupe moved all of their stories elsewhere: link to the nearest days that still have stories.
+const withStories = archiveDays.filter(d=>stories.some(s=>day(s.date)===d));
+const newer = [...withStories].reverse().find(d=>d>date), older = withStories.find(d=>d<date);
+const label = d => new Date(d+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 ---
-<Base title={`${date} – Monterey Daily`} heroImage={list[0]?.image ? imgSrc(list[0].image) : null}><SectionHeader title={new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})} kicker="Daily edition" sub={`${list.length} ${list.length===1?'story':'stories'}`} tone="archive"/><h2 class="sr-only">Stories from this day</h2><div class="grid">{list.map((s,i)=><Card s={s} eager={i===0}/>)}</div></Base>
+<Base title={`${date} – Monterey Daily`} noindex={!list.length} heroImage={list[0]?.image ? imgSrc(list[0].image) : null}><SectionHeader title={new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})} kicker="Daily edition" sub={list.length ? `${list.length} ${list.length===1?'story':'stories'}` : 'No stories listed'} tone="archive"/>
+{list.length ? (<><h2 class="sr-only">Stories from this day</h2><div class="grid">{list.map((s,i)=><Card s={s} eager={i===0}/>)}</div></>) : (
+ <section class="empty-day">
+  <h2>Stories from this day have moved</h2>
+  <p>This day’s stories turned out to be repeats of coverage listed on other days, so they now appear there (look for “Also covered by” on those cards).</p>
+  <p>{newer && <a href={`${B}/archive/${newer}/`}>{label(newer)} →</a>}{newer && older && ' · '}{older && <a href={`${B}/archive/${older}/`}>← {label(older)}</a>}</p>
+  <p><a href={`${B}/archive/`}>Browse the full archive</a> or <a href={`${B}/search/`}>search all stories</a>.</p>
+ </section>)}
+</Base>
+<style>.empty-day{max-width:40rem;padding:1rem 0 2rem}.empty-day h2{margin:.2rem 0 .6rem}.empty-day p{margin:.5rem 0}</style>

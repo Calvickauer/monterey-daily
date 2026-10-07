@@ -44,6 +44,7 @@ const waves = {
  // Scroll reveal. Cards already in the viewport when a page loads (and the eager
  // LCP card) are shown immediately with no fade; only cards below the fold get
  // .will-reveal (hidden while off-screen) and animate in, staggered 70ms apart.
+ // Visibility comes from IntersectionObserver (no forced reflow at page load).
  let io: IntersectionObserver | undefined;
  const pending = new WeakMap<HTMLElement, { onEnd: (ev: TransitionEvent) => void; timer: number }>();
  function settle(el: HTMLElement){
@@ -55,15 +56,23 @@ const waves = {
   io?.disconnect();
   const cards = [...document.querySelectorAll<HTMLElement>('.card:not(.in)')];
   if (reduce.matches || !('IntersectionObserver' in window)) { cards.forEach(settle); return; }
-  // Batch layout reads before any class writes (one layout pass).
-  const vh = window.innerHeight;
-  const visible = cards.map(c=>{ if (c.classList.contains('is-eager')) return true; const r = c.getBoundingClientRect(); return r.top < vh && r.bottom > 0; });
-  const later = cards.filter((c,i)=>!visible[i]);
-  cards.forEach((c,i)=>{ if (visible[i]) settle(c); });
-  later.forEach(c=>c.classList.add('will-reveal'));
+  // No synchronous layout reads: the observer's first callback reports what is on screen.
+  // First report per card: visible (or the eager LCP card) -> shown at once, no fade;
+  // off-screen -> .will-reveal (hidden) and animated in on a later intersection.
+  const first = new WeakSet<HTMLElement>();
+  cards.forEach(c=>{ if (c.classList.contains('is-eager')) { settle(c); } });
   io = new IntersectionObserver(entries=>{
-   entries.filter(e=>e.isIntersecting)
-    .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top || a.boundingClientRect.left-b.boundingClientRect.left)
+   const enter: IntersectionObserverEntry[] = [];
+   for (const e of entries) {
+    const el = e.target as HTMLElement;
+    if (!first.has(el)) {
+     first.add(el);
+     if (e.isIntersecting) { io!.unobserve(el); settle(el); } else el.classList.add('will-reveal');
+     continue;
+    }
+    if (e.isIntersecting) enter.push(e);
+   }
+   enter.sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top || a.boundingClientRect.left-b.boundingClientRect.left)
     .forEach((e,i)=>{
      const el = e.target as HTMLElement; io!.unobserve(el);
      const delay = Math.min(i,8)*70;
@@ -75,7 +84,7 @@ const waves = {
      requestAnimationFrame(()=>el.classList.add('in'));
     });
   }, { rootMargin:'0px 0px -6% 0px', threshold:0.06 });
-  later.forEach(c=>io!.observe(c));
+  cards.forEach(c=>{ if (!c.classList.contains('in')) io!.observe(c); });
  }
 
  // Subtle pointer tilt (max ~3deg), rAF-throttled, transform-only.

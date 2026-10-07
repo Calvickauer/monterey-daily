@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fetch": "node scripts/fetch.mjs",
+    "fetch": "node scripts/fetch.mjs && node scripts/record-days.mjs",
     "build": "astro build && node scripts/index.mjs",
     "dedupe": "node scripts/dedupe-archive.mjs",
     "backfill-images": "node scripts/backfill-images.mjs",

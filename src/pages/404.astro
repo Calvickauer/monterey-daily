@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { B, CATS, stories, archiveDays } from '../lib.js';
+const latest = archiveDays[0];
+---
+<Base title="Page not found – Monterey Daily" description="That page isn’t here. Find Monterey County stories by section, day or search." noindex={true}>
+ <SectionHeader title="Page not found" kicker="404" sub="That page drifted out with the tide." tone="archive"/>
+ <section class="nf">
+  <p>The link may be old, or the story may have moved to another day after we merged repeat coverage.</p>
+  <form class="nf-search" action={`${B}/search/`} method="get" role="search">
+   <label for="nf-q">Search all {stories.length} stories</label>
+   <div><input id="nf-q" name="q" type="search" placeholder="Try a town, agency or topic"/><button type="submit">Search</button></div>
+  </form>
+  <ul class="nf-links">
+   <li><a href={`${B}/`}>Top stories</a></li>
+   {latest && <li><a href={`${B}/archive/${latest}/`}>Latest daily edition</a></li>}
+   <li><a href={`${B}/archive/`}>Archive by day</a></li>
+   {Object.entries(CATS).map(([k,v])=><li><a href={`${B}/category/${k}/`}>{v}</a></li>)}
+  </ul>
+ </section>
+</Base>
+<style>
+ .nf{max-width:40rem;padding:.5rem 0 2.5rem}
+ .nf-search{margin:1.2rem 0}
+ .nf-search label{display:block;font-weight:600;margin-bottom:.35rem}
+ .nf-search div{display:flex;gap:.5rem;flex-wrap:wrap}
+ .nf-search input{flex:1 1 14rem;min-width:0;padding:.6rem .75rem;border:1px solid var(--line,#c9d6df);border-radius:10px;font:inherit;background:var(--surface,#fff);color:inherit}
+ .nf-search button{padding:.6rem 1rem;border:0;border-radius:10px;font:inherit;font-weight:600;background:var(--pacific-700,#1d6f8c);color:#fff;cursor:pointer}
+ .nf-links{display:flex;flex-wrap:wrap;gap:.4rem .6rem;list-style:none;padding:0;margin:1rem 0 0}
+ .nf-links a{display:inline-block;padding:.3rem .7rem;border-radius:99px;border:1px solid var(--line,#c9d6df);text-decoration:none}
+</style>

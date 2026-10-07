@@ -12,7 +12,7 @@ const list = [...outlets, ...extra].sort((a, b) => a.name.localeCompare(b.name))
 <ul class="outlets">
  {list.map(o => (
   <li>
-   <a class="src" href={o.url} rel="noopener"><strong>{o.name}</strong></a> <span class="muted">· {new URL(o.url).hostname.replace(/^www\./, '')}</span>
+   <a class="src" href={o.url} rel="noopener"><strong>{o.name}</strong></a> <span class="muted domain">·&nbsp;{new URL(o.url).hostname.replace(/^www\./, '')}</span>
    {o.about && <p class="muted">{o.about}</p>}
    {counts[o.key] ? <p class="muted">{counts[o.key]} {counts[o.key] === 1 ? 'story' : 'stories'} in our archive.</p> : null}
   </li>
@@ -30,4 +30,5 @@ const list = [...outlets, ...extra].sort((a, b) => a.name.localeCompare(b.name))
  .outlets li{background:var(--foam);border-radius:14px;padding:.8rem 1rem;box-shadow:0 1px 3px rgba(16,40,58,.13);border-left:4px solid var(--c)}
  .outlets p{margin:.25rem 0 0}
  .muted{color:var(--muted);font-size:.86rem}
+ .domain{white-space:nowrap}
 </style>

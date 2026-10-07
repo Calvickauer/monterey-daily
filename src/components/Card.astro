@@ -1,5 +1,5 @@
 ---
-import { CATS, B, fmt } from '../lib.js';
+import { CATS, B, fmt, titleCollides, shortDate } from '../lib.js';
 import { imgSrc, alsoCovered, imageKind, stockCredit } from '../media.js';
 import ImageBadge from './ImageBadge.astro';
 const { s, lead = false, eager = lead } = Astro.props;
@@ -15,13 +15,15 @@ const credit = src && s.imageKind === 'stock' ? stockCredit(s) : null;
 const rawAlt = typeof s.imageAlt === 'string' ? s.imageAlt.trim() : '';
 const alt = rawAlt && rawAlt.toLowerCase() !== String(s.headline || '').trim().toLowerCase() ? rawAlt : '';
 const also = alsoCovered(s);
+// Same headline as another story (e.g. repeated evacuation updates): show the date with the headline.
+const collide = titleCollides(s);
 ---
 <article class:list={['card', `cat-${s.category}`, { lead, 'is-eager': eager }]}>
  <figure class:list={['card-media', { 'is-empty': !src }]} data-image-kind={kind ?? undefined}>
   {src && <img src={src} alt={alt} width="800" height="450"
      loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding={eager ? 'auto' : 'async'}
      referrerpolicy="no-referrer" class:list={[{ blurup: !eager }]}
-     onload="this.classList.add('is-loaded')" onerror="this.closest('figure').classList.add('is-empty');this.remove()"/>}
+     onload={eager ? undefined : "this.classList.add('is-loaded')"} onerror="this.closest('figure').classList.add('is-empty');this.remove()"/>}
   {kind && <ImageBadge kind={kind}/>}
   {credit && (
    <figcaption class="credit" data-pagefind-ignore>
@@ -39,7 +41,7 @@ const also = alsoCovered(s);
   {src && !kind && !credit && s.imageKind !== 'stock' && s.imageCredit && <figcaption data-pagefind-ignore>{/^https?:\/\//i.test(s.imageCreditUrl || '') ? <a href={s.imageCreditUrl} target="_blank" rel="noopener">{s.imageCredit}</a> : s.imageCredit}</figcaption>}
  </figure>
  <div class="body">
-  <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}<span class="sr-only"> (opens in a new tab)</span></a></h3>
+  <h3><a href={s.link} target="_blank" rel="noopener" data-pagefind-meta="url[href]">{s.headline}{collide && <span class="hl-date"> ({shortDate(s.date)})</span>}<span class="sr-only"> (opens in a new tab)</span></a></h3>
   <p>{s.summary}</p>
   {also.length > 0 && (
    <div class="also" data-pagefind-ignore>
@@ -62,6 +64,9 @@ const also = alsoCovered(s);
  .card-media{aspect-ratio:16/9;contain:paint}
  .card-media img{width:100%;height:100%;object-fit:cover;display:block}
  /* Blur-up: the photo fades/un-blurs in over the placeholder once decoded. */
+ /* Lead image: bias the crop toward the top so portrait subjects keep their heads. */
+ .card.lead .card-media img{object-position:center 20%}
+ .hl-date{font-weight:400;color:var(--muted);white-space:nowrap}
  img.blurup{opacity:0;filter:blur(14px);transform:scale(1.03);transition:opacity var(--ui-fade) ease,filter var(--ui-fade) ease,transform var(--ui-fade) ease}
  img.blurup.is-loaded{opacity:1;filter:none;transform:none}
  @media (prefers-reduced-motion: reduce){img.blurup{transition:none;filter:none;transform:none}}
