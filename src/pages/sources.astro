@@ -1,13 +1,13 @@
 ---
-import Base from '../layouts/Base.astro'; import { B, stories } from '../lib.js'; import { SITE, outlets, outletFor } from '../site.js';
+import Base from '../layouts/Base.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { B, stories } from '../lib.js'; import { SITE, outlets, outletFor } from '../site.js';
 const counts = {}; for (const s of stories) { const k = outletFor(s).key; counts[k] = (counts[k] || 0) + 1; }
 // Every outlet that appears in stories should be listed, even if it's no longer an active feed.
 const extra = [...new Set(stories.map(s => s.source))].filter(k => !outlets.some(o => o.key === k)).map(k => outletFor(stories.find(s => s.source === k)));
 const list = [...outlets, ...extra].sort((a, b) => a.name.localeCompare(b.name));
 ---
 <Base title="Sources – Monterey Daily" description={`The ${list.length} Monterey County news outlets and public agencies Monterey Daily links to, with links to each outlet’s homepage. All reporting and copyrights belong to them.`}>
+<SectionHeader title="Sources" kicker="Credit where it’s due" sub="The newsrooms and agencies behind every headline" tone="archive"/>
 <article class="prose">
-<h1 class="sec">Sources</h1>
 <p>Monterey Daily is only possible because of the journalists and public-information staff below. We show a headline, a short summary and a link for each story; <strong>the full reporting lives on each outlet’s website, and all copyrights belong to the outlets</strong>. Please visit and support them.</p>
 <ul class="outlets">
  {list.map(o => (
@@ -23,3 +23,11 @@ const list = [...outlets, ...extra].sort((a, b) => a.name.localeCompare(b.name))
 <p>Are you one of these outlets and want a change in how your work appears, or want to suggest a new source? <a href={SITE.issues} rel="noopener">Open an issue on GitHub</a>.</p>
 </article>
 </Base>
+<style>
+ .prose{max-width:760px}
+ .prose h2{margin:1.6rem 0 .4rem;font-size:1.3rem}
+ .outlets{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.8rem}
+ .outlets li{background:var(--foam);border-radius:14px;padding:.8rem 1rem;box-shadow:0 1px 3px rgba(16,40,58,.13);border-left:4px solid var(--c)}
+ .outlets p{margin:.25rem 0 0}
+ .muted{color:var(--muted);font-size:.86rem}
+</style>

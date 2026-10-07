@@ -16,4 +16,7 @@ Generated (AI) images get a small frosted "AI illustration" pill in the image's 
 - Plain HTML: `<figure data-ai-generated><img …><span class="ai-badge" role="note" aria-label="AI-generated illustration">AI illustration</span></figure>`.
 
 The badge hides itself if the image fails to load.
-**Content & SEO.** Summaries are built by `scripts/summarize.mjs` (entity decoding, boilerplate/byline removal, 1–2 sentences, ≤280 chars). `node --test scripts/` runs its tests; `node scripts/summary-report.mjs` prints before/after against the live feeds; `node scripts/resummarize.mjs` re-cleans stored stories. The build also emits `feed.xml` (RSS of our headlines, linking to the original articles), `sitemap.xml` and `robots.txt` from `src/pages/*.js`; nothing extra needs committing. Page metadata/OpenGraph/JSON-LD live in `src/components/Seo.astro` + `src/site.js`; `node scripts/og-image.mjs` regenerates `public/og-image.png` and `public/logo.png`.
+
+## Content & SEO
+
+Summaries are built by `scripts/summarize.mjs` (entity decoding, boilerplate/byline removal, 1–2 sentences, ≤280 chars). `node --test scripts/` runs its tests; `node scripts/summary-report.mjs` prints before/after against the live feeds; `node scripts/resummarize.mjs` re-cleans stored stories. The build also emits `feed.xml` (RSS of our headlines, linking to the original articles), `sitemap.xml` and `robots.txt` from `src/pages/*.js`; nothing extra needs committing. Page metadata/OpenGraph/JSON-LD live in `src/components/Seo.astro` + `src/site.js`; `node scripts/og-image.mjs` regenerates `public/og-image.png` and `public/logo.png`.

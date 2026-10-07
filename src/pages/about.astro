@@ -1,10 +1,9 @@
 ---
-import Base from '../layouts/Base.astro'; import { B } from '../lib.js'; import { SITE, outlets } from '../site.js';
+import Base from '../layouts/Base.astro'; import SectionHeader from '../components/SectionHeader.astro'; import { B } from '../lib.js'; import { SITE, outlets } from '../site.js';
 ---
 <Base title="About – Monterey Daily" description="What Monterey Daily is: a daily digest of Monterey County headlines with short summaries that always link to the original outlet. How it updates, how sources are credited, and how AI illustrations are used.">
+<SectionHeader title="About Monterey Daily" kicker="About" sub={SITE.tagline} tone="archive"/>
 <article class="prose">
-<h1 class="sec">About Monterey Daily</h1>
-<p><strong>{SITE.tagline}</strong></p>
 <p>Monterey Daily is a free news aggregator for Monterey County, California. Each morning it collects headlines from {outlets.length} sources (local newsrooms, public agencies and the National Weather Service) and puts them in one place, sorted by topic.</p>
 
 <h2>What we publish, and what we don’t</h2>
@@ -32,3 +31,8 @@ import Base from '../layouts/Base.astro'; import { B } from '../lib.js'; import 
 <p>The site’s code is open source at <a href={SITE.repo} rel="noopener">github.com/Calvickauer/monterey-daily</a>.</p>
 </article>
 </Base>
+<style>
+ .prose{max-width:720px}
+ .prose h2{margin:1.6rem 0 .4rem;font-size:1.3rem}
+ .prose li{margin:.25rem 0}
+</style>
