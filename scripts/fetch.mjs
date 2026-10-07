@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { categorize } from './categorize.mjs';
 import fs from 'node:fs'; import path from 'node:path'; import crypto from 'node:crypto';
 const UA = 'MontereyDaily/1.0 (+https://github.com/Calvickauer/monterey-daily; contact: calvickauer@users.noreply.github.com)';
 const OUT = 'src/content/stories';
@@ -33,7 +34,7 @@ for (const s of sources) {
         const mc=[].concat(i['media:content']||[],i['media:thumbnail']||[],i.enclosure||[]).find(m=>m?.['@url']&&!/audio|video/.test(m['@type']||''));
         return {title:strip(i.title), link:txt(i.link?.['@href']??i.link).trim(), date:txt(i.pubDate||i.published||i['dc:date']), summary:i.description||html, image: mc?.['@url'] || html.match(/<img[^>]+src=["']([^"']+)/i)?.[1] || null}; });
     }
-    if (/KION/.test(s.name)) list = list.filter(i=>!/\/(national-world|cnn-style|noticias-cnn)\//.test(i.link));
+    if (/KION/.test(s.name)) list = list.filter(i=>!/\/(national-world|cnn-style|noticias-cnn|cnn-[a-z-]+)\//.test(i.link));
     if (FILTER.test(s.name)) list = list.filter(i=>PLACES.test(i.title+' '+strip(i.summary)));
     if (/Voices/.test(s.name)) list = list.slice(0,15);
     let n=0;
@@ -51,7 +52,8 @@ for (const i of items.sort((a,b)=>b.date.localeCompare(a.date))) {
   if (seen.has(i.link) || titles.has(key)) continue;
   seen.add(i.link); titles.add(key);
   if (!i.image && i.source!=='NWS alerts – Monterey County zones' && !/County of Monterey|Seaside|Marina/.test(i.source)) i.image = await og(i.link);
-  const story = { headline:i.title, summary:short(i.summary)||i.title, source:i.source, sourceUrl:i.sourceUrl, link:i.link, date:i.date, category:cat(i.title+' '+strip(i.summary).slice(0,300), {name:i.source}), image:i.image||null, imageCredit:i.image?`Image: ${i.source}`:null };
+  const story = { headline:i.title, summary:short(i.summary)||i.title, source:i.source, sourceUrl:i.sourceUrl, link:i.link, date:i.date, category:null, image:i.image||null, imageCredit:i.image?`Image: ${i.source}`:null };
+  story.category = categorize(story);
   fs.writeFileSync(path.join(OUT,id+'.json'), JSON.stringify(story,null,2)); added++;
 }
 console.log(report.join('\n')); console.log(`added ${added}`);
