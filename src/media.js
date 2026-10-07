@@ -35,26 +35,31 @@ export function imageKind(s) {
 const httpUrl = (u) => (typeof u === 'string' && /^https?:\/\//i.test(u.trim()) ? u.trim() : undefined);
 const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : undefined);
 
-/** Credit caption for licensed stock photos (imageKind === 'stock' only; required for CC BY / BY-SA).
- *  Contract (flat): imageCredit (text) + imageCreditUrl (photo's source page) -> { text, url? }.
- *  Optional enrichment: imageAttribution { author, authorUrl?, source, sourceUrl, license, licenseUrl? }
- *  -> { author, authorUrl, source, sourceUrl, license, licenseUrl } for per-part links.
- *  Returns null only when there is nothing to credit. Field names live in this function only. */
+/** Credit caption for licensed stock photos (imageKind === 'stock' only).
+ *  License compliance: CC BY / BY-SA need author, source, license (+ link) and a note of changes.
+ *  With imageAttribution { author, authorUrl?, source, sourceUrl, license, licenseUrl?, changes? }:
+ *    -> per-part links + filePhoto (imageFilePhoto: "File photo. " prefix) + change note
+ *       (" (cropped)" / " (resized)", taken from imageCredit if present, else derived from
+ *       imageAttribution.changes for CC BY* licenses).
+ *  Without imageAttribution: imageCredit text linked to imageCreditUrl -> { text, url? }.
+ *  The rendered text must contain everything in imageCredit (checked in QA). */
 export function stockCredit(s) {
   if (s?.imageKind !== 'stock') return null;
   const text = str(s.imageCredit);
   const url = httpUrl(s.imageCreditUrl);
   const a = s.imageAttribution;
-  if (a && typeof a === 'object') {
-    const author = str(a.author), source = str(a.source);
-    // Use the per-part version only if it's at least as complete as the text credit (keeps the license).
-    if ((author || source) && (str(a.license) || !text)) {
-      return {
-        author, authorUrl: httpUrl(a.authorUrl),
-        source, sourceUrl: httpUrl(a.sourceUrl) ?? url,
-        license: str(a.license), licenseUrl: httpUrl(a.licenseUrl),
-      };
-    }
+  if (a && typeof a === 'object' && (str(a.author) || str(a.source)) && str(a.license)) {
+    const fromCredit = text && text.match(/\((cropped|resized)\)\s*$/i);
+    const ch = str(a.changes) || '';
+    let changeNote = fromCredit ? fromCredit[1].toLowerCase() : null;
+    if (!changeNote && ch && /^CC BY/i.test(a.license)) changeNote = /crop/i.test(ch) ? 'cropped' : /resiz/i.test(ch) ? 'resized' : null;
+    return {
+      filePhoto: s.imageFilePhoto === true || /^File photo\./i.test(text || ''),
+      author: str(a.author), authorUrl: httpUrl(a.authorUrl),
+      source: str(a.source), sourceUrl: httpUrl(a.sourceUrl) ?? url,
+      license: str(a.license), licenseUrl: httpUrl(a.licenseUrl),
+      changeNote, changes: ch || undefined,
+    };
   }
   return text ? { text, url } : null;
 }

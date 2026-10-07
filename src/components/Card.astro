@@ -26,11 +26,12 @@ const also = alsoCovered(s);
   {credit && (
    <figcaption class="credit" data-pagefind-ignore>
     {credit.text ? (credit.url ? <a href={credit.url} target="_blank" rel="noopener">{credit.text}</a> : credit.text) : (<>
-     Photo:{' '}
+     {credit.filePhoto && 'File photo. '}Photo:{' '}
      {credit.author && (credit.authorUrl ? <a href={credit.authorUrl} target="_blank" rel="noopener">{credit.author}</a> : <span>{credit.author}</span>)}
      {credit.author && credit.source && ' / '}
      {credit.source && (credit.sourceUrl ? <a href={credit.sourceUrl} target="_blank" rel="noopener">{credit.source}</a> : <span>{credit.source}</span>)}
      {credit.license && <>, {credit.licenseUrl ? <a href={credit.licenseUrl} target="_blank" rel="license noopener">{credit.license}</a> : <span>{credit.license}</span>}</>}
+     {credit.changeNote && <span title={credit.changes}>{` (${credit.changeNote})`}</span>}
     </>)}
    </figcaption>
   )}
