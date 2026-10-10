@@ -13,5 +13,21 @@
   "imageGenerated": false,
   "imageKind": "source",
   "imageAttribution": null,
-  "alsoCoveredBy": []
+  "alsoCoveredBy": [
+    {
+      "name": "Monterey County Weekly / Monterey County NOW",
+      "url": "https://www.montereycountynow.com/blogs/news_blog/taylor-farms-ceo-responds-after-fda-concludes-cyclospora-outbreak-investigation/article_192711ba-2b73-411b-bffa-0e0d810532e8.html",
+      "title": "Taylor Farms CEO responds after FDA concludes cyclospora outbreak investigation."
+    },
+    {
+      "name": "Monterey County Weekly / Monterey County NOW",
+      "url": "https://www.montereycountynow.com/svnow/news/taylor-farms-ceo-responds-after-fda-concludes-cyclospora-outbreak-investigation/article_a6b5366c-aea9-4497-90a3-afe76926b92e.html",
+      "title": "Taylor Farms CEO responds after FDA concludes cyclospora outbreak investigation."
+    },
+    {
+      "name": "MC NOW (Español)",
+      "url": "https://www.montereycountynow.com/svnow/translation/el-director-ejecutivo-de-taylor-farms-responde-tras-la-conclusi-n-de-la-investigaci-n/article_15f2e604-9637-4d25-9f38-0ea4cc02afa1.html",
+      "title": "El director ejecutivo de Taylor Farms responde tras la conclusión de la investigación de la FDA sobre el brote de ciclospora."
+    }
+  ]
 }
