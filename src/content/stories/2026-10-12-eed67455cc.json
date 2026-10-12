@@ -1,0 +1,17 @@
+{
+  "headline": "Coastal Flood Advisory: Northern Monterey Bay, Southern Monterey Bay and Big Sur Coast",
+  "summary": "Coastal Flood Advisory issued October 12 at 3:51AM PDT until October 13 at 3:00PM PDT by NWS San Francisco CA",
+  "source": "NWS alerts – Monterey County zones",
+  "sourceUrl": "https://www.weather.gov/mtr/",
+  "link": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ea16399f9c72849312dcd2cf9f1815fc4399e83a.001.1",
+  "date": "2026-10-12T10:51:00.000Z",
+  "category": "weather",
+  "image": "/illustrations/weather/2.webp",
+  "imageAlt": "Illustration of a storm over the ocean with rain and lightning",
+  "imageCredit": "Illustration",
+  "imageCreditUrl": null,
+  "imageGenerated": true,
+  "imageKind": "illustration",
+  "imageAttribution": null,
+  "alsoCoveredBy": []
+}
